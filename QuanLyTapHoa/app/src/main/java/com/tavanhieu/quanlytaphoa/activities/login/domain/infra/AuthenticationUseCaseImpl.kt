@@ -1,6 +1,6 @@
-package com.tavanhieu.quanlytaphoa.login.domain.infra
+package com.tavanhieu.quanlytaphoa.activities.login.domain.infra
 
-import com.tavanhieu.quanlytaphoa.login.domain.use_case.AuthenticationUseCase
+import com.tavanhieu.quanlytaphoa.activities.login.domain.use_case.AuthenticationUseCase
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class AuthenticationUseCaseImpl: AuthenticationUseCase {

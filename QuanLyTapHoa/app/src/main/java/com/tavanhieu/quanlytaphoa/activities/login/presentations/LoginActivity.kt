@@ -1,4 +1,4 @@
-package com.tavanhieu.quanlytaphoa.login.presentations
+package com.tavanhieu.quanlytaphoa.activities.login.presentations
 
 import android.util.Patterns
 import android.widget.Button
@@ -8,8 +8,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
-import com.tavanhieu.quanlytaphoa.login.domain.infra.AuthenticationUseCaseImpl
-import com.tavanhieu.quanlytaphoa.login.domain.use_case.AuthenticationUseCase
+import com.tavanhieu.quanlytaphoa.activities.login.domain.infra.AuthenticationUseCaseImpl
+import com.tavanhieu.quanlytaphoa.activities.login.domain.use_case.AuthenticationUseCase
 import java.util.logging.SimpleFormatter
 import java.util.regex.Pattern
 
