@@ -68,6 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:freezesText="false"
+                    android:text="tavanhieu@gmail.com"
                     android:maxLines="1"
                     android:singleLine="true"
                     tools:ignore="TextContrastCheck" />
@@ -91,8 +92,10 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:text="123456"
                     android:textColorHint="#757575"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="RtlSymmetry,TextContrastCheck"
+                    android:paddingEnd="36dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
