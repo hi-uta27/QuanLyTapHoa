@@ -16,6 +16,7 @@ import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.activities.login.domain.infra.AuthenticationUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.login.domain.use_case.AuthenticationUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.showErrorDialog
+import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class LoginActivity : BaseActivity() {
     private lateinit var emailEditText: EditText
@@ -34,6 +35,12 @@ class LoginActivity : BaseActivity() {
 
     override fun setContentView() {
         setContentView(R.layout.activity_login)
+
+        // open main activity if user logged before
+        if (FirebaseNetworkLayer.instance.authIsLogged()) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 
     override fun mappingViewId() {

@@ -18,4 +18,8 @@ open class FirebaseNetworkLayer {
             failure()
         }
     }
+
+    fun authIsLogged(): Boolean {
+        return firebaseAuth.currentUser != null
+    }
 }
