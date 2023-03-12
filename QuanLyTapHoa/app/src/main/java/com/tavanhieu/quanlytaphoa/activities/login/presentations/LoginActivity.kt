@@ -15,6 +15,7 @@ import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.activities.login.domain.infra.AuthenticationUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.login.domain.use_case.AuthenticationUseCase
+import com.tavanhieu.quanlytaphoa.activities.register.presentations.RegisterActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showErrorDialog
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
@@ -68,7 +69,7 @@ class LoginActivity : BaseActivity() {
         loginButton.setOnClickListener { handleLogin() }
         rememberAccountCheckBox.setOnClickListener { saveAccountLogin() }
         registerTextView.setOnClickListener {
-            // TODO: open register activity
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 
