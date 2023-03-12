@@ -7,6 +7,8 @@ open class FirebaseNetworkLayer {
         val instance = FirebaseNetworkLayer()
     }
 
+    // MARK: - Firebase Auth
+
     private var firebaseAuth = FirebaseAuth.getInstance()
 
     fun authenticationWith(email: String, password: String, complete: () -> Unit, failure: () -> Unit) {
@@ -21,5 +23,15 @@ open class FirebaseNetworkLayer {
 
     fun authIsLogged(): Boolean {
         return firebaseAuth.currentUser != null
+    }
+
+    fun registerWith(email: String, password: String, complete: () -> Unit, failure: () -> Unit) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+            if (it.isSuccessful) {
+                complete()
+            }
+        }.addOnFailureListener {
+            failure()
+        }
     }
 }
