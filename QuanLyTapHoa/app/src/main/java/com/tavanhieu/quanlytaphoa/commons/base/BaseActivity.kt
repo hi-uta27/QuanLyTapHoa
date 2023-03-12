@@ -22,14 +22,14 @@ abstract class BaseActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun <T : TextView> checkNullOrEmptyWithText(view: T, textError: String): Boolean {
+    fun <T : TextView> handleNullOrEmptyWithText(view: T, textError: String): Boolean {
         val text = view.text.trim().toString()
         if (text == "" || text.isEmpty()) {
             view.error = textError
             view.requestFocus()
-            return false
+            return true
         }
-        return true
+        return false
     }
 }
 

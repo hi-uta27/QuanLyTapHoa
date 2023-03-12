@@ -1,6 +1,8 @@
 package com.tavanhieu.quanlytaphoa.activities.login.presentations
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Patterns
 import android.view.View
 import android.widget.Button
@@ -24,6 +26,11 @@ class LoginActivity : BaseActivity() {
     private lateinit var progressBar: ProgressBar
 
     private val authenticationUseCase: AuthenticationUseCase by lazy { AuthenticationUseCaseImpl() }
+    private val sharedPreferences: SharedPreferences by lazy {
+        getSharedPreferences("LoginActivity_Account", MODE_PRIVATE)
+    }
+
+    // MARK: - Function System
 
     override fun setContentView() {
         setContentView(R.layout.activity_login)
@@ -40,15 +47,44 @@ class LoginActivity : BaseActivity() {
 
     override fun configLayout() {
         handleClickOnView()
+
+        // update account if save account
+        emailEditText.setText(sharedPreferences.getString("Email", ""))
+        passwordEditText.setText(sharedPreferences.getString("Password", ""))
+        val email = emailEditText.text.trim().toString()
+        if (!(email == "" || email.isEmpty())) {
+            rememberAccountCheckBox.isChecked = true
+        }
     }
 
     private fun handleClickOnView() {
         loginButton.setOnClickListener { handleLogin() }
+        rememberAccountCheckBox.setOnClickListener { saveAccountLogin() }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveAccountLogin()
+    }
+
+    // MARK: - Function Created
+
+    @SuppressLint("CommitPrefEdits")
+    private fun saveAccountLogin() {
+        if (rememberAccountCheckBox.isChecked) {
+            sharedPreferences.edit().putString("Email", emailEditText.text.trim().toString())
+                .apply()
+            sharedPreferences.edit().putString("Password", passwordEditText.text.trim().toString())
+                .apply()
+        } else {
+            sharedPreferences.edit().remove("Email").apply()
+            sharedPreferences.edit().remove("Password").apply()
+        }
     }
 
     private fun handleLogin() {
-        if (checkNullOrEmptyWithText(emailEditText, "Chưa nhập email")
-            && checkNullOrEmptyWithText(passwordEditText, "Chưa nhập mật khẩu")
+        if (!handleNullOrEmptyWithText(emailEditText, "Chưa nhập email")
+            && !handleNullOrEmptyWithText(passwordEditText, "Chưa nhập mật khẩu")
         ) {
             val email = emailEditText.text.trim().toString()
             val password = passwordEditText.text.trim().toString()
@@ -74,7 +110,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun loginFailure() {
-        showErrorDialog("Thông báo","Đăng nhập thất bại!", "Thử lại") {
+        showErrorDialog("Thông báo", "Đăng nhập thất bại!", "Thử lại") {
             handleLogin()
         }
     }
