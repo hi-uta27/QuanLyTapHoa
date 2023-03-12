@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">QuanLyTapHoa</string>
+    <string name="title_app">Tạp Hóa A</string>
+    <string name="facebook">Facebook</string>
+    <string name="twistter">Twistter</string>
+    <string name="google">Google</string>
+    <string name="or_with_underline">_________ Hoặc _________</string>
+    <string name="login">Đăng nhập</string>
+    <string name="register">Đăng ký</string>
+    <string name="forgot_password">Quên mật khẩu? </string>
+    <string name="remember_account">Lưu tài khoản</string>
+    <string name="password">Mật khẩu</string>
+    <string name="email">Email</string>
+    <string name="logo">Logo</string>
 </resources>

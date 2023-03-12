@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "489686911738",
+    "project_id": "taphoa-byth",
+    "storage_bucket": "taphoa-byth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489686911738:android:772c7d03fd97e7dc7b5743",
+        "android_client_info": {
+          "package_name": "com.tavanhieu.quanlytaphoa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489686911738-s4nbiiom62mrpleq7adapllut4pae2bi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD043FX7RRM8dfBCuH2-4c7vXBIMOLqmhU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489686911738-s4nbiiom62mrpleq7adapllut4pae2bi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
