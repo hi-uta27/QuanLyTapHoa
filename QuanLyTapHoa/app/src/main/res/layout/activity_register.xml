@@ -18,16 +18,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageBack"
-            android:layout_width="44dp"
+            android:id="@+id/backImage"
+            android:layout_width="54dp"
             android:layout_height="0dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="12dp"
             android:contentDescription="@string/back"
+            android:paddingStart="16dp"
             android:scaleType="center"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:layout_width="0dp"
@@ -38,7 +39,7 @@
             android:gravity="center"
             android:text="@string/register"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <View
@@ -63,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@+id/navigationBar">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_edt_email"
+            android:id="@+id/emailLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,76 +72,79 @@
             android:textColorHint="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_email_sign_up"
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_edt_user_name"
+            android:id="@+id/userNameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_edt_email"
-            android:layout_marginTop="24dp"
+            android:layout_below="@+id/emailLayout"
+            android:layout_marginTop="12dp"
             android:hint="@string/name"
             android:textColorHint="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_user_name_sign_up"
+                android:id="@+id/userNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:textColorHint="#757575"
                 tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_edt_pass_word"
+            android:id="@+id/passwordLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_edt_user_name"
+            android:layout_below="@+id/userNameLayout"
             android:layout_marginTop="12dp"
             android:hint="@string/password"
             android:textColorHint="@color/black"
             app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_pass_word_sign_up"
+                android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:paddingEnd="36dp"
+                android:singleLine="true"
                 tools:ignore="RtlSymmetry,TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_edt_pass_word2"
+            android:id="@+id/confirmPasswordLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_edt_pass_word"
+            android:layout_below="@+id/passwordLayout"
             android:layout_marginTop="12dp"
             android:hint="@string/confirm_password"
             android:textColorHint="@color/black"
             app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_pass_word2_sign_up"
+                android:id="@+id/confirmPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:paddingEnd="36dp"
+                android:singleLine="true"
                 android:textColorHint="#757575"
                 tools:ignore="RtlSymmetry,TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btn_sign_up"
+            android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_edt_pass_word2"
+            android:layout_below="@+id/confirmPasswordLayout"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="32dp"
             android:background="@drawable/corner_radius_10"
@@ -151,4 +155,14 @@
             android:textSize="18sp"
             tools:ignore="DuplicateSpeakableTextCheck" />
     </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
