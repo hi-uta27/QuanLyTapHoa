@@ -60,6 +60,9 @@ class LoginActivity : BaseActivity() {
     private fun handleClickOnView() {
         loginButton.setOnClickListener { handleLogin() }
         rememberAccountCheckBox.setOnClickListener { saveAccountLogin() }
+        registerTextView.setOnClickListener {
+            // TODO: open register activity
+        }
     }
 
     override fun onPause() {
