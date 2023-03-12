@@ -68,9 +68,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:freezesText="false"
-                    android:text="tavanhieu@gmail.com"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:text="tavanhieu@gmail.com"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,11 +91,11 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:maxLines="1"
+                    android:paddingEnd="36dp"
                     android:singleLine="true"
                     android:text="123456"
                     android:textColorHint="#757575"
-                    tools:ignore="RtlSymmetry,TextContrastCheck"
-                    android:paddingEnd="36dp"/>
+                    tools:ignore="RtlSymmetry,TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
@@ -191,7 +191,16 @@
                     android:contentDescription="@string/google"
                     android:src="@drawable/ic_google" />
             </LinearLayout>
-
         </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

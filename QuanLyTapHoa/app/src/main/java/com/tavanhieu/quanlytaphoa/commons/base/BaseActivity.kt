@@ -1,9 +1,9 @@
 package com.tavanhieu.quanlytaphoa.commons.base
 
 import android.os.Bundle
-import android.os.Message
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -22,7 +22,7 @@ abstract class BaseActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun <T : TextView> checkNullOrEmptyWith(view: T, textError: String): Boolean {
+    fun <T : TextView> checkNullOrEmptyWithText(view: T, textError: String): Boolean {
         val text = view.text.trim().toString()
         if (text == "" || text.isEmpty()) {
             view.error = textError
@@ -31,4 +31,12 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         return true
     }
+}
+
+// MARK: - Alert Dialog
+fun BaseActivity.showErrorDialog(title: String, message: String, titlePositiveButton: String,  complete: () -> Unit) {
+    AlertDialog.Builder(this).setTitle(title).setMessage(message)
+        .setPositiveButton(titlePositiveButton) { _, _ -> complete() }
+        .setNegativeButton("Hủy") { dialog, _ -> dialog.dismiss() }
+        .show()
 }
