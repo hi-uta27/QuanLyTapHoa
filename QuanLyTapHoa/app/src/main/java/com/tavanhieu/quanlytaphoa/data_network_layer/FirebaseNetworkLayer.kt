@@ -23,19 +23,16 @@ open class FirebaseNetworkLayer {
         firebaseAuth.signOut()
     }
 
-    fun authenticationWith(
-        email: String,
-        password: String,
-        complete: () -> Unit,
-        failure: () -> Unit
-    ) {
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (it.isSuccessful) {
-                complete()
+    fun authenticationWith(email: String, password: String, complete: () -> Unit, failure: () -> Unit) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    complete()
+                }
             }
-        }.addOnFailureListener {
-            failure()
-        }
+            .addOnFailureListener {
+                failure()
+            }
     }
 
     fun registerWith(email: String, password: String, complete: () -> Unit, failure: () -> Unit) {
