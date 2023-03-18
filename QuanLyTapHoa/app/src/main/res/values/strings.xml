@@ -14,4 +14,8 @@
     <string name="name">Họ tên</string>
     <string name="confirm_password">Xác nhận mật khẩu</string>
     <string name="back">Trở Về</string>
+    <string name="home">Trang chủ</string>
+    <string name="Qr">QR</string>
+    <string name="Statistics">Thống kê</string>
+    <string name="Setting">Cài đặt</string>
 </resources>

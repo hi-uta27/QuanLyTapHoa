@@ -10,7 +10,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.tavanhieu.quanlytaphoa.MainActivity
+import com.tavanhieu.quanlytaphoa.activities.MainActivity
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.activities.login.domain.infra.AuthenticationUseCaseImpl
