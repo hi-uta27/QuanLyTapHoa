@@ -22,19 +22,24 @@ abstract class BaseActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun <T : TextView> handleNullOrEmptyWithText(view: T, textError: String): Boolean {
+    fun <T : TextView> checkNullOrEmptyWithText(view: T): Boolean {
         val text = view.text.trim().toString()
-        if (text == "" || text.isEmpty()) {
-            view.error = textError
-            view.requestFocus()
-            return true
-        }
-        return false
+        return text == "" || text.isEmpty()
+    }
+
+    fun <T : TextView> showErrorWithText(view: T, textError: String) {
+        view.error = textError
+        view.requestFocus()
     }
 }
 
 // MARK: - Alert Dialog
-fun BaseActivity.showErrorDialog(title: String, message: String, titlePositiveButton: String,  complete: () -> Unit) {
+fun BaseActivity.showErrorDialog(
+    title: String,
+    message: String,
+    titlePositiveButton: String,
+    complete: () -> Unit
+) {
     AlertDialog.Builder(this).setTitle(title).setMessage(message)
         .setPositiveButton(titlePositiveButton) { _, _ -> complete() }
         .setNegativeButton("Hủy") { dialog, _ -> dialog.dismiss() }

@@ -1,7 +1,8 @@
-package com.tavanhieu.quanlytaphoa
+package com.tavanhieu.quanlytaphoa.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.tavanhieu.quanlytaphoa.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

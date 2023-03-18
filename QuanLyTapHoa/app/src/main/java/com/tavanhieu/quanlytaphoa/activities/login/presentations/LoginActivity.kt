@@ -10,11 +10,12 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.tavanhieu.quanlytaphoa.MainActivity
+import com.tavanhieu.quanlytaphoa.activities.MainActivity
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.activities.login.domain.infra.AuthenticationUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.login.domain.use_case.AuthenticationUseCase
+import com.tavanhieu.quanlytaphoa.activities.register.presentations.RegisterActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showErrorDialog
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
@@ -68,7 +69,7 @@ class LoginActivity : BaseActivity() {
         loginButton.setOnClickListener { handleLogin() }
         rememberAccountCheckBox.setOnClickListener { saveAccountLogin() }
         registerTextView.setOnClickListener {
-            // TODO: open register activity
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 
@@ -93,15 +94,16 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun handleLogin() {
-        if (!handleNullOrEmptyWithText(emailEditText, "Chưa nhập email")
-            && !handleNullOrEmptyWithText(passwordEditText, "Chưa nhập mật khẩu")
-        ) {
+        if (checkNullOrEmptyWithText(emailEditText)) {
+            showErrorWithText(emailEditText, "Chưa nhập email")
+        } else if (checkNullOrEmptyWithText(passwordEditText)) {
+            showErrorWithText(passwordEditText, "Chưa nhập mật khẩu")
+        } else {
             val email = emailEditText.text.trim().toString()
             val password = passwordEditText.text.trim().toString()
 
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                emailEditText.error = "Định dạng email chưa đúng"
-                emailEditText.requestFocus()
+                showErrorWithText(emailEditText, "Định dạng email chưa đúng")
             } else {
                 progressBar.visibility = View.VISIBLE
                 authenticationUseCase.loginWith(email, password, {
