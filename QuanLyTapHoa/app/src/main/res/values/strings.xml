@@ -1,5 +1,5 @@
 <resources>
-    <string name="title_app">Tạp hóa gia đình</string>
+    <string name="title_app">Quản lý tạp hóa</string>
     <string name="facebook">Facebook</string>
     <string name="twistter">Twistter</string>
     <string name="google">Google</string>
@@ -15,10 +15,13 @@
     <string name="confirm_password">Xác nhận mật khẩu</string>
     <string name="back">Trở Về</string>
     <string name="home">Trang chủ</string>
-    <string name="Qr">QR</string>
-    <string name="Statistics">Thống kê</string>
     <string name="Setting">Cài đặt</string>
     <string name="Functions">Chức năng</string>
     <string name="NewProduct">Sản phẩm mới</string>
     <string name="Employee">Nhân viên</string>
+
+    <string name="Depot">Kho hàng</string>
+    <string name="Orders">Đơn hàng</string>
+    <string name="Qr">Qr Code</string>
+    <string name="Statistics">Thống kê</string>
 </resources>
