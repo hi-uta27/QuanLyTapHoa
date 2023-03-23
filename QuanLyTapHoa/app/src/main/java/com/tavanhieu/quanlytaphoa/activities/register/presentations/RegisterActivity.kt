@@ -4,13 +4,13 @@ import android.util.Patterns
 import android.view.View
 import android.widget.*
 import com.tavanhieu.quanlytaphoa.R
-import com.tavanhieu.quanlytaphoa.activities.logout.infra.LogoutUseCaseImpl
-import com.tavanhieu.quanlytaphoa.activities.logout.use_case.LogoutUseCase
+import com.tavanhieu.quanlytaphoa.activities.logout.domain.infra.LogoutUseCaseImpl
+import com.tavanhieu.quanlytaphoa.activities.logout.domain.use_case.LogoutUseCase
 import com.tavanhieu.quanlytaphoa.activities.register.domain.infra.RegisterUseCaseImpl
-import com.tavanhieu.quanlytaphoa.activities.register.domain.models.Employee
+import com.tavanhieu.quanlytaphoa.commons.models.Employee
 import com.tavanhieu.quanlytaphoa.activities.register.domain.use_cases.RegisterUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
-import com.tavanhieu.quanlytaphoa.commons.base.showErrorDialog
+import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 import java.util.Calendar
 
@@ -91,7 +91,8 @@ class RegisterActivity : BaseActivity() {
     }
 
     private fun registerSuccess(employee: Employee) {
-        registerUseCase.addToDatabase(employee, "Employee",
+        registerUseCase.addToDatabase(
+            employee,
             { // add user to firebase success
                 progressBar.visibility = View.GONE
                 showToast("Đăng ký thành công")
@@ -101,7 +102,7 @@ class RegisterActivity : BaseActivity() {
     }
 
     private fun registerFailure() {
-        showErrorDialog("Lỗi", "Đăng ký không thành công", "Thử lại") {
+        showAlertDialog("Lỗi", "Đăng ký không thành công", "Thử lại") {
             handleRegister()
         }
     }

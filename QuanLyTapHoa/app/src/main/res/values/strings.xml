@@ -24,4 +24,5 @@
     <string name="Orders">Đơn hàng</string>
     <string name="Qr">Qr Code</string>
     <string name="Statistics">Thống kê</string>
+    <string name="emptyDepot">Kho hàng trống</string>
 </resources>

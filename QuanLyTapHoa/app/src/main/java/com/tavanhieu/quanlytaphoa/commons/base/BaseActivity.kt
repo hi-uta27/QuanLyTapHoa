@@ -34,7 +34,7 @@ abstract class BaseActivity : AppCompatActivity() {
 }
 
 // MARK: - Alert Dialog
-fun BaseActivity.showErrorDialog(
+fun BaseActivity.showAlertDialog(
     title: String,
     message: String,
     titlePositiveButton: String,

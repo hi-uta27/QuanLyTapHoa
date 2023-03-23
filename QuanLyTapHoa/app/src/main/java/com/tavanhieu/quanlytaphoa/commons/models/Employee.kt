@@ -1,4 +1,4 @@
-package com.tavanhieu.quanlytaphoa.activities.register.domain.models
+package com.tavanhieu.quanlytaphoa.commons.models
 
 import java.util.Date
 

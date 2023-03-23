@@ -16,7 +16,7 @@ import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.activities.login.domain.infra.AuthenticationUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.login.domain.use_case.AuthenticationUseCase
 import com.tavanhieu.quanlytaphoa.activities.register.presentations.RegisterActivity
-import com.tavanhieu.quanlytaphoa.commons.base.showErrorDialog
+import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class LoginActivity : BaseActivity() {
@@ -122,7 +122,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun loginFailure() {
-        showErrorDialog("Thông báo", "Đăng nhập thất bại!", "Thử lại") {
+        showAlertDialog("Thông báo", "Đăng nhập thất bại!", "Thử lại") {
             handleLogin()
         }
     }

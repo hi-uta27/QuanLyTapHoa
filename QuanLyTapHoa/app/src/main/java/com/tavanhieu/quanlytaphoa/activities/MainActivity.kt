@@ -3,9 +3,9 @@ package com.tavanhieu.quanlytaphoa.activities
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tavanhieu.quanlytaphoa.R
-import com.tavanhieu.quanlytaphoa.activities.home.fragments.HomeFragment
-import com.tavanhieu.quanlytaphoa.activities.setting.fragments.SettingsFragment
-import com.tavanhieu.quanlytaphoa.activities.statistics.fragments.StatisticsFragment
+import com.tavanhieu.quanlytaphoa.activities.home.presentations.HomeFragment
+import com.tavanhieu.quanlytaphoa.activities.setting.SettingsFragment
+import com.tavanhieu.quanlytaphoa.activities.statistics.StatisticsFragment
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 
 class MainActivity : BaseActivity() {

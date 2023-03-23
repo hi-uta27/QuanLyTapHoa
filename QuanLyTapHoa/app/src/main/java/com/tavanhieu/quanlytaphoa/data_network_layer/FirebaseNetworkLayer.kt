@@ -1,7 +1,11 @@
 package com.tavanhieu.quanlytaphoa.data_network_layer
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import java.util.Objects
 
 open class FirebaseNetworkLayer {
     companion object {
@@ -23,7 +27,12 @@ open class FirebaseNetworkLayer {
         firebaseAuth.signOut()
     }
 
-    fun authenticationWith(email: String, password: String, complete: () -> Unit, failure: () -> Unit) {
+    fun authenticationWith(
+        email: String,
+        password: String,
+        complete: () -> Unit,
+        failure: () -> Unit
+    ) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -60,5 +69,25 @@ open class FirebaseNetworkLayer {
             .addOnFailureListener {
                 failure()
             }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> getRequest(child: String, complete: (ArrayList<T>) -> Unit, failure: () -> Unit) {
+        firebaseDatabase.reference.child(child).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val arr = ArrayList<T>()
+                snapshot.children.forEach {
+                    val model = it as T
+                    if (model != null) {
+                        arr.add(model)
+                    }
+                }
+                complete(arr)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                failure()
+            }
+        })
     }
 }
