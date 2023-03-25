@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.tavanhieu.quanlytaphoa.R
+import com.tavanhieu.quanlytaphoa.activities.depot.presentations.DepotActivity
 import com.tavanhieu.quanlytaphoa.activities.home.models.FunctionItem
 
 class FunctionItemAdapter: RecyclerView.Adapter<FunctionItemAdapter.FunctionItemViewHolder>() {
@@ -47,7 +48,7 @@ class FunctionItemAdapter: RecyclerView.Adapter<FunctionItemAdapter.FunctionItem
     private fun openActivity(context: Context, position: Int) {
         when (position) {
             0 -> {
-//                context.startActivity(Intent(context, DepotActivity::class.java))
+                context.startActivity(Intent(context, DepotActivity::class.java))
                 Toast.makeText(context, "Kho hàng", Toast.LENGTH_SHORT).show()
             }
             1 -> {

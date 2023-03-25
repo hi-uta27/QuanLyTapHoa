@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.depot.domain.adapter.DepotAdapter
@@ -19,11 +20,10 @@ class DepotActivity : BaseActivity() {
     private lateinit var emptyTextView: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
-    private lateinit var floatingActionButton: FloatingActionButton
+    private lateinit var floatingActionButton: ExtendedFloatingActionButton
 
     private val readDepotUseCase: ReadDepotUseCase by lazy { ReadDepotUseCaseImpl() }
     private val adapter: DepotAdapter by lazy { DepotAdapter() }
-//    private val arr: ArrayList<Product> by lazy { ArrayList() }
 
     override fun setContentView() {
         setContentView(R.layout.activity_depot)
@@ -66,5 +66,7 @@ class DepotActivity : BaseActivity() {
         floatingActionButton.setOnClickListener {
             // open add product
         }
+
+        imageBack.setOnClickListener { finish() }
     }
 }

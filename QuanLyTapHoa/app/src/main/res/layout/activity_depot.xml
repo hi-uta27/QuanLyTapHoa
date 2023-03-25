@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_gray"
     tools:context=".activities.depot.presentations.DepotActivity">
 
     <RelativeLayout
         android:id="@+id/navigationBar"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:background="#0091EA"
+        android:layout_height="54dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,10 +20,12 @@
             android:layout_height="44dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="12dp"
+            android:contentDescription="@string/back"
             android:scaleType="center"
             android:src="@drawable/ic_back"
-            app:tint="@color/white" />
+            app:tint="@color/black" />
 
         <TextView
             android:layout_width="match_parent"
@@ -31,10 +33,20 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:gravity="center"
-            android:text="Kho Hàng"
-            android:textColor="@color/white"
+            android:text="@string/depot"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <View
+            android:id="@+id/underlineNavigationBar"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="12dp"
+            android:background="@color/white" />
     </RelativeLayout>
 
     <ProgressBar
@@ -71,13 +83,16 @@
         app:layout_constraintTop_toBottomOf="@+id/navigationBar"
         app:reverseLayout="true" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/ic_add"
+        android:contentDescription="@string/addProduct"
+        android:text="@string/add"
+        android:textAllCaps="false"
+        app:icon="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />

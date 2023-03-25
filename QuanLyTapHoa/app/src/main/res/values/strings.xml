@@ -25,4 +25,7 @@
     <string name="Qr">Qr Code</string>
     <string name="Statistics">Thống kê</string>
     <string name="emptyDepot">Kho hàng trống</string>
+    <string name="addProduct">Thêm sản phẩm</string>
+    <string name="add">Thêm</string>
+    <string name="depot">Kho Hàng</string>
 </resources>
