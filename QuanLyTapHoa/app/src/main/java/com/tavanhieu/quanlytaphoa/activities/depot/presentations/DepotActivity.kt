@@ -1,16 +1,20 @@
 package com.tavanhieu.quanlytaphoa.activities.depot.presentations
 
+import android.content.Intent
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tavanhieu.quanlytaphoa.R
-import com.tavanhieu.quanlytaphoa.activities.depot.domain.adapter.DepotAdapter
+import com.tavanhieu.quanlytaphoa.activities.add_product.presentations.AddProductActivity
+import com.tavanhieu.quanlytaphoa.activities.depot.adapter.DepotAdapter
 import com.tavanhieu.quanlytaphoa.activities.depot.domain.infra.ReadDepotUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.depot.domain.use_cases.ReadDepotUseCase
+import com.tavanhieu.quanlytaphoa.activities.register.presentations.RegisterActivity
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Product
@@ -64,7 +68,8 @@ class DepotActivity : BaseActivity() {
 
     private fun handleClickOnView() {
         floatingActionButton.setOnClickListener {
-            // open add product
+            val intent = Intent(this, AddProductActivity::class.java)
+            startActivity(intent)
         }
 
         imageBack.setOnClickListener { finish() }

@@ -1,4 +1,4 @@
-package com.tavanhieu.quanlytaphoa.activities.depot.domain.adapter
+package com.tavanhieu.quanlytaphoa.activities.depot.adapter
 
 import android.annotation.SuppressLint
 import android.content.Intent

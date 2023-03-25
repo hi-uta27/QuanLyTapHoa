@@ -1,38 +1,26 @@
 package com.tavanhieu.quanlytaphoa.commons.models
 
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import java.util.Date
 import java.io.Serializable
 
-class DateConverter {
-    @TypeConverter
-    fun toDate(timestamp: Long): Date {
-        return Date(timestamp)
-    }
-
-    @TypeConverter
-    fun toTimestamp(date: Date): Long {
-        return date.time
-    }
-}
-
-class Product: Serializable {
+class Product : Serializable {
     @PrimaryKey
-    lateinit var id: String
-    lateinit var name: String
+    var id: String = ""
+    var name: String = ""
     var image: String? = null
-    lateinit var type: String
-    lateinit var description: String
+    var type: String = ""
+    var description: String = ""
 
     @TypeConverters(DateConverter::class)
-    lateinit var entryDate: Date
-    var expiredDate: Int = 0
+    var entryDate: Date = Date()
+
+    @TypeConverters(DateConverter::class)
+    var expiredDate: Date = Date()
     var quality: Int = 0
     var entryPrice: Float = 0F
     var price: Float = 0F
-    var buyNumber: Int = 0
 
     constructor()
     constructor(
@@ -41,7 +29,7 @@ class Product: Serializable {
         description: String,
         type: String,
         entryDate: Date,
-        hanSudung: Int,
+        expiredDate: Date,
         quality: Int,
         entryPrice: Float,
         price: Float
@@ -51,7 +39,7 @@ class Product: Serializable {
         this.description = description
         this.type = type
         this.entryDate = entryDate
-        this.expiredDate = hanSudung
+        this.expiredDate = expiredDate
         this.quality = quality
         this.entryPrice = entryPrice
         this.price = price
@@ -64,7 +52,7 @@ class Product: Serializable {
         type: String,
         description: String,
         entryDate: Date,
-        hanSuDung: Int,
+        expiredDate: Date,
         quality: Int,
         entryPrice: Float,
         price: Float
@@ -75,7 +63,7 @@ class Product: Serializable {
         this.type = type
         this.description = description
         this.entryDate = entryDate
-        this.expiredDate = hanSuDung
+        this.expiredDate = expiredDate
         this.quality = quality
         this.entryPrice = entryPrice
         this.price = price

@@ -21,7 +21,7 @@
     <string name="Employee">Nhân viên</string>
 
     <string name="Depot">Kho hàng</string>
-    <string name="Orders">Đơn hàng</string>
+    <string name="Orders">Hóa đơn</string>
     <string name="Qr">Qr Code</string>
     <string name="Statistics">Thống kê</string>
     <string name="emptyDepot">Kho hàng trống</string>
