@@ -1,7 +1,6 @@
 package com.tavanhieu.quanlytaphoa.activities.depot.adapter
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +38,7 @@ class DepotAdapter: RecyclerView.Adapter<DepotAdapter.AdapterDepotViewHolder>() 
             name.text = product.name
             description.text = product.description
             price.text = "Giá bán: ${product.price.formatCurrency()}"
-            quality.text = "Còn: ${product.quality} ${product.type} - HSD: ${product.expiredDate} tháng"
+            quality.text = "Còn: ${product.quantity} ${product.type} - HSD: ${product.expiredDate} tháng"
         }
     }
 
