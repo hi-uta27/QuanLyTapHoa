@@ -1,4 +1,4 @@
-package com.tavanhieu.quanlytaphoa.activities.home.fragments
+package com.tavanhieu.quanlytaphoa.activities.home.presentations
 
 import android.os.Bundle
 import android.view.LayoutInflater

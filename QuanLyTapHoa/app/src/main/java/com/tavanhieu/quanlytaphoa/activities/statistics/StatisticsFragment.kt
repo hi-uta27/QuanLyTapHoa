@@ -1,4 +1,4 @@
-package com.tavanhieu.quanlytaphoa.activities.statistics.fragments
+package com.tavanhieu.quanlytaphoa.activities.statistics
 
 import androidx.fragment.app.Fragment
 import com.tavanhieu.quanlytaphoa.R
