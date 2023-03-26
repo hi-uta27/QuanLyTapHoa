@@ -11,7 +11,7 @@ class Product : Serializable {
     var name: String = ""
     var image: String? = null
     var type: String = ""
-    var description: String = ""
+    var description: String? = null
 
     @TypeConverters(DateConverter::class)
     var entryDate: Date = Date()

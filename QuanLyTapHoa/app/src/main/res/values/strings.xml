@@ -40,4 +40,27 @@
     <string name="image">Ảnh</string>
     <string name="chooseImage">Chọn ảnh</string>
     <string name="noImage">Chưa có ảnh</string>
+    <string name="addImage">Thêm ảnh</string>
+    <string name="notification">Thông báo</string>
+    <string name="entryDate">Ngày nhập</string>
+    <string name="remaining">Còn lại</string>
+    <string name="month">tháng</string>
+    <string name="noEmail">Chưa có email</string>
+    <string name="noPassword">Chưa có mật khẩu</string>
+    <string name="IncorectEmailFormat">Định dạng email không đúng</string>
+    <string name="loginFailed">Đăng nhập thất bại</string>
+    <string name="tryAgain">Thử lại</string>
+    <string name="DoYouWantToSignOut">Bạn có muốn đăng xuất?</string>
+    <string name="cancel">Hủy</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="noName">Chưa có họ tên</string>
+    <string name="passwordDontMatch">Mật khẩu không khớp</string>
+    <string name="registerSuccess">Đăng ký thành công</string>
+    <string name="error">Lỗi</string>
+    <string name="registerFailed">Đăng ký thất bại</string>
+    <string name="noIdProduct">Chưa có mã sản phẩm</string>
+    <string name="noNameProduct">Chưa có tên sản phẩm</string>
+    <string name="noQuantity">Chưa có số lượng</string>
+    <string name="noOriginalPrice">Chưa có giá nhập</string>
+    <string name="noPrice">Chưa có giá bán</string>
 </resources>

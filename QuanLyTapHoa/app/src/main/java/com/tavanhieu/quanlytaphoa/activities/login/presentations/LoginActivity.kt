@@ -95,15 +95,15 @@ class LoginActivity : BaseActivity() {
 
     private fun handleLogin() {
         if (checkNullOrEmptyWithText(emailEditText)) {
-            showErrorWithText(emailEditText, "Chưa nhập email")
+            showErrorWithEditText(emailEditText, getResourceText(R.string.noEmail))
         } else if (checkNullOrEmptyWithText(passwordEditText)) {
-            showErrorWithText(passwordEditText, "Chưa nhập mật khẩu")
+            showErrorWithEditText(passwordEditText, getResourceText(R.string.noPassword))
         } else {
             val email = emailEditText.text.trim().toString()
             val password = passwordEditText.text.trim().toString()
 
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                showErrorWithText(emailEditText, "Định dạng email chưa đúng")
+                showErrorWithEditText(emailEditText, getResourceText(R.string.IncorectEmailFormat))
             } else {
                 progressBar.visibility = View.VISIBLE
                 authenticationUseCase.loginWith(email, password, {
@@ -122,7 +122,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun loginFailure() {
-        showAlertDialog("Thông báo", "Đăng nhập thất bại!", "Thử lại") {
+        showAlertDialog(getResourceText(R.string.notification), getResourceText(R.string.loginFailed), getResourceText(R.string.tryAgain)) {
             handleLogin()
         }
     }
