@@ -54,8 +54,6 @@ class DepotActivity : BaseActivity() {
                 emptyTextView.visibility = View.VISIBLE
             } else {
                 emptyTextView.visibility = View.GONE
-//                arr.clear()
-//                arr.addAll(it)
                 adapter.setData(this, it)
                 recyclerView.adapter = adapter
             }

@@ -2,16 +2,26 @@ package com.tavanhieu.quanlytaphoa.activities.add_product.presentations
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.net.Uri
+import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.journeyapps.barcodescanner.CaptureActivity
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import com.tavanhieu.quanlytaphoa.R
+import com.tavanhieu.quanlytaphoa.activities.add_product.domain.infra.AddProductUseCaseImpl
+import com.tavanhieu.quanlytaphoa.activities.add_product.domain.use_case.AddProductUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
+import com.tavanhieu.quanlytaphoa.commons.models.Product
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -32,6 +42,9 @@ class AddProductActivity : BaseActivity() {
     private lateinit var imageBack: ImageView
 
     private val expiredCalendar: Calendar by lazy { Calendar.getInstance() }
+    private val addProductUseCase: AddProductUseCase by lazy { AddProductUseCaseImpl() }
+    private var uriImageGallery: Uri? = null
+    private var arrSpinner = ArrayList<String>()
 
     override fun setContentView() {
         setContentView(R.layout.activity_add_product)
@@ -61,6 +74,37 @@ class AddProductActivity : BaseActivity() {
         imageBack.setOnClickListener { finish() }
         addButton.setOnClickListener { addProduct() }
         calendarImageButton.setOnClickListener { openDatePicker() }
+        qrCodeImageButton.setOnClickListener { openScanBarCode() }
+        chooseImageTextView.setOnClickListener { activityResultCamera.launch("image/*") }
+
+        arrSpinner.add("Chai")
+        arrSpinner.add("Gói")
+        arrSpinner.add("Hộp")
+        typeSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, arrSpinner)
+    }
+
+    private var activityResultCamera = registerForActivityResult(ActivityResultContracts.GetContent()) {
+            if (it != null) {
+                uriImageGallery = it
+                nameImageTextView.text = it.lastPathSegment
+            }
+        }
+
+    private var activityResult = registerForActivityResult(ScanContract()) {
+        if (it.contents != null) {
+            idTextView.text = it.contents
+        }
+    }
+
+    private fun openScanBarCode() {
+        val scanOptions = ScanOptions()
+        scanOptions.setPrompt(getResourceText(R.string.idProduct))
+        scanOptions.setBeepEnabled(true) //mở chuông khi quét được barCode
+        scanOptions.setCameraId(0) //camera sau
+        //Yêu cầu quyền đọc camera
+        scanOptions.captureActivity = CaptureAct::class.java
+        //Lắng nghe dữ liệu trả về
+        activityResult.launch(scanOptions)
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -77,11 +121,10 @@ class AddProductActivity : BaseActivity() {
             Calendar.getInstance().get(Calendar.MONTH),
             Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         ).show()
-        showToast(expiredCalendar.time.toString())
     }
 
     private fun addProduct() {
-        if (nameImageTextView.text == getResourceText(R.string.noImage)) {
+        if (uriImageGallery == null) {
             showAlertDialog(
                 getResourceText(R.string.notification),
                 getResourceText(R.string.noImage),
@@ -94,9 +137,7 @@ class AddProductActivity : BaseActivity() {
                 getResourceText(R.string.notification),
                 getResourceText(R.string.noIdProduct),
                 getResourceText(R.string.scanCode)
-            ) {
-                // open scan qr
-            }
+            ) { openScanBarCode() }
         } else if (checkNullOrEmptyWithText(nameEditText)) {
             showErrorWithEditText(nameEditText, getResourceText(R.string.noNameProduct))
         } else if (checkNullOrEmptyWithText(quantityEditText)) {
@@ -108,15 +149,57 @@ class AddProductActivity : BaseActivity() {
         } else {
             val id = idTextView.text.trim().toString()
             val name = nameEditText.text.trim().toString()
-            val quantity = quantityEditText.text.trim().toString()
-            val originalPrice = originalPriceEditText.text.trim().toString()
-            val price = priceEditText.text.trim().toString()
+            val quantity = quantityEditText.text.trim().toString().toInt()
+            val originalPrice = originalPriceEditText.text.trim().toString().toFloat()
+            val price = priceEditText.text.trim().toString().toFloat()
             val description = descriptionEditText.text.trim().toString()
             val entryDate = Calendar.getInstance().time
             val expiredDate = expiredCalendar.time
-            val type = typeSpinner.selectedItem
+            val type = typeSpinner.selectedItem.toString()
 
-//            val product = Product(id, name,)
+            val product = Product(id, name, description, type, entryDate, expiredDate, quantity, originalPrice, price)
+            addProductUseCase.addProduct(product,
+                {
+                    addProductSuccess()
+                    //Cập nhật uri ảnh sp từ Gallery lên Storage
+                    // TODO: Update in use case
+                    FirebaseStorage.getInstance()
+                        .reference
+                        .child("Products/${product.id}")
+                        .putFile(uriImageGallery!!)
+                        .addOnSuccessListener {
+                            //Lấy Url của sp trên Storage
+                            FirebaseStorage.getInstance()
+                                .reference
+                                .child("Products/${product.id}").downloadUrl
+                                .addOnSuccessListener { url ->
+                                    //Cập nhật url lên realtime db
+                                    FirebaseDatabase.getInstance().reference
+                                        .child("Products/${product.id}/image").setValue(url.toString())
+                                }
+                        }
+                }, { addProductFailure() })
+
         }
     }
+
+    private fun addProductSuccess() {
+        deleteInput()
+        showToast(getResourceText(R.string.addProductSuccess))
+    }
+
+    private fun addProductFailure() {
+        showAlertDialog(
+            getResourceText(R.string.cancel),
+            getResourceText(R.string.addProductFailure),
+            getResourceText(R.string.tryAgain)) {
+                addProduct()
+            }
+    }
+
+    private fun deleteInput() {
+        //
+    }
 }
+
+class CaptureAct: CaptureActivity() {}

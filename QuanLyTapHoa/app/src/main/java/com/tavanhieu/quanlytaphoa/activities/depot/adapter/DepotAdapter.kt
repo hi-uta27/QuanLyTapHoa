@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
@@ -36,15 +37,15 @@ class DepotAdapter : RecyclerView.Adapter<DepotAdapter.AdapterDepotViewHolder>()
         @SuppressLint("SetTextI18n", "SimpleDateFormat", "ResourceType")
         fun binding(product: Product) {
             if (product.image != null) {
-//                Picasso.get().load(product.image).placeholder(R.drawable.ic_wait).into(image)
+                Picasso.get().load(product.image).placeholder(R.drawable.ic_add).into(image)
             }
             entryDate.text = "${context.getResourceText(R.string.entryDate)}: ${
                 SimpleDateFormat("dd/MM/yyyy").format(product.entryDate)}"
             name.text = product.name
             description.text = product.description
             price.text = "${context.getResourceText(R.string.price)}: ${product.price.formatCurrency()}"
-            quality.text = "${context.getResourceText(R.string.remaining)}: ${product.quantity} ${product.type} - ${
-                    context.getResourceText(R.string.expiredDate)}: ${product.expiredDate}"
+            quality.text = "${context.getResourceText(R.string.remaining)}: ${product.quantity} ${product.type}\n" +
+                    "${context.getResourceText(R.string.expiredDate)}: ${SimpleDateFormat("dd/MM/yyyy").format(product.expiredDate)}"
         }
     }
 

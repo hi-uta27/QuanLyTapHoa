@@ -63,4 +63,6 @@
     <string name="noQuantity">Chưa có số lượng</string>
     <string name="noOriginalPrice">Chưa có giá nhập</string>
     <string name="noPrice">Chưa có giá bán</string>
+    <string name="addProductSuccess">Thêm sản phẩm thành công</string>
+    <string name="addProductFailure">Thêm sản phẩm thất bại</string>
 </resources>

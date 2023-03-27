@@ -19,7 +19,7 @@ class Product : Serializable {
     @TypeConverters(DateConverter::class)
     var expiredDate: Date = Date()
     var quantity: Int = 0
-    var entryPrice: Float = 0F
+    var originalPrice: Float = 0F
     var price: Float = 0F
 
     constructor()
@@ -31,7 +31,7 @@ class Product : Serializable {
         entryDate: Date,
         expiredDate: Date,
         quantity: Int,
-        entryPrice: Float,
+        originalPrice: Float,
         price: Float
     ) {
         this.id = id
@@ -41,7 +41,7 @@ class Product : Serializable {
         this.entryDate = entryDate
         this.expiredDate = expiredDate
         this.quantity = quantity
-        this.entryPrice = entryPrice
+        this.originalPrice = originalPrice
         this.price = price
     }
 
@@ -54,7 +54,7 @@ class Product : Serializable {
         entryDate: Date,
         expiredDate: Date,
         quantity: Int,
-        entryPrice: Float,
+        originalPrice: Float,
         price: Float
     ) {
         this.id = id
@@ -65,7 +65,7 @@ class Product : Serializable {
         this.entryDate = entryDate
         this.expiredDate = expiredDate
         this.quantity = quantity
-        this.entryPrice = entryPrice
+        this.originalPrice = originalPrice
         this.price = price
     }
 }
