@@ -1,7 +1,7 @@
 package com.tavanhieu.quanlytaphoa.activities.depot.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.tavanhieu.quanlytaphoa.R
+import com.tavanhieu.quanlytaphoa.activities.detail_product.presentations.DetailProductActivity
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
 import com.tavanhieu.quanlytaphoa.commons.models.Product
@@ -28,11 +29,11 @@ class DepotAdapter : RecyclerView.Adapter<DepotAdapter.AdapterDepotViewHolder>()
 
     inner class AdapterDepotViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var image: ImageView = itemView.findViewById(R.id.img_product)
-        private var entryDate: TextView = itemView.findViewById(R.id.entry_date)
-        private var name: TextView = itemView.findViewById(R.id.name_product)
-        private var description: TextView = itemView.findViewById(R.id.description_product)
-        private var price: TextView = itemView.findViewById(R.id.price_product)
-        private var quality: TextView = itemView.findViewById(R.id.number_product)
+        private var entryDate: TextView = itemView.findViewById(R.id.entryDateTextView)
+        private var name: TextView = itemView.findViewById(R.id.nameTextView)
+        private var description: TextView = itemView.findViewById(R.id.descriptionTextView)
+        private var price: TextView = itemView.findViewById(R.id.priceTextView)
+        private var quality: TextView = itemView.findViewById(R.id.quantityTextView)
 
         @SuppressLint("SetTextI18n", "SimpleDateFormat", "ResourceType")
         fun binding(product: Product) {
@@ -63,10 +64,10 @@ class DepotAdapter : RecyclerView.Adapter<DepotAdapter.AdapterDepotViewHolder>()
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
-//            val intent = Intent(context, DetailProductActivity::class.java)
-//            intent.putExtra("IdProduct", arr[position].id)
-//            intent.putExtra("Product", arr[position])
-//            context.startActivity(intent)
+            val intent = Intent(context, DetailProductActivity::class.java)
+            intent.putExtra("IdProduct", arr[position].id)
+            intent.putExtra("Product", arr[position])
+            context.startActivity(intent)
         }
     }
 

@@ -66,4 +66,6 @@
     <string name="addProductSuccess">Thêm sản phẩm thành công</string>
     <string name="addProductFailure">Thêm sản phẩm thất bại</string>
     <string name="noDescription">Chưa có mô tả</string>
+    <string name="edit">Sửa</string>
+    <string name="addToOrder">Thêm vào đơn</string>
 </resources>
