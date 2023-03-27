@@ -54,13 +54,13 @@ class RegisterActivity : BaseActivity() {
 
     private fun handleRegister() {
         if (checkNullOrEmptyWithText(emailEditText)) {
-            showErrorWithText(emailEditText, "Chưa nhập email")
+            showErrorWithEditText(emailEditText, getResourceText(R.string.noEmail))
         } else if (checkNullOrEmptyWithText(userNameEditText)) {
-            showErrorWithText(userNameEditText, "Chưa nhập họ tên")
+            showErrorWithEditText(userNameEditText, getResourceText(R.string.noName))
         } else if (checkNullOrEmptyWithText(passwordEditText)) {
-            showErrorWithText(passwordEditText, "Mật khẩu trống")
+            showErrorWithEditText(passwordEditText, getResourceText(R.string.noPassword))
         } else if (checkNullOrEmptyWithText(confirmPasswordEditText)) {
-            showErrorWithText(confirmPasswordEditText, "Xác nhận mật khẩu trống")
+            showErrorWithEditText(confirmPasswordEditText, getResourceText(R.string.noPassword))
         } else {
             val email = emailEditText.text.trim().toString()
             val userName = userNameEditText.text.trim().toString()
@@ -68,9 +68,9 @@ class RegisterActivity : BaseActivity() {
             val confirmPassword = confirmPasswordEditText.text.trim().toString()
 
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                showErrorWithText(emailEditText, "Định dạng email chưa đúng")
+                showErrorWithEditText(emailEditText, getResourceText(R.string.IncorectEmailFormat))
             } else if (password != confirmPassword) {
-                showErrorWithText(confirmPasswordEditText, "Mật khẩu không khớp")
+                showErrorWithEditText(confirmPasswordEditText, getResourceText(R.string.passwordDontMatch))
             } else {
                 progressBar.visibility = View.VISIBLE
                 registerUseCase.registerWith(email, password,
@@ -95,14 +95,14 @@ class RegisterActivity : BaseActivity() {
             employee,
             { // add user to firebase success
                 progressBar.visibility = View.GONE
-                showToast("Đăng ký thành công")
+                showToast(getResourceText(R.string.registerSuccess))
                 logoutUseCase.logoutCurrentUser()
                 finish()
             }, {})
     }
 
     private fun registerFailure() {
-        showAlertDialog("Lỗi", "Đăng ký không thành công", "Thử lại") {
+        showAlertDialog(getResourceText(R.string.error), getResourceText(R.string.registerFailed), getResourceText(R.string.tryAgain)) {
             handleRegister()
         }
     }

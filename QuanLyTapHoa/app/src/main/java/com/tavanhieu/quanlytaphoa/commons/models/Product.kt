@@ -1,38 +1,26 @@
 package com.tavanhieu.quanlytaphoa.commons.models
 
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import java.util.Date
 import java.io.Serializable
 
-class DateConverter {
-    @TypeConverter
-    fun toDate(timestamp: Long): Date {
-        return Date(timestamp)
-    }
-
-    @TypeConverter
-    fun toTimestamp(date: Date): Long {
-        return date.time
-    }
-}
-
-class Product: Serializable {
+class Product : Serializable {
     @PrimaryKey
-    lateinit var id: String
-    lateinit var name: String
+    var id: String = ""
+    var name: String = ""
     var image: String? = null
-    lateinit var type: String
-    lateinit var description: String
+    var type: String = ""
+    var description: String? = null
 
     @TypeConverters(DateConverter::class)
-    lateinit var entryDate: Date
-    var expiredDate: Int = 0
-    var quality: Int = 0
-    var entryPrice: Float = 0F
+    var entryDate: Date = Date()
+
+    @TypeConverters(DateConverter::class)
+    var expiredDate: Date = Date()
+    var quantity: Int = 0
+    var originalPrice: Float = 0F
     var price: Float = 0F
-    var buyNumber: Int = 0
 
     constructor()
     constructor(
@@ -41,9 +29,9 @@ class Product: Serializable {
         description: String,
         type: String,
         entryDate: Date,
-        hanSudung: Int,
-        quality: Int,
-        entryPrice: Float,
+        expiredDate: Date,
+        quantity: Int,
+        originalPrice: Float,
         price: Float
     ) {
         this.id = id
@@ -51,9 +39,9 @@ class Product: Serializable {
         this.description = description
         this.type = type
         this.entryDate = entryDate
-        this.expiredDate = hanSudung
-        this.quality = quality
-        this.entryPrice = entryPrice
+        this.expiredDate = expiredDate
+        this.quantity = quantity
+        this.originalPrice = originalPrice
         this.price = price
     }
 
@@ -64,9 +52,9 @@ class Product: Serializable {
         type: String,
         description: String,
         entryDate: Date,
-        hanSuDung: Int,
-        quality: Int,
-        entryPrice: Float,
+        expiredDate: Date,
+        quantity: Int,
+        originalPrice: Float,
         price: Float
     ) {
         this.id = id
@@ -75,9 +63,9 @@ class Product: Serializable {
         this.type = type
         this.description = description
         this.entryDate = entryDate
-        this.expiredDate = hanSuDung
-        this.quality = quality
-        this.entryPrice = entryPrice
+        this.expiredDate = expiredDate
+        this.quantity = quantity
+        this.originalPrice = originalPrice
         this.price = price
     }
 }

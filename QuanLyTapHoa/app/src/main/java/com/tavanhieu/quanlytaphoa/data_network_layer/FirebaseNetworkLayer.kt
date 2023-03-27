@@ -5,6 +5,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.tavanhieu.quanlytaphoa.commons.models.Product
 import java.util.Objects
 
 open class FirebaseNetworkLayer {
@@ -71,18 +72,10 @@ open class FirebaseNetworkLayer {
             }
     }
 
-    @Suppress("UNCHECKED_CAST")
-    fun <T> getRequest(child: String, complete: (ArrayList<T>) -> Unit, failure: () -> Unit) {
+    fun getRequest(child: String, complete: (DataSnapshot) -> Unit, failure: () -> Unit) {
         firebaseDatabase.reference.child(child).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val arr = ArrayList<T>()
-                snapshot.children.forEach {
-                    val model = it as T
-                    if (model != null) {
-                        arr.add(model)
-                    }
-                }
-                complete(arr)
+                complete(snapshot)
             }
 
             override fun onCancelled(error: DatabaseError) {
