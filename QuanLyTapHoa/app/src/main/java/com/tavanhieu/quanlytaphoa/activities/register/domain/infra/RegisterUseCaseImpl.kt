@@ -19,6 +19,6 @@ class RegisterUseCaseImpl: RegisterUseCase {
         complete: () -> Unit,
         failure: () -> Unit
     ) {
-        FirebaseNetworkLayer.instance.postRequest(model, "Employee/${FirebaseNetworkLayer.instance.requestCurrentUserUID()}", complete, failure)
+        FirebaseNetworkLayer.instance.postRequest(model, "${FirebaseNetworkLayer.instance.requestCurrentUserUID()}/Employee", complete, failure)
     }
 }

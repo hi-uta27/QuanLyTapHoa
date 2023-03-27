@@ -11,14 +11,12 @@ import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import com.journeyapps.barcodescanner.CaptureActivity
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.add_product.domain.infra.AddProductUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.add_product.domain.use_case.AddProductUseCase
+import com.tavanhieu.quanlytaphoa.commons.CaptureAct
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Product
@@ -130,14 +128,16 @@ class AddProductActivity : BaseActivity() {
                 getResourceText(R.string.noImage),
                 getResourceText(R.string.addImage)
             ) {
-                // open add image
+                activityResultCamera.launch("image/*")
             }
         } else if (idTextView.text == getResourceText(R.string.scanCode)) {
             showAlertDialog(
                 getResourceText(R.string.notification),
                 getResourceText(R.string.noIdProduct),
                 getResourceText(R.string.scanCode)
-            ) { openScanBarCode() }
+            ) {
+                openScanBarCode()
+            }
         } else if (checkNullOrEmptyWithText(nameEditText)) {
             showErrorWithEditText(nameEditText, getResourceText(R.string.noNameProduct))
         } else if (checkNullOrEmptyWithText(quantityEditText)) {
@@ -158,28 +158,8 @@ class AddProductActivity : BaseActivity() {
             val type = typeSpinner.selectedItem.toString()
 
             val product = Product(id, name, description, type, entryDate, expiredDate, quantity, originalPrice, price)
-            addProductUseCase.addProduct(product,
-                {
-                    addProductSuccess()
-                    //Cập nhật uri ảnh sp từ Gallery lên Storage
-                    // TODO: Update in use case
-                    FirebaseStorage.getInstance()
-                        .reference
-                        .child("Products/${product.id}")
-                        .putFile(uriImageGallery!!)
-                        .addOnSuccessListener {
-                            //Lấy Url của sp trên Storage
-                            FirebaseStorage.getInstance()
-                                .reference
-                                .child("Products/${product.id}").downloadUrl
-                                .addOnSuccessListener { url ->
-                                    //Cập nhật url lên realtime db
-                                    FirebaseDatabase.getInstance().reference
-                                        .child("Products/${product.id}/image").setValue(url.toString())
-                                }
-                        }
-                }, { addProductFailure() })
-
+            addProductUseCase.addProduct(product, { addProductSuccess() }, { addProductFailure() })
+            addProductUseCase.addImageProduct(product, uriImageGallery!!)
         }
     }
 
@@ -197,9 +177,18 @@ class AddProductActivity : BaseActivity() {
             }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun deleteInput() {
-        //
+        nameImageTextView.text = getResourceText(R.string.noImage)
+        idTextView.text = getResourceText(R.string.scanCode)
+        nameEditText.setText("")
+        quantityEditText.setText("")
+        originalPriceEditText.setText("")
+        priceEditText.setText("")
+        descriptionEditText.setText("")
+        typeSpinner.setSelection(0)
+        expiredDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().time)
+        uriImageGallery = null
+        nameEditText.requestFocus()
     }
 }
-
-class CaptureAct: CaptureActivity() {}

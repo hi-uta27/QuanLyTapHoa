@@ -42,7 +42,11 @@ class DepotAdapter : RecyclerView.Adapter<DepotAdapter.AdapterDepotViewHolder>()
             entryDate.text = "${context.getResourceText(R.string.entryDate)}: ${
                 SimpleDateFormat("dd/MM/yyyy").format(product.entryDate)}"
             name.text = product.name
-            description.text = product.description
+            if (product.description == "") {
+                description.text = context.getResourceText(R.string.noDescription)
+            } else {
+                description.text = product.description
+            }
             price.text = "${context.getResourceText(R.string.price)}: ${product.price.formatCurrency()}"
             quality.text = "${context.getResourceText(R.string.remaining)}: ${product.quantity} ${product.type}\n" +
                     "${context.getResourceText(R.string.expiredDate)}: ${SimpleDateFormat("dd/MM/yyyy").format(product.expiredDate)}"

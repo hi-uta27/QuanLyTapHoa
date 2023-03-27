@@ -65,4 +65,5 @@
     <string name="noPrice">Chưa có giá bán</string>
     <string name="addProductSuccess">Thêm sản phẩm thành công</string>
     <string name="addProductFailure">Thêm sản phẩm thất bại</string>
+    <string name="noDescription">Chưa có mô tả</string>
 </resources>
