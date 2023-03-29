@@ -12,14 +12,14 @@ class AddProductUseCaseImpl: AddProductUseCase {
     override fun addProduct(product: Product, complete: () -> Unit, failure: () -> Unit) {
         FirebaseNetworkLayer.instance.postRequest(
             product,
-            "${FirebaseNetworkLayer.instance.requestCurrentUserUID()}/Products/${product.id}",
+            "Products/${product.id}",
             complete,
             failure)
     }
 
     override fun addImageProduct(product: Product, uriImage: Uri) {
         val firebaseStorage = FirebaseStorage.getInstance().reference
-            .child("${FirebaseNetworkLayer.instance.requestCurrentUserUID()}/Products/${product.id}")
+            .child("Products/${product.id}")
         //Cập nhật uri ảnh sp từ Gallery lên Storage
         firebaseStorage.putFile(uriImage)
             .addOnSuccessListener {
@@ -28,7 +28,7 @@ class AddProductUseCaseImpl: AddProductUseCase {
                     .addOnSuccessListener { url ->
                         //Cập nhật url lên realtime db
                         FirebaseDatabase.getInstance().reference
-                            .child("${FirebaseNetworkLayer.instance.requestCurrentUserUID()}/Products/${product.id}/image")
+                            .child("Products/${product.id}/image")
                             .setValue(url.toString())
                     }
             }

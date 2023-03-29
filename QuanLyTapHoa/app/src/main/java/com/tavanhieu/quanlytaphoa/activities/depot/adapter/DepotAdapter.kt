@@ -66,7 +66,7 @@ class DepotAdapter : RecyclerView.Adapter<DepotAdapter.AdapterDepotViewHolder>()
             val context = holder.itemView.context
             val intent = Intent(context, DetailProductActivity::class.java)
             intent.putExtra("IdProduct", arr[position].id)
-            intent.putExtra("Product", arr[position])
+//            intent.putExtra("Product", arr[position])
             context.startActivity(intent)
         }
     }

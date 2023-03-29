@@ -73,7 +73,8 @@ open class FirebaseNetworkLayer {
     }
 
     fun getRequest(child: String, complete: (DataSnapshot) -> Unit, failure: () -> Unit) {
-        firebaseDatabase.reference.child(child).addValueEventListener(object : ValueEventListener {
+        val path = "${requestCurrentUserUID()}/$child"
+        firebaseDatabase.reference.child(path).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 complete(snapshot)
             }
