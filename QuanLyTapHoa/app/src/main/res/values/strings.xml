@@ -69,4 +69,8 @@
     <string name="edit">Sửa</string>
     <string name="addToOrder">Thêm vào đơn</string>
     <string name="readProductFailure">Đọc thông tin sản phẩm không thành công</string>
+    <string name="deleteProduct">Bạn có muốn xóa sản phẩm này</string>
+    <string name="deleteProductSuccess">Xóa sản phẩm thành công</string>
+    <string name="deleteProductFailure">Xóa sản phẩm thất bại</string>
+    <string name="one">1</string>
 </resources>

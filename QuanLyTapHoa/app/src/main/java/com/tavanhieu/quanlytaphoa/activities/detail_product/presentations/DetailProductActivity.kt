@@ -17,7 +17,9 @@ import com.tavanhieu.quanlytaphoa.commons.formatCurrency
 import java.text.SimpleDateFormat
 
 class DetailProductActivity : BaseActivity() {
-    private lateinit var imageBack: ImageView
+    private lateinit var imageBack: ImageButton
+    private lateinit var updateProductImageButton: ImageButton
+    private lateinit var deleteProductImageButton: ImageButton
     private lateinit var progressBar: ProgressBar
     private lateinit var productImageView: ImageView
     private lateinit var minusImageView: ImageView
@@ -29,11 +31,11 @@ class DetailProductActivity : BaseActivity() {
     private lateinit var priceTextView: TextView
     private lateinit var descriptionTextView: TextView
     private lateinit var buyQuantityTextView: TextView
-    private lateinit var updateProductImageButton: ImageButton
-    private lateinit var deleteProductImageButton: ImageButton
     private lateinit var addToOrderButton: Button
 
     private val detailProductUseCase: DetailProductUseCase by lazy { DetailProductUseCaseImpl() }
+    private var idProduct: String? = null
+    private var buyQuantity: Int = 1
 
     override fun setContentView() {
         setContentView(R.layout.activity_detail_product)
@@ -58,9 +60,44 @@ class DetailProductActivity : BaseActivity() {
     }
 
     override fun configLayout() {
-        val idProduct = intent.getStringExtra("IdProduct") as String
-        readProductWith(idProduct)
+        idProduct = intent.getStringExtra("IdProduct") as String
+        idProduct?.let {
+            readProductWith(it)
+        }
+
         imageBack.setOnClickListener { finish() }
+        updateProductImageButton.setOnClickListener { updateProduct() }
+        deleteProductImageButton.setOnClickListener { deleteProduct() }
+        minusImageView.setOnClickListener {
+            if (buyQuantity > 1) {
+                buyQuantity--
+                buyQuantityTextView.text = buyQuantity.toString()
+            }
+        }
+        plusImageView.setOnClickListener {
+            buyQuantity++
+            buyQuantityTextView.text = buyQuantity.toString()
+        }
+    }
+
+    private fun deleteProduct() {
+        showAlertDialog(
+            getResourceText(R.string.notification),
+            getResourceText(R.string.deleteProduct),
+            getResourceText(R.string.confirm)) {
+            idProduct?.let {
+                detailProductUseCase.deleteProductWith(it, {
+                    showToast(getResourceText(R.string.deleteProductSuccess))
+                    finish()
+                }, {
+                    showToast(getResourceText(R.string.deleteProductFailure))
+                })
+            }
+        }
+    }
+
+    private fun updateProduct() {
+        //
     }
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
@@ -70,9 +107,9 @@ class DetailProductActivity : BaseActivity() {
             progressBar.visibility = View.GONE
             val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
             nameTextView.text = it.name
-            entryDateTextView.text = "${getResourceText(R.string.entryDate)}: ${simpleDateFormat.format(it.entryDate)}"
-            quantityTextView.text = "${getResourceText(R.string.remaining)}: ${it.quantity} ${it.type}" +
-                    " - ${getResourceText(R.string.expiredDate)}: ${simpleDateFormat.format(it.expiredDate)}"
+            entryDateTextView.text = "${getResourceText(R.string.expiredDate)}: ${simpleDateFormat.format(it.entryDate)}" +
+                    " - ${simpleDateFormat.format(it.expiredDate)}"
+            quantityTextView.text = "${getResourceText(R.string.remaining)}: ${it.quantity} ${it.type}"
             originalPriceTextView.text = "${getResourceText(R.string.originalPrice)}: ${it.originalPrice.formatCurrency()}"
             priceTextView.text = "${getResourceText(R.string.price)}: ${it.price.formatCurrency()}"
             if (it.description == "") {
@@ -91,6 +128,5 @@ class DetailProductActivity : BaseActivity() {
                 readProductWith((idProduct))
             }
         })
-
     }
 }

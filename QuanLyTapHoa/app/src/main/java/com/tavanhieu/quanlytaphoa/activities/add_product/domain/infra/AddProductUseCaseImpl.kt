@@ -28,7 +28,7 @@ class AddProductUseCaseImpl: AddProductUseCase {
                     .addOnSuccessListener { url ->
                         //Cập nhật url lên realtime db
                         FirebaseDatabase.getInstance().reference
-                            .child("Products/${product.id}/image")
+                            .child("${FirebaseNetworkLayer.instance.requestCurrentUserUID()}/Products/${product.id}/image")
                             .setValue(url.toString())
                     }
             }
