@@ -14,8 +14,6 @@ import com.tavanhieu.quanlytaphoa.activities.detail_product.domain.use_cases.Det
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
-import com.tavanhieu.quanlytaphoa.commons.models.Product
-import java.text.ParsePosition
 import java.text.SimpleDateFormat
 
 class DetailProductActivity : BaseActivity() {

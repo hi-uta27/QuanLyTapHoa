@@ -5,8 +5,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.tavanhieu.quanlytaphoa.commons.models.Product
-import java.util.Objects
 
 open class FirebaseNetworkLayer {
     companion object {
@@ -61,7 +59,8 @@ open class FirebaseNetworkLayer {
     private val firebaseDatabase: FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
 
     fun <T> postRequest(model: T, child: String, complete: () -> Unit, failure: () -> Unit) {
-        firebaseDatabase.reference.child(child).setValue(model)
+        val path = "${requestCurrentUserUID()}/$child"
+        firebaseDatabase.reference.child(path).setValue(model)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     complete()
@@ -83,5 +82,25 @@ open class FirebaseNetworkLayer {
                 failure()
             }
         })
+    }
+
+    fun <T> putRequest(model: T, child: String, complete: () -> Unit, failure: () -> Unit) {
+        val path = "${requestCurrentUserUID()}/$child"
+        firebaseDatabase.reference.child(path).setValue(model)
+            .addOnCompleteListener {
+                complete()
+            }.addOnFailureListener {
+                failure()
+            }
+    }
+
+    fun deleteRequest(child: String, complete: () -> Unit, failure: () -> Unit) {
+        val path = "${requestCurrentUserUID()}/$child"
+        firebaseDatabase.reference.child(path).removeValue()
+            .addOnCompleteListener {
+                complete()
+            }.addOnFailureListener {
+                failure()
+            }
     }
 }

@@ -17,14 +17,14 @@ class DetailProductUseCaseImpl: DetailProductUseCase {
     }
 
     override fun updateProduct(product: Product, complete: () -> Unit, failure: () -> Unit) {
-        TODO("Not yet implemented")
+        FirebaseNetworkLayer.instance.putRequest(product, "Products/${product.id}", complete, failure)
     }
 
-    override fun deleteProduct(id: String, complete: () -> Unit, failure: () -> Unit) {
-        TODO("Not yet implemented")
+    override fun deleteProductWith(id: String, complete: () -> Unit, failure: () -> Unit) {
+        FirebaseNetworkLayer.instance.deleteRequest("Products/${id}", complete, failure)
     }
 
-    override fun addProductToOrder(id: String, complete: () -> Unit, failure: () -> Unit) {
+    override fun addProductToOrderWith(id: String, complete: () -> Unit, failure: () -> Unit) {
         TODO("Not yet implemented")
     }
 }
