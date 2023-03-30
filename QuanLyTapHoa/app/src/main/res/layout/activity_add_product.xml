@@ -235,6 +235,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="7dp"
+                    android:spinnerMode="dialog"
                     tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </LinearLayout>
 
@@ -333,7 +334,7 @@
                     android:hint="@string/price"
                     android:inputType="number"
                     android:maxLines="1"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

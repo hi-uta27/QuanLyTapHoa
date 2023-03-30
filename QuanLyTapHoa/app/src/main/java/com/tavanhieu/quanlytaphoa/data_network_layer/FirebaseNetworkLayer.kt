@@ -1,10 +1,12 @@
 package com.tavanhieu.quanlytaphoa.data_network_layer
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 
 open class FirebaseNetworkLayer {
     companion object {
@@ -102,5 +104,28 @@ open class FirebaseNetworkLayer {
             }.addOnFailureListener {
                 failure()
             }
+    }
+
+    // MARK: - Firebase Storage
+    private val firebaseStorage: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
+
+    fun uploadImage(uriImage: Uri, childStorage: String, childDatabase: String,  complete: () -> Unit, failure: () -> Unit) {
+        val pathStorage = "${requestCurrentUserUID()}/$childStorage"
+        val pathDatabase = "${requestCurrentUserUID()}/$childDatabase"
+        //Cập nhật uri ảnh sp từ Gallery lên Storage
+        firebaseStorage.reference.child(pathStorage).putFile(uriImage)
+            .addOnSuccessListener {
+                //Lấy Url của sp trên Storage
+                firebaseStorage.reference.child(pathStorage).downloadUrl
+                    .addOnSuccessListener { url ->
+                        //Cập nhật url lên realtime db
+                        FirebaseDatabase.getInstance().reference
+                            .child(pathDatabase)
+                            .setValue(url.toString())
+                            .addOnCompleteListener { complete() }
+                            .addOnFailureListener { failure() }
+                    }
+            }
+            .addOnFailureListener { failure() }
     }
 }

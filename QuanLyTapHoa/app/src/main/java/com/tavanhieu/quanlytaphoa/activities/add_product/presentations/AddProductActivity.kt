@@ -158,8 +158,12 @@ class AddProductActivity : BaseActivity() {
             val type = typeSpinner.selectedItem.toString()
 
             val product = Product(id, name, description, type, entryDate, expiredDate, quantity, originalPrice, price)
-            addProductUseCase.addProduct(product, { addProductSuccess() }, { addProductFailure() })
-            addProductUseCase.addImageProduct(product, uriImageGallery!!)
+            addProductUseCase.addProduct(product,
+                {
+                    addProductUseCase.addImageProduct(product, uriImageGallery!!, { addProductSuccess() }, { addProductFailure() })
+                }, {
+                    addProductFailure()
+                })
         }
     }
 
