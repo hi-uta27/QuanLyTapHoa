@@ -11,6 +11,7 @@
         android:id="@+id/navigationBar"
         android:layout_width="match_parent"
         android:layout_height="54dp"
+        android:background="@color/blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -25,7 +26,7 @@
             android:contentDescription="@string/back"
             android:scaleType="center"
             android:src="@drawable/ic_back"
-            app:tint="@color/black" />
+            app:tint="@color/white" />
 
         <TextView
             android:layout_width="match_parent"
@@ -34,7 +35,7 @@
             android:layout_alignParentTop="true"
             android:gravity="center"
             android:text="@string/addProduct"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -80,7 +81,8 @@
                     android:background="@drawable/corner_radius_10"
                     android:contentDescription="@string/image"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_photo" />
+                    android:src="@drawable/ic_photo"
+                    tools:ignore="ImageContrastCheck" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -220,13 +222,20 @@
                     android:textStyle="bold"
                     tools:ignore="RtlCompat" />
 
-                <Spinner
-                    android:id="@+id/typeSpinner"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="7dp"
-                    android:spinnerMode="dialog"
-                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                    android:background="@drawable/corner_radius_10">
+
+                    <Spinner
+                        android:id="@+id/typeSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:backgroundTint="@color/blue"
+                        android:spinnerMode="dialog"
+                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                </LinearLayout>
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -267,6 +276,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/quantity"
                     android:inputType="number"
+                    android:maxLength="15"
                     android:maxLines="1"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -278,7 +288,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="7dp"
-                android:text="@string/price"
+                android:text="@string/priceProduct"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -301,6 +311,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/originalPrice"
                     android:inputType="numberDecimal"
+                    android:maxLength="18"
                     android:maxLines="1"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -323,6 +334,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/price"
                     android:inputType="number"
+                    android:maxLength="18"
                     android:maxLines="1"
                     tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -358,8 +370,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/description"
                     android:inputType="textMultiLine"
+                    android:maxLines="5"
                     android:minHeight="80dp"
-                    android:textColorHint="#757575"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -377,7 +389,8 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
 
     <ProgressBar
         android:id="@+id/progressBar"

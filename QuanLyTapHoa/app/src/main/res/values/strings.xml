@@ -77,4 +77,5 @@
     <string name="update">Cập nhật</string>
     <string name="updateProductSuccess">Cập nhật sản phẩm thành công</string>
     <string name="updateProductFailure">Cập nhật sản phẩm thất bại</string>
+    <string name="priceProduct">Giá sản phẩm</string>
 </resources>

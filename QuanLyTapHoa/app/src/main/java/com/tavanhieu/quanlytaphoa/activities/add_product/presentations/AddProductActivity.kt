@@ -161,8 +161,11 @@ class AddProductActivity : BaseActivity() {
 
             val product = Product(id, name, description, type, entryDate, expiredDate, quantity, originalPrice, price)
             progressBar.visibility = View.VISIBLE
+            enableView(false)
             addProductUseCase.addProduct(product, uriImageGallery!!,
                 {
+                    progressBar.visibility = View.GONE
+                    enableView(true)
                     addProductSuccess()
                 }, {
                     addProductFailure()
@@ -197,5 +200,18 @@ class AddProductActivity : BaseActivity() {
         expiredDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().time)
         uriImageGallery = null
         nameEditText.requestFocus()
+    }
+
+    private fun enableView(disable: Boolean) {
+        productImageView.isEnabled = disable
+        qrCodeImageButton.isEnabled = disable
+        calendarImageButton.isEnabled = disable
+        nameEditText.isEnabled = disable
+        quantityEditText.isEnabled = disable
+        originalPriceEditText.isEnabled = disable
+        priceEditText.isEnabled = disable
+        descriptionEditText.isEnabled = disable
+        typeSpinner.isEnabled = disable
+        addButton.isEnabled = disable
     }
 }

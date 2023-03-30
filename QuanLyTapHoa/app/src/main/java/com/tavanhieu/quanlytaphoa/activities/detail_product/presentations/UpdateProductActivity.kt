@@ -84,8 +84,8 @@ class UpdateProductActivity : BaseActivity() {
         Picasso.get().load(product.image).into(productImageView)
         nameEditText.setText(product.name)
         quantityEditText.setText("${product.quantity}")
-        originalPriceEditText.setText("${product.originalPrice.toInt()}")
-        priceEditText.setText("${product.price.toInt()}")
+        originalPriceEditText.setText("${product.originalPrice}")
+        priceEditText.setText("${product.price}")
         descriptionEditText.setText(product.description)
         expiredDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(product.expiredDate)
         expiredCalendar.time = product.expiredDate
