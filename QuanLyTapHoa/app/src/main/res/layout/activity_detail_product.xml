@@ -22,11 +22,11 @@
             android:layout_height="48dp"
             android:layout_marginStart="12dp"
             android:background="@drawable/corner_radius_10"
-            android:backgroundTint="@color/light_gray"
             android:contentDescription="@string/back"
+            android:elevation="1dp"
             android:paddingStart="7dp"
             android:src="@drawable/ic_back"
-            app:tint="@color/black"
+            app:tint="@color/blue"
             tools:ignore="RtlSymmetry" />
 
         <ImageButton
@@ -36,9 +36,10 @@
             android:layout_marginEnd="12dp"
             android:layout_toStartOf="@id/deleteImageButton"
             android:background="@drawable/corner_radius_10"
-            android:backgroundTint="@color/light_gray"
             android:contentDescription="@string/image"
+            android:elevation="1dp"
             android:src="@drawable/ic_edit"
+            app:tint="@color/blue"
             tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
 
         <ImageButton
@@ -48,9 +49,10 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="12dp"
             android:background="@drawable/corner_radius_10"
-            android:backgroundTint="@color/light_gray"
             android:contentDescription="@string/image"
+            android:elevation="1dp"
             android:src="@drawable/ic_delete"
+            app:tint="@color/blue"
             tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
     </RelativeLayout>
 
@@ -118,10 +120,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="12dp"
                             android:background="@drawable/corner_radius_50"
-                            android:backgroundTint="@color/blue"
+                            android:backgroundTint="@color/white"
                             android:contentDescription="@string/image"
                             android:src="@drawable/ic_minus"
-                            app:tint="@color/white"
+                            app:tint="@color/black"
                             tools:ignore="ImageContrastCheck" />
 
                         <TextView
@@ -139,10 +141,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
                             android:background="@drawable/corner_radius_50"
-                            android:backgroundTint="@color/blue"
+                            android:backgroundTint="@color/white"
                             android:contentDescription="@string/image"
                             android:src="@drawable/ic_add"
-                            app:tint="@color/white"
+                            app:tint="@color/black"
                             tools:ignore="ImageContrastCheck" />
                     </LinearLayout>
                 </LinearLayout>
