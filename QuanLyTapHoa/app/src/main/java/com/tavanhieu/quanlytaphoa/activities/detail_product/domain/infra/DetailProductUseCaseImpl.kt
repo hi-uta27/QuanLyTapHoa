@@ -1,5 +1,6 @@
 package com.tavanhieu.quanlytaphoa.activities.detail_product.domain.infra
 
+import android.net.Uri
 import com.tavanhieu.quanlytaphoa.activities.detail_product.domain.use_cases.DetailProductUseCase
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
@@ -16,8 +17,29 @@ class DetailProductUseCaseImpl: DetailProductUseCase {
         })
     }
 
-    override fun updateProduct(product: Product, complete: () -> Unit, failure: () -> Unit) {
-        FirebaseNetworkLayer.instance.putRequest(product, "Products/${product.id}", complete, failure)
+    override fun updateProduct(product: Product, uriImage: Uri?, complete: () -> Unit, failure: () -> Unit) {
+        FirebaseNetworkLayer.instance.putRequest(product, "Products/${product.id}",
+            {
+                if (uriImage == null) {
+                    complete()
+                } else {
+                    addImageProduct(product, uriImage, {
+                        complete()
+                    }, {
+                        failure()
+                    })
+                }
+            }, failure)
+    }
+
+    private fun addImageProduct(product: Product, uriImage: Uri, complete: () -> Unit, failure: () -> Unit) {
+        FirebaseNetworkLayer.instance.uploadImage(uriImage,
+            "Products/${product.id}",
+            "Products/${product.id}/image", {
+                complete()
+            }, {
+                failure()
+            })
     }
 
     override fun deleteProductWith(id: String, complete: () -> Unit, failure: () -> Unit) {

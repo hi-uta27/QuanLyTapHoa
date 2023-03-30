@@ -1,6 +1,7 @@
 package com.tavanhieu.quanlytaphoa.activities.detail_product.presentations
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -14,6 +15,7 @@ import com.tavanhieu.quanlytaphoa.activities.detail_product.domain.use_cases.Det
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
+import com.tavanhieu.quanlytaphoa.commons.models.Product
 import java.text.SimpleDateFormat
 
 class DetailProductActivity : BaseActivity() {
@@ -35,6 +37,7 @@ class DetailProductActivity : BaseActivity() {
 
     private val detailProductUseCase: DetailProductUseCase by lazy { DetailProductUseCaseImpl() }
     private var idProduct: String? = null
+    private var product: Product? = null
     private var buyQuantity: Int = 1
 
     override fun setContentView() {
@@ -97,7 +100,11 @@ class DetailProductActivity : BaseActivity() {
     }
 
     private fun updateProduct() {
-        //
+        product?.let {
+            val intent = Intent(this, UpdateProductActivity::class.java)
+            intent.putExtra("UpdateProduct", it)
+            startActivity(intent)
+        }
     }
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
@@ -105,6 +112,7 @@ class DetailProductActivity : BaseActivity() {
         progressBar.visibility = View.VISIBLE
         detailProductUseCase.readProductWith(idProduct, {
             progressBar.visibility = View.GONE
+            product = it
             val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
             nameTextView.text = it.name
             entryDateTextView.text = "${getResourceText(R.string.expiredDate)}: ${simpleDateFormat.format(it.entryDate)}" +

@@ -73,4 +73,8 @@
     <string name="deleteProductSuccess">Xóa sản phẩm thành công</string>
     <string name="deleteProductFailure">Xóa sản phẩm thất bại</string>
     <string name="one">1</string>
+    <string name="updateProduct">Cập nhật sản phẩm</string>
+    <string name="update">Cập nhật</string>
+    <string name="updateProductSuccess">Cập nhật sản phẩm thành công</string>
+    <string name="updateProductFailure">Cập nhật sản phẩm thất bại</string>
 </resources>

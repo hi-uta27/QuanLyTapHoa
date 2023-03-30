@@ -33,7 +33,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:gravity="center"
-            android:text="@string/addProduct"
+            android:text="@string/updateProduct"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/addButton"
+        app:layout_constraintBottom_toTopOf="@+id/updateButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/navigationBar">
@@ -86,62 +86,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:gravity="center_vertical"
-                        android:minHeight="38dp"
-                        android:orientation="vertical"
-                        android:weightSum="5">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/idProduct"
-                            android:textAlignment="textStart"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            tools:ignore="RtlCompat" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_marginTop="7dp"
-                            android:background="@drawable/corner_radius_10"
-                            android:gravity="end|center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp">
-
-                            <TextView
-                                android:id="@+id/idTextView"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="32dp"
-                                android:layout_marginEnd="12dp"
-                                android:gravity="center_vertical"
-                                android:text="@string/scanCode"
-                                android:textColor="@color/black"
-                                android:textSize="14sp"
-                                tools:ignore="RtlCompat" />
-
-                            <ImageButton
-                                android:id="@+id/qrCodeImageButton"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:background="@android:color/transparent"
-                                android:contentDescription="@string/image"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_qr_code"
-                                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
-                        </LinearLayout>
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -194,39 +138,37 @@
                                 android:src="@drawable/ic_calendar"
                                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:minHeight="38dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="12dp"
+                                android:gravity="center"
+                                android:text="@string/typeProduct"
+                                android:textAlignment="textStart"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:ignore="RtlCompat" />
+
+                            <Spinner
+                                android:id="@+id/typeSpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginTop="7dp"
+                                android:spinnerMode="dialog"
+                                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="12dp"
-                android:minHeight="38dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="12dp"
-                    android:gravity="center"
-                    android:text="@string/typeProduct"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    tools:ignore="RtlCompat" />
-
-                <Spinner
-                    android:id="@+id/typeSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="7dp"
-                    android:spinnerMode="dialog"
-                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -366,13 +308,13 @@
     </androidx.core.widget.NestedScrollView>
 
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/updateButton"
         android:layout_width="120dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:layout_marginBottom="12dp"
         android:background="@drawable/corner_radius_50"
-        android:text="@string/add"
+        android:text="@string/update"
         android:textAllCaps="false"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

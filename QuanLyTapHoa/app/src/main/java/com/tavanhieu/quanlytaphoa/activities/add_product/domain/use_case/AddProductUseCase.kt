@@ -4,6 +4,5 @@ import android.net.Uri
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 
 interface AddProductUseCase {
-    fun addProduct(product: Product, complete: () -> Unit, failure: () -> Unit)
-    fun addImageProduct(product: Product, uriImage: Uri, complete: () -> Unit, failure: () -> Unit)
+    fun addProduct(product: Product, uriImage: Uri, complete: () -> Unit, failure: () -> Unit)
 }
