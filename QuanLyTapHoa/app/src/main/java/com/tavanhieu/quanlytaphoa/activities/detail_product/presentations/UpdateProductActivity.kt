@@ -134,7 +134,10 @@ class UpdateProductActivity : BaseActivity() {
 
             val result = Product(product.id, name, product.image, description, type, product.entryDate, expiredDate, quantity, originalPrice, price)
             progressBar.visibility = View.VISIBLE
+            enableView(false)
             detailProductUseCase.updateProduct(result, uriImageGallery, {
+                progressBar.visibility = View.GONE
+                enableView(true)
                 updateProductSuccess()
             }, {
                 updateProductFailure()
@@ -154,5 +157,17 @@ class UpdateProductActivity : BaseActivity() {
             getResourceText(R.string.tryAgain)) {
             updateProduct()
         }
+    }
+
+    private fun enableView(disable: Boolean) {
+        productImageView.isEnabled = disable
+        calendarImageButton.isEnabled = disable
+        nameEditText.isEnabled = disable
+        quantityEditText.isEnabled = disable
+        originalPriceEditText.isEnabled = disable
+        priceEditText.isEnabled = disable
+        descriptionEditText.isEnabled = disable
+        typeSpinner.isEnabled = disable
+        updateButton.isEnabled = disable
     }
 }
