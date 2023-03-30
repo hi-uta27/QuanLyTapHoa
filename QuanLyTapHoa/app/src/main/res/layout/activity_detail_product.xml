@@ -23,7 +23,6 @@
             android:layout_marginStart="12dp"
             android:background="@drawable/corner_radius_10"
             android:contentDescription="@string/back"
-            android:elevation="1dp"
             android:paddingStart="7dp"
             android:src="@drawable/ic_back"
             app:tint="@color/blue"
@@ -37,7 +36,6 @@
             android:layout_toStartOf="@id/deleteImageButton"
             android:background="@drawable/corner_radius_10"
             android:contentDescription="@string/image"
-            android:elevation="1dp"
             android:src="@drawable/ic_edit"
             app:tint="@color/blue"
             tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
@@ -50,7 +48,6 @@
             android:layout_marginEnd="12dp"
             android:background="@drawable/corner_radius_10"
             android:contentDescription="@string/image"
-            android:elevation="1dp"
             android:src="@drawable/ic_delete"
             app:tint="@color/blue"
             tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
