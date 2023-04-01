@@ -136,8 +136,6 @@ class UpdateProductActivity : BaseActivity() {
             progressBar.visibility = View.VISIBLE
             enableView(false)
             detailProductUseCase.updateProduct(result, uriImageGallery, {
-                progressBar.visibility = View.GONE
-                enableView(true)
                 updateProductSuccess()
             }, {
                 updateProductFailure()
