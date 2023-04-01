@@ -6,7 +6,7 @@ import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class CartUseCaseImpl: CartUseCase {
     override fun readCart(complete: (ArrayList<Cart>) -> Unit, failure: () -> Unit) {
-        FirebaseNetworkLayer.instance.getRequest("Cart", {
+        FirebaseNetworkLayer.instance.getRequest("Carts", {
             val arr = ArrayList<Cart>()
             it.children.forEach { model ->
                 val cart = model.getValue(Cart::class.java)
@@ -21,7 +21,7 @@ class CartUseCaseImpl: CartUseCase {
     }
 
     override fun deleteCartWith(idProduct: String, complete: () -> Unit, failure: () -> Unit) {
-        FirebaseNetworkLayer.instance.deleteRequest("Cart/${idProduct}", {
+        FirebaseNetworkLayer.instance.deleteRequest("Carts/${idProduct}", {
             complete()
         }, {
             failure()
@@ -29,7 +29,7 @@ class CartUseCaseImpl: CartUseCase {
     }
 
     override fun deleteAllCart(complete: () -> Unit, failure: () -> Unit) {
-        FirebaseNetworkLayer.instance.deleteRequest("Cart", {
+        FirebaseNetworkLayer.instance.deleteRequest("Carts", {
             complete()
         }, {
             failure()

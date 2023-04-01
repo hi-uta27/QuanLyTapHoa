@@ -164,8 +164,6 @@ class AddProductActivity : BaseActivity() {
             enableView(false)
             addProductUseCase.addProduct(product, uriImageGallery!!,
                 {
-                    progressBar.visibility = View.GONE
-                    enableView(true)
                     addProductSuccess()
                 }, {
                     addProductFailure()
@@ -174,11 +172,15 @@ class AddProductActivity : BaseActivity() {
     }
 
     private fun addProductSuccess() {
+        progressBar.visibility = View.GONE
+        enableView(true)
         deleteInput()
         showToast(getResourceText(R.string.addProductSuccess))
     }
 
     private fun addProductFailure() {
+        progressBar.visibility = View.GONE
+        enableView(true)
         showAlertDialog(
             getResourceText(R.string.cancel),
             getResourceText(R.string.addProductFailure),
@@ -202,16 +204,16 @@ class AddProductActivity : BaseActivity() {
         nameEditText.requestFocus()
     }
 
-    private fun enableView(disable: Boolean) {
-        productImageView.isEnabled = disable
-        qrCodeImageButton.isEnabled = disable
-        calendarImageButton.isEnabled = disable
-        nameEditText.isEnabled = disable
-        quantityEditText.isEnabled = disable
-        originalPriceEditText.isEnabled = disable
-        priceEditText.isEnabled = disable
-        descriptionEditText.isEnabled = disable
-        typeSpinner.isEnabled = disable
-        addButton.isEnabled = disable
+    private fun enableView(enable: Boolean) {
+        productImageView.isEnabled = enable
+        qrCodeImageButton.isEnabled = enable
+        calendarImageButton.isEnabled = enable
+        nameEditText.isEnabled = enable
+        quantityEditText.isEnabled = enable
+        originalPriceEditText.isEnabled = enable
+        priceEditText.isEnabled = enable
+        descriptionEditText.isEnabled = enable
+        typeSpinner.isEnabled = enable
+        addButton.isEnabled = enable
     }
 }
