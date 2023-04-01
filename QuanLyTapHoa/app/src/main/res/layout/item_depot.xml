@@ -1,93 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp">
+    android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        app:cardCornerRadius="15dp">
-
-        <ImageView
-            android:id="@+id/img_product"
-            android:layout_width="96dp"
-            android:layout_height="140dp"
-            android:background="@color/white"
-            android:scaleType="centerCrop" />
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/entry_date"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_toEndOf="@id/card_view"
-        android:text="Ngày nhập: "
-        android:textSize="12sp" />
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
 
-    <TextView
-        android:id="@+id/name_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/entry_date"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_toEndOf="@id/card_view"
-        android:text="Product name"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp">
 
-    <TextView
-        android:id="@+id/description_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/name_product"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="12dp"
-        android:layout_toEndOf="@id/card_view"
-        android:maxLines="2"
-        android:text="Description"
-        android:textSize="14sp" />
+            <ImageView
+                android:id="@+id/img_product"
+                android:layout_width="96dp"
+                android:layout_height="140dp"
+                android:background="@color/white"
+                android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/price_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/number_product"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_toEndOf="@id/card_view"
-        android:text="Số lượng: 0 cái"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/number_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/description_product"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_toEndOf="@id/card_view"
-        android:text="Số sản phẩm: 0"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
+            <TextView
+                android:id="@+id/entryDateTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/entryDate"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nameProduct"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:maxLines="2"
+                android:text="@string/description"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_marginTop="12dp"
+                android:id="@+id/quantityTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remaining"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/priceTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/price"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/card_view"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:background="@color/white" />
-</RelativeLayout>
+</LinearLayout>

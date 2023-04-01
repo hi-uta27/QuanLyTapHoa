@@ -1,12 +1,12 @@
 package com.tavanhieu.quanlytaphoa.data_network_layer
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.tavanhieu.quanlytaphoa.commons.models.Product
-import java.util.Objects
+import com.google.firebase.storage.FirebaseStorage
 
 open class FirebaseNetworkLayer {
     companion object {
@@ -61,7 +61,8 @@ open class FirebaseNetworkLayer {
     private val firebaseDatabase: FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
 
     fun <T> postRequest(model: T, child: String, complete: () -> Unit, failure: () -> Unit) {
-        firebaseDatabase.reference.child(child).setValue(model)
+        val path = "${requestCurrentUserUID()}/$child"
+        firebaseDatabase.reference.child(path).setValue(model)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     complete()
@@ -73,7 +74,8 @@ open class FirebaseNetworkLayer {
     }
 
     fun getRequest(child: String, complete: (DataSnapshot) -> Unit, failure: () -> Unit) {
-        firebaseDatabase.reference.child(child).addValueEventListener(object : ValueEventListener {
+        val path = "${requestCurrentUserUID()}/$child"
+        firebaseDatabase.reference.child(path).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 complete(snapshot)
             }
@@ -82,5 +84,48 @@ open class FirebaseNetworkLayer {
                 failure()
             }
         })
+    }
+
+    fun <T> putRequest(model: T, child: String, complete: () -> Unit, failure: () -> Unit) {
+        val path = "${requestCurrentUserUID()}/$child"
+        firebaseDatabase.reference.child(path).setValue(model)
+            .addOnCompleteListener {
+                complete()
+            }.addOnFailureListener {
+                failure()
+            }
+    }
+
+    fun deleteRequest(child: String, complete: () -> Unit, failure: () -> Unit) {
+        val path = "${requestCurrentUserUID()}/$child"
+        firebaseDatabase.reference.child(path).removeValue()
+            .addOnCompleteListener {
+                complete()
+            }.addOnFailureListener {
+                failure()
+            }
+    }
+
+    // MARK: - Firebase Storage
+    private val firebaseStorage: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
+
+    fun uploadImage(uriImage: Uri, childStorage: String, childDatabase: String,  complete: () -> Unit, failure: () -> Unit) {
+        val pathStorage = "${requestCurrentUserUID()}/$childStorage"
+        val pathDatabase = "${requestCurrentUserUID()}/$childDatabase"
+        //Cập nhật uri ảnh sp từ Gallery lên Storage
+        firebaseStorage.reference.child(pathStorage).putFile(uriImage)
+            .addOnSuccessListener {
+                //Lấy Url của sp trên Storage
+                firebaseStorage.reference.child(pathStorage).downloadUrl
+                    .addOnSuccessListener { url ->
+                        //Cập nhật url lên realtime db
+                        FirebaseDatabase.getInstance().reference
+                            .child(pathDatabase)
+                            .setValue(url.toString())
+                            .addOnCompleteListener { complete() }
+                            .addOnFailureListener { failure() }
+                    }
+            }
+            .addOnFailureListener { failure() }
     }
 }

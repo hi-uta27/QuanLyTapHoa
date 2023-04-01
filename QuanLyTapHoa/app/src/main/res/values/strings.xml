@@ -66,4 +66,16 @@
     <string name="addProductSuccess">Thêm sản phẩm thành công</string>
     <string name="addProductFailure">Thêm sản phẩm thất bại</string>
     <string name="noDescription">Chưa có mô tả</string>
+    <string name="edit">Sửa</string>
+    <string name="addToOrder">Thêm vào giỏ</string>
+    <string name="readProductFailure">Đọc thông tin sản phẩm không thành công</string>
+    <string name="deleteProduct">Bạn có muốn xóa sản phẩm này</string>
+    <string name="deleteProductSuccess">Xóa sản phẩm thành công</string>
+    <string name="deleteProductFailure">Xóa sản phẩm thất bại</string>
+    <string name="one">1</string>
+    <string name="updateProduct">Cập nhật sản phẩm</string>
+    <string name="update">Cập nhật</string>
+    <string name="updateProductSuccess">Cập nhật sản phẩm thành công</string>
+    <string name="updateProductFailure">Cập nhật sản phẩm thất bại</string>
+    <string name="priceProduct">Giá sản phẩm</string>
 </resources>

@@ -50,12 +50,12 @@ class DepotActivity : BaseActivity() {
         progressBar.visibility = View.VISIBLE
         readDepotUseCase.refresh({
             progressBar.visibility = View.GONE
+            adapter.setData(this, it)
+            recyclerView.adapter = adapter
             if(it.isEmpty()) {
                 emptyTextView.visibility = View.VISIBLE
             } else {
                 emptyTextView.visibility = View.GONE
-                adapter.setData(this, it)
-                recyclerView.adapter = adapter
             }
         }, {
             showAlertDialog("Lỗi", "Đọc kho hàng thất bại", "Thử lại") {

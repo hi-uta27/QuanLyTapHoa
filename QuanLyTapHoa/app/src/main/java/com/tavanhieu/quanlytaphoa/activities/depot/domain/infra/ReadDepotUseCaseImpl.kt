@@ -7,7 +7,7 @@ import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 class ReadDepotUseCaseImpl : ReadDepotUseCase {
     override fun refresh(complete: (ArrayList<Product>) -> Unit, failure: () -> Unit) {
         FirebaseNetworkLayer.instance.getRequest(
-            "${FirebaseNetworkLayer.instance.requestCurrentUserUID()}/Products", {
+            "Products", {
             val arr = ArrayList<Product>()
             it.children.forEach { it1 ->
                 val product = it1.getValue(Product::class.java)
