@@ -180,7 +180,7 @@ class DetailProductActivity : BaseActivity() {
             descriptionTextView.text = product.description
         }
         if (product.image != null) {
-            Picasso.get().load(product.image).into(productImageView)
+            Picasso.get().load(product.image).placeholder(R.drawable.ic_photo).into(productImageView)
         }
     }
 }

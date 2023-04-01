@@ -74,7 +74,7 @@ class UpdateProductActivity : BaseActivity() {
 
     @SuppressLint("SimpleDateFormat")
     private fun loadProductData(product: Product) {
-        Picasso.get().load(product.image).into(productImageView)
+        Picasso.get().load(product.image).placeholder(R.drawable.ic_photo).into(productImageView)
         nameEditText.setText(product.name)
         quantityEditText.setText("${product.quantity}")
         originalPriceEditText.setText("${product.originalPrice}")

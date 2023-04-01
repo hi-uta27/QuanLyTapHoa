@@ -84,4 +84,8 @@
     <string name="cart">Giỏ hàng</string>
     <string name="noProduct">Chưa có sản phẩm</string>
     <string name="createOrder">Tạo đơn</string>
+    <string name="readCartFailure">Đọc giỏ hàng thất bại</string>
+    <string name="deleteCartSuccess">Xóa sản phẩm khỏi giỏ thành công</string>
+    <string name="deleteCartFailure">Xóa sản phẩm khỏi giỏ thất bại</string>
+    <string name="deleteCart">Bạn có muốn xóa sản phẩm này khỏi giỏ?</string>
 </resources>

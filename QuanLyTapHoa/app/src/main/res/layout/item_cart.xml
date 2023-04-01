@@ -19,7 +19,7 @@
         android:paddingEnd="16dp">
 
         <ImageView
-            android:id="@+id/cancelButton"
+            android:id="@+id/cancelImageView"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginBottom="7dp"

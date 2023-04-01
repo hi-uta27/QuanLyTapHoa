@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.tavanhieu.quanlytaphoa.R
+import com.tavanhieu.quanlytaphoa.activities.cart.presentations.CartActivity
 import com.tavanhieu.quanlytaphoa.activities.depot.presentations.DepotActivity
 import com.tavanhieu.quanlytaphoa.activities.home.models.FunctionItem
 
@@ -49,17 +50,17 @@ class FunctionItemAdapter: RecyclerView.Adapter<FunctionItemAdapter.FunctionItem
         when (position) {
             0 -> {
                 context.startActivity(Intent(context, DepotActivity::class.java))
-                Toast.makeText(context, "Kho hàng", Toast.LENGTH_SHORT).show()
             }
             1 -> {
-//                context.startActivity(Intent(context, OrderActivity::class.java))
                 Toast.makeText(context, "Hóa đơn", Toast.LENGTH_SHORT).show()
             }
             2 -> {
-                Toast.makeText(context, "Thống Kê", Toast.LENGTH_SHORT).show()
+                context.startActivity(Intent(context, CartActivity::class.java))
             }
             3 -> {
-//                context.startActivity(Intent(context, EmployeeActivity::class.java))
+                Toast.makeText(context, "Thống Kê", Toast.LENGTH_SHORT).show()
+            }
+            4 -> {
                 Toast.makeText(context, "QR Code", Toast.LENGTH_SHORT).show()
             }
         }

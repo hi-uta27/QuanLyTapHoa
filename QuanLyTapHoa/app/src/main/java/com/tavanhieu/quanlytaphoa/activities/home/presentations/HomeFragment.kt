@@ -46,6 +46,7 @@ class HomeFragment: Fragment() {
     private fun getArr() {
         arr.add(FunctionItem(R.drawable.kho_hang, resources.getString(R.string.Depot)))
         arr.add(FunctionItem(R.drawable.don_hang, resources.getString(R.string.Orders)))
+        arr.add(FunctionItem(R.drawable.ic_cart, resources.getString(R.string.cart)))
         arr.add(FunctionItem(R.drawable.thong_ke, resources.getString(R.string.Statistics)))
         arr.add(FunctionItem(R.drawable.ic_qr_code, resources.getString(R.string.Qr)))
     }

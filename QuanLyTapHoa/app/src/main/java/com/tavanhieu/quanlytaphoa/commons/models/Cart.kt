@@ -1,3 +1,12 @@
 package com.tavanhieu.quanlytaphoa.commons.models
 
-data class Cart(var product: Product, var quantity: Int)
+class Cart {
+    var product: Product = Product()
+    var quantity: Int = 0
+
+    constructor()
+    constructor(product: Product, quantity: Int) {
+        this.product = product
+        this.quantity = quantity
+    }
+}

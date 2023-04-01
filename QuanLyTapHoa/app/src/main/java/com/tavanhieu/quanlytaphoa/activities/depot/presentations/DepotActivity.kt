@@ -61,6 +61,7 @@ class DepotActivity : BaseActivity() {
         progressBar.visibility = View.GONE
         adapter.setData(this, products)
         recyclerView.adapter = adapter
+
         if(products.isEmpty()) {
             emptyTextView.visibility = View.VISIBLE
         } else {
