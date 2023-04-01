@@ -153,6 +153,7 @@ class UpdateProductActivity : BaseActivity() {
     }
 
     private fun enableView(enable: Boolean) {
+        expiredDateTextView.isEnabled = enable
         productImageView.isEnabled = enable
         calendarImageButton.isEnabled = enable
         nameEditText.isEnabled = enable
