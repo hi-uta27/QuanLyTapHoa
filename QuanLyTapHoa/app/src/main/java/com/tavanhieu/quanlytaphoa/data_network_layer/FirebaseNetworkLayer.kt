@@ -86,21 +86,13 @@ open class FirebaseNetworkLayer {
         })
     }
 
-    fun <T> putRequest(model: T, child: String, complete: () -> Unit, failure: () -> Unit) {
-        val path = "${requestCurrentUserUID()}/$child"
-        firebaseDatabase.reference.child(path).setValue(model)
-            .addOnCompleteListener {
-                complete()
-            }.addOnFailureListener {
-                failure()
-            }
-    }
-
     fun deleteRequest(child: String, complete: () -> Unit, failure: () -> Unit) {
         val path = "${requestCurrentUserUID()}/$child"
         firebaseDatabase.reference.child(path).removeValue()
             .addOnCompleteListener {
-                complete()
+                if (it.isSuccessful) {
+                    complete()
+                }
             }.addOnFailureListener {
                 failure()
             }

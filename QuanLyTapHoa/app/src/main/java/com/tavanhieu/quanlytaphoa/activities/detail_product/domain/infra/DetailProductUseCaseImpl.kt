@@ -18,7 +18,7 @@ class DetailProductUseCaseImpl: DetailProductUseCase {
     }
 
     override fun updateProduct(product: Product, uriImage: Uri?, complete: () -> Unit, failure: () -> Unit) {
-        FirebaseNetworkLayer.instance.putRequest(product, "Products/${product.id}",
+        FirebaseNetworkLayer.instance.postRequest(product, "Products/${product.id}",
             {
                 if (uriImage == null) {
                     complete()
