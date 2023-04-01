@@ -81,4 +81,7 @@
     <string name="addToCartSuccess">Thêm vào giỏ hàng thành công</string>
     <string name="addToCartFailure">Thêm vào giỏ hàng thất bại</string>
     <string name="readDepotFailure">Đọc kho hàng thất bại</string>
+    <string name="cart">Giỏ hàng</string>
+    <string name="noProduct">Chưa có sản phẩm</string>
+    <string name="createOrder">Tạo đơn</string>
 </resources>
