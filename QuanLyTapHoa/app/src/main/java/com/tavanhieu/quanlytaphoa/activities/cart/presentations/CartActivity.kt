@@ -1,5 +1,6 @@
 package com.tavanhieu.quanlytaphoa.activities.cart.presentations
 
+import android.content.Intent
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -10,9 +11,13 @@ import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.cart.adapter.CartAdapter
 import com.tavanhieu.quanlytaphoa.activities.cart.domain.infra.CartUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.cart.domain.use_case.CartUseCase
+import com.tavanhieu.quanlytaphoa.activities.depot.presentations.DepotActivity
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Cart
+import com.tavanhieu.quanlytaphoa.commons.models.Order
+import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
+import java.util.Calendar
 
 class CartActivity : BaseActivity() {
     private lateinit var imageBack: ImageView
@@ -23,6 +28,7 @@ class CartActivity : BaseActivity() {
 
     private val cartUseCase: CartUseCase by lazy { CartUseCaseImpl() }
     private val adapter: CartAdapter by lazy { CartAdapter() }
+    private var carts: ArrayList<Cart> = ArrayList()
 
     override fun setContentView() {
         setContentView(R.layout.activity_cart)
@@ -41,6 +47,51 @@ class CartActivity : BaseActivity() {
 
         imageBack.setOnClickListener { finish() }
         adapter.deleteCartWith = { deleteCartWith(it) }
+        createOrderButton.setOnClickListener { createOrder() }
+    }
+
+    private fun createOrder() {
+        if (carts.isEmpty()) {
+            showAlertDialog(
+                getResourceText(R.string.notification),
+                getResourceText(R.string.emptyCart),
+                getResourceText(R.string.add)
+            ) {
+                startActivity(Intent(this, DepotActivity::class.java))
+            }
+        } else {
+            progressBar.visibility = View.VISIBLE
+            val calendar = Calendar.getInstance()
+            val order = Order(
+                calendar.timeInMillis.toString(),
+                FirebaseNetworkLayer.instance.requestCurrentUserUID(),
+                carts,
+                calendar.time
+            )
+
+            cartUseCase.createOrderWith(order, {
+                createOrderSuccess()
+            }, {
+                createOrderFailure()
+            })
+        }
+    }
+
+    private fun createOrderFailure() {
+        progressBar.visibility = View.GONE
+        showAlertDialog(
+            getResourceText(R.string.error),
+            getResourceText(R.string.createOrderFailure),
+            getResourceText(R.string.tryAgain)
+        ) {
+            createOrder()
+        }
+    }
+
+    private fun createOrderSuccess() {
+        progressBar.visibility = View.GONE
+        showToast(getResourceText(R.string.createOrderSuccess))
+        emptyCartTextView.visibility = View.VISIBLE
     }
 
     private fun deleteCartWith(idProduct: String) {
@@ -82,8 +133,10 @@ class CartActivity : BaseActivity() {
 
     private fun refreshCartSuccess(carts: ArrayList<Cart>) {
         progressBar.visibility = View.GONE
+        createOrderButton.isEnabled = true
         adapter.setData(carts)
         recyclerView.adapter = adapter
+        this.carts = carts
 
         if (carts.isEmpty()) {
             emptyCartTextView.visibility = View.VISIBLE

@@ -2,6 +2,7 @@ package com.tavanhieu.quanlytaphoa.activities.cart.domain.infra
 
 import com.tavanhieu.quanlytaphoa.activities.cart.domain.use_case.CartUseCase
 import com.tavanhieu.quanlytaphoa.commons.models.Cart
+import com.tavanhieu.quanlytaphoa.commons.models.Order
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class CartUseCaseImpl: CartUseCase {
@@ -28,7 +29,27 @@ class CartUseCaseImpl: CartUseCase {
         })
     }
 
-    override fun deleteAllCart(complete: () -> Unit, failure: () -> Unit) {
+    override fun createOrderWith(order: Order, complete: () -> Unit, failure: () -> Unit) {
+        FirebaseNetworkLayer.instance.postRequest(order, "Orders/${order.id}", {
+            updateQuantity(order.carts, complete, failure)
+        }, {
+            failure()
+        })
+    }
+
+    private fun updateQuantity(carts: ArrayList<Cart>, complete: () -> Unit, failure: () -> Unit) {
+        carts.forEach {
+            FirebaseNetworkLayer.instance.postRequest(
+                (it.product.quantity - it.quantity),
+                "Products/${it.product.id}/quantity", {
+                deleteAllCart(complete, failure)
+            }, {
+                failure()
+            })
+        }
+    }
+
+    private fun deleteAllCart(complete: () -> Unit, failure: () -> Unit) {
         FirebaseNetworkLayer.instance.deleteRequest("Carts", {
             complete()
         }, {

@@ -93,6 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:background="@drawable/corner_radius_50"
+        android:enabled="false"
         android:text="@string/createOrder"
         android:textAllCaps="false"
         android:textSize="16sp"

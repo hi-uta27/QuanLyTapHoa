@@ -19,7 +19,6 @@
     <string name="Functions">Chức năng</string>
     <string name="NewProduct">Sản phẩm mới</string>
     <string name="Employee">Nhân viên</string>
-
     <string name="Depot">Kho hàng</string>
     <string name="Orders">Hóa đơn</string>
     <string name="Qr">Qr Code</string>
@@ -78,14 +77,17 @@
     <string name="updateProductSuccess">Cập nhật sản phẩm thành công</string>
     <string name="updateProductFailure">Cập nhật sản phẩm thất bại</string>
     <string name="priceProduct">Giá sản phẩm</string>
-    <string name="addToCartSuccess">Thêm vào giỏ hàng thành công</string>
+    <string name="addToCartSuccess">Đã thêm vào giỏ hàng</string>
     <string name="addToCartFailure">Thêm vào giỏ hàng thất bại</string>
     <string name="readDepotFailure">Đọc kho hàng thất bại</string>
     <string name="cart">Giỏ hàng</string>
     <string name="noProduct">Chưa có sản phẩm</string>
     <string name="createOrder">Tạo đơn</string>
     <string name="readCartFailure">Đọc giỏ hàng thất bại</string>
-    <string name="deleteCartSuccess">Xóa sản phẩm khỏi giỏ thành công</string>
+    <string name="deleteCartSuccess">Đã xóa sản phẩm khỏi giỏ</string>
     <string name="deleteCartFailure">Xóa sản phẩm khỏi giỏ thất bại</string>
     <string name="deleteCart">Bạn có muốn xóa sản phẩm này khỏi giỏ?</string>
+    <string name="createOrderFailure">Tạo đơn hàng thất bại</string>
+    <string name="createOrderSuccess">Tạo đơn hàng thành công</string>
+    <string name="emptyCart">Chưa có sản phẩm trong giỏ hàng</string>
 </resources>

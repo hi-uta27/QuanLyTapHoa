@@ -34,7 +34,9 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.CartViewHolder>(){
         @SuppressLint("SetTextI18n")
         fun binding(cart: Cart) {
             if (cart.product.image != null) {
-                Picasso.get().load(cart.product.image).placeholder(R.drawable.ic_photo).into(imageView)
+                Picasso.get().load(cart.product.image)
+                    .placeholder(R.drawable.ic_photo)
+                    .resize(200, 200).into(imageView)
             }
             titleTextView.text = cart.product.name
             priceTextView.text = cart.product.price.formatCurrency()
