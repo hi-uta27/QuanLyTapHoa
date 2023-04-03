@@ -81,8 +81,14 @@ class DetailProductActivity : BaseActivity() {
             }
         }
         plusImageView.setOnClickListener {
-            buyQuantity++
-            buyQuantityTextView.text = buyQuantity.toString()
+            product?.let {
+                if (buyQuantity < it.quantity) {
+                    buyQuantity++
+                    buyQuantityTextView.text = buyQuantity.toString()
+                } else {
+                    showToast(getResourceText(R.string.quantityNotEnough))
+                }
+            }
         }
     }
 
