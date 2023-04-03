@@ -97,16 +97,20 @@ class DetailProductActivity : BaseActivity() {
             val cart = Cart(it, buyQuantity)
             progressBar.visibility = View.VISIBLE
             detailProductUseCase.addProductToCartWith(cart, {
-                addToCartSuccess()
+                addToCartSuccess(it)
             }, {
                 addToCartFailure()
             })
         }
     }
 
-    private fun addToCartSuccess() {
+    private fun addToCartSuccess(isAdded: Boolean) {
         progressBar.visibility = View.GONE
-        showToast(getResourceText(R.string.addToCartSuccess))
+        if (isAdded) {
+            showToast(getResourceText(R.string.addToCartSuccess))
+        } else {
+            showToast(getResourceText(R.string.updateToCartSuccess))
+        }
     }
 
     private fun addToCartFailure() {
@@ -186,7 +190,8 @@ class DetailProductActivity : BaseActivity() {
             descriptionTextView.text = product.description
         }
         if (product.image != null) {
-            Picasso.get().load(product.image).placeholder(R.drawable.ic_photo).into(productImageView)
+            Picasso.get().load(product.image).placeholder(R.drawable.ic_photo)
+                .into(productImageView)
         }
     }
 }

@@ -78,6 +78,7 @@
     <string name="updateProductFailure">Cập nhật sản phẩm thất bại</string>
     <string name="priceProduct">Giá sản phẩm</string>
     <string name="addToCartSuccess">Đã thêm vào giỏ hàng</string>
+    <string name="updateToCartSuccess">Cập nhật sản phẩm trong giỏ hàng</string>
     <string name="addToCartFailure">Thêm vào giỏ hàng thất bại</string>
     <string name="readDepotFailure">Đọc kho hàng thất bại</string>
     <string name="cart">Giỏ hàng</string>

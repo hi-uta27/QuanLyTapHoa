@@ -116,8 +116,8 @@ class UpdateProductActivity : BaseActivity() {
             showErrorWithEditText(originalPriceEditText, getResourceText(R.string.noOriginalPrice))
         } else if (checkNullOrEmptyWithText(priceEditText)) {
             showErrorWithEditText(priceEditText, getResourceText(R.string.noPrice))
-        } else if(originalPriceEditText.text.toString().toFloat() < priceEditText.text.toString().toFloat()) {
-            showErrorWithEditText(originalPriceEditText, getResourceText(R.string.checkPrice))
+        } else if(originalPriceEditText.text.toString().toFloat() > priceEditText.text.toString().toFloat()) {
+            showErrorWithEditText(priceEditText, getResourceText(R.string.checkPrice))
         } else {
             val name = nameEditText.text.trim().toString()
             val quantity = quantityEditText.text.trim().toString().toInt()
