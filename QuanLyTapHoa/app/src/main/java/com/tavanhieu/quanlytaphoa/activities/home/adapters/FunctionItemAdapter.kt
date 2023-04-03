@@ -14,6 +14,7 @@ import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.cart.presentations.CartActivity
 import com.tavanhieu.quanlytaphoa.activities.depot.presentations.DepotActivity
 import com.tavanhieu.quanlytaphoa.activities.home.models.FunctionItem
+import com.tavanhieu.quanlytaphoa.activities.order.presentations.OrderActivity
 
 class FunctionItemAdapter: RecyclerView.Adapter<FunctionItemAdapter.FunctionItemViewHolder>() {
     private lateinit var arr: ArrayList<FunctionItem>
@@ -52,7 +53,7 @@ class FunctionItemAdapter: RecyclerView.Adapter<FunctionItemAdapter.FunctionItem
                 context.startActivity(Intent(context, DepotActivity::class.java))
             }
             1 -> {
-                Toast.makeText(context, "Hóa đơn", Toast.LENGTH_SHORT).show()
+                context.startActivity(Intent(context, OrderActivity::class.java))
             }
             2 -> {
                 context.startActivity(Intent(context, CartActivity::class.java))

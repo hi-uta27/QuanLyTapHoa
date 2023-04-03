@@ -18,6 +18,7 @@
     <string name="Setting">Cài đặt</string>
     <string name="Functions">Chức năng</string>
     <string name="NewProduct">Sản phẩm mới</string>
+    <string name="product">Sản phẩm</string>
     <string name="Employee">Nhân viên</string>
     <string name="Depot">Kho hàng</string>
     <string name="Orders">Hóa đơn</string>
@@ -94,4 +95,7 @@
     <string name="totalPrice">Tổng tiền</string>
     <string name="quantityNotEnough">Số lượng không đủ</string>
     <string name="checkPrice">Giá bán phải lớn hơn giá nhập</string>
+    <string name="buyProduct">Sản phẩm mua</string>
+    <string name="creationDate">Ngày lập</string>
+    <string name="employeeCreation">Người lập</string>
 </resources>

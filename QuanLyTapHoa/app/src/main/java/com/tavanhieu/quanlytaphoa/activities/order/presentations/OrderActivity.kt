@@ -1,4 +1,4 @@
-package com.tavanhieu.quanlytaphoa.activities.depot.presentations
+package com.tavanhieu.quanlytaphoa.activities.order.presentations
 
 import android.content.Intent
 import android.view.View
@@ -8,26 +8,26 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.tavanhieu.quanlytaphoa.R
-import com.tavanhieu.quanlytaphoa.activities.add_product.presentations.AddProductActivity
-import com.tavanhieu.quanlytaphoa.activities.depot.adapter.DepotAdapter
-import com.tavanhieu.quanlytaphoa.activities.depot.domain.infra.ReadDepotUseCaseImpl
-import com.tavanhieu.quanlytaphoa.activities.depot.domain.use_cases.ReadDepotUseCase
+import com.tavanhieu.quanlytaphoa.activities.cart.presentations.CartActivity
+import com.tavanhieu.quanlytaphoa.activities.order.adapter.OrderAdapter
+import com.tavanhieu.quanlytaphoa.activities.order.domain.infra.OrderUseCaseImpl
+import com.tavanhieu.quanlytaphoa.activities.order.domain.use_cases.OrderUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
-import com.tavanhieu.quanlytaphoa.commons.models.Product
+import com.tavanhieu.quanlytaphoa.commons.models.Order
 
-class DepotActivity : BaseActivity() {
+class OrderActivity : BaseActivity() {
     private lateinit var imageBack: ImageView
     private lateinit var emptyTextView: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var floatingActionButton: ExtendedFloatingActionButton
 
-    private val depotUseCase: ReadDepotUseCase by lazy { ReadDepotUseCaseImpl() }
-    private val adapter: DepotAdapter by lazy { DepotAdapter() }
+    private val orderUseCase: OrderUseCase by lazy { OrderUseCaseImpl() }
+    private val adapter: OrderAdapter by lazy { OrderAdapter() }
 
     override fun setContentView() {
-        setContentView(R.layout.activity_depot)
+        setContentView(R.layout.activity_order)
     }
 
     override fun mappingViewId() {
@@ -39,30 +39,30 @@ class DepotActivity : BaseActivity() {
     }
 
     override fun configLayout() {
-        refreshDepot()
+        refreshOrder()
 
         floatingActionButton.setOnClickListener {
-            val intent = Intent(this, AddProductActivity::class.java)
+            val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
         imageBack.setOnClickListener { finish() }
     }
 
-    private fun refreshDepot() {
+    private fun refreshOrder() {
         progressBar.visibility = View.VISIBLE
-        depotUseCase.refresh({
+        orderUseCase.refresh({
             refreshDepotSuccess(it)
         }, {
             refreshDepotFailure()
         })
     }
 
-    private fun refreshDepotSuccess(products: ArrayList<Product>) {
+    private fun refreshDepotSuccess(orders: ArrayList<Order>) {
         progressBar.visibility = View.GONE
-        adapter.setData(this, products)
+        adapter.setData(this, orders)
         recyclerView.adapter = adapter
 
-        if(products.isEmpty()) {
+        if(orders.isEmpty()) {
             emptyTextView.visibility = View.VISIBLE
         } else {
             emptyTextView.visibility = View.GONE
@@ -75,7 +75,7 @@ class DepotActivity : BaseActivity() {
             getResourceText(R.string.readDepotFailure),
             getResourceText(R.string.tryAgain)
         ) {
-            refreshDepot()
+            refreshOrder()
         }
     }
 }
