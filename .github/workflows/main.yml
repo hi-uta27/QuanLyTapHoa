@@ -13,7 +13,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     # Install Kotlin enviroment on QuanLyTapHoa
-    - uses: QuanLyTapHoa/setup-kotlin@main
+    - uses: hi-uta27/QuanLyTapHoa@main
       with:
         version: 1.7.20
         install-native: true
