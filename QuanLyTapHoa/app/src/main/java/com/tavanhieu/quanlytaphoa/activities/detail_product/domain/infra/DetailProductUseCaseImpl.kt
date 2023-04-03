@@ -1,10 +1,17 @@
 package com.tavanhieu.quanlytaphoa.activities.detail_product.domain.infra
 
 import android.net.Uri
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.tavanhieu.quanlytaphoa.activities.detail_product.domain.use_cases.DetailProductUseCase
 import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.util.Timer
 import kotlin.concurrent.schedule
 
@@ -39,18 +46,21 @@ class DetailProductUseCaseImpl: DetailProductUseCase {
     }
 
     override fun addProductToCartWith(cart: Cart, complete: (Boolean) -> Unit, failure: () -> Unit) {
-        var oldCart: Cart? = null
-        FirebaseNetworkLayer.instance.getRequest("Carts/${cart.product.id}", {
-            oldCart = it.getValue(Cart::class.java)
-        }, failure)
-
-        Timer().schedule(1000) {
+        // TODO: Use kotlin coroutine to update this code
+        runBlocking {
+            val oldCart: Cart? = readCartFromDatabase(cart)
             if (oldCart == null) {
                 handelAddProductToCart(cart, { complete(true) }, failure)
             } else {
-                handelUpdateQuantityToCart(cart, oldCart!!, { complete(false) }, failure)
+                handelUpdateQuantityToCart(cart, oldCart, { complete(false) }, failure)
             }
         }
+    }
+
+    private suspend fun readCartFromDatabase(cart: Cart): Cart? = withContext(Dispatchers.IO) {
+        val database: DatabaseReference = Firebase.database.reference
+        val data = database.child("Carts/${cart.product.id}").get().await()
+        return@withContext data.getValue(Cart::class.java)
     }
 
     private fun handelAddProductToCart(cart: Cart, complete: () -> Unit, failure: () -> Unit) {
