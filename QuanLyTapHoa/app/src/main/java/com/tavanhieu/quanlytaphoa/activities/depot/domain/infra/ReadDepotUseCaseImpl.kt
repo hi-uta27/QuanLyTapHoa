@@ -11,7 +11,7 @@ class ReadDepotUseCaseImpl : ReadDepotUseCase {
             val arr = ArrayList<Product>()
             it.children.forEach { it1 ->
                 val product = it1.getValue(Product::class.java)
-                if (product != null) {
+                if (product != null && product.quantity != 0) {
                     arr.add(product)
                 }
             }

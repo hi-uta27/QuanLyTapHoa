@@ -38,7 +38,9 @@ class DepotAdapter : RecyclerView.Adapter<DepotAdapter.AdapterDepotViewHolder>()
         @SuppressLint("SetTextI18n", "SimpleDateFormat", "ResourceType")
         fun binding(product: Product) {
             if (product.image != null) {
-                Picasso.get().load(product.image).placeholder(R.drawable.ic_add).into(image)
+                Picasso.get().load(product.image)
+                    .placeholder(R.drawable.ic_photo)
+                    .resize(200, 200).into(image)
             }
             entryDate.text = "${context.getResourceText(R.string.entryDate)}: ${
                 SimpleDateFormat("dd/MM/yyyy").format(product.entryDate)}"

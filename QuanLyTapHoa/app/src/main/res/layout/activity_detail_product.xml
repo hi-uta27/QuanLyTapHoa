@@ -56,7 +56,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/addToOrderButton"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/addToCartButton"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,6 +71,7 @@
                 android:background="@color/white"
                 android:contentDescription="@string/image"
                 android:scaleType="centerCrop"
+                android:src="@drawable/ic_photo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -206,10 +208,10 @@
     </androidx.core.widget.NestedScrollView>
 
     <Button
-        android:id="@+id/addToOrderButton"
+        android:id="@+id/addToCartButton"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/corner_radius_50"
         android:text="@string/addToOrder"
         android:textAllCaps="false"

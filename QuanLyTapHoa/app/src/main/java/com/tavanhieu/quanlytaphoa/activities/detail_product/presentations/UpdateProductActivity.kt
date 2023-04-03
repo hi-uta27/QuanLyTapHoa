@@ -3,20 +3,13 @@ package com.tavanhieu.quanlytaphoa.activities.detail_product.presentations
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
 import com.squareup.picasso.Picasso
 import com.tavanhieu.quanlytaphoa.R
-import com.tavanhieu.quanlytaphoa.activities.add_product.domain.infra.AddProductUseCaseImpl
-import com.tavanhieu.quanlytaphoa.activities.add_product.domain.use_case.AddProductUseCase
 import com.tavanhieu.quanlytaphoa.activities.detail_product.domain.infra.DetailProductUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.detail_product.domain.use_cases.DetailProductUseCase
-import com.tavanhieu.quanlytaphoa.commons.CaptureAct
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Product
@@ -81,11 +74,11 @@ class UpdateProductActivity : BaseActivity() {
 
     @SuppressLint("SimpleDateFormat")
     private fun loadProductData(product: Product) {
-        Picasso.get().load(product.image).into(productImageView)
+        Picasso.get().load(product.image).placeholder(R.drawable.ic_photo).into(productImageView)
         nameEditText.setText(product.name)
         quantityEditText.setText("${product.quantity}")
-        originalPriceEditText.setText("${product.originalPrice}")
-        priceEditText.setText("${product.price}")
+        originalPriceEditText.setText(product.originalPrice.toLong().toString())
+        priceEditText.setText(product.price.toLong().toString())
         descriptionEditText.setText(product.description)
         expiredDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(product.expiredDate)
         expiredCalendar.time = product.expiredDate
@@ -123,6 +116,8 @@ class UpdateProductActivity : BaseActivity() {
             showErrorWithEditText(originalPriceEditText, getResourceText(R.string.noOriginalPrice))
         } else if (checkNullOrEmptyWithText(priceEditText)) {
             showErrorWithEditText(priceEditText, getResourceText(R.string.noPrice))
+        } else if(originalPriceEditText.text.toString().toFloat() > priceEditText.text.toString().toFloat()) {
+            showErrorWithEditText(priceEditText, getResourceText(R.string.checkPrice))
         } else {
             val name = nameEditText.text.trim().toString()
             val quantity = quantityEditText.text.trim().toString().toInt()
@@ -149,6 +144,8 @@ class UpdateProductActivity : BaseActivity() {
     }
 
     private fun updateProductFailure() {
+        progressBar.visibility = View.GONE
+        enableView(true)
         showAlertDialog(
             getResourceText(R.string.cancel),
             getResourceText(R.string.updateProductFailure),
@@ -157,15 +154,16 @@ class UpdateProductActivity : BaseActivity() {
         }
     }
 
-    private fun enableView(disable: Boolean) {
-        productImageView.isEnabled = disable
-        calendarImageButton.isEnabled = disable
-        nameEditText.isEnabled = disable
-        quantityEditText.isEnabled = disable
-        originalPriceEditText.isEnabled = disable
-        priceEditText.isEnabled = disable
-        descriptionEditText.isEnabled = disable
-        typeSpinner.isEnabled = disable
-        updateButton.isEnabled = disable
+    private fun enableView(enable: Boolean) {
+        expiredDateTextView.isEnabled = enable
+        productImageView.isEnabled = enable
+        calendarImageButton.isEnabled = enable
+        nameEditText.isEnabled = enable
+        quantityEditText.isEnabled = enable
+        originalPriceEditText.isEnabled = enable
+        priceEditText.isEnabled = enable
+        descriptionEditText.isEnabled = enable
+        typeSpinner.isEnabled = enable
+        updateButton.isEnabled = enable
     }
 }

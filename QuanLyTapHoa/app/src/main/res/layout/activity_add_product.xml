@@ -371,6 +371,7 @@
                     android:hint="@string/description"
                     android:inputType="textMultiLine"
                     android:maxLines="5"
+                    android:maxLength="100"
                     android:minHeight="80dp"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>

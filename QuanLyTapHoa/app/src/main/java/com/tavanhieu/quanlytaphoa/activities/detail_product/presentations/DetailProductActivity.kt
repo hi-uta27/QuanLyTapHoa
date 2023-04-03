@@ -15,6 +15,7 @@ import com.tavanhieu.quanlytaphoa.activities.detail_product.domain.use_cases.Det
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
+import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import java.text.SimpleDateFormat
 
@@ -33,7 +34,7 @@ class DetailProductActivity : BaseActivity() {
     private lateinit var priceTextView: TextView
     private lateinit var descriptionTextView: TextView
     private lateinit var buyQuantityTextView: TextView
-    private lateinit var addToOrderButton: Button
+    private lateinit var addToCartButton: Button
 
     private val detailProductUseCase: DetailProductUseCase by lazy { DetailProductUseCaseImpl() }
     private var idProduct: String? = null
@@ -59,7 +60,7 @@ class DetailProductActivity : BaseActivity() {
         buyQuantityTextView = findViewById(R.id.buyQuantityTextView)
         updateProductImageButton = findViewById(R.id.updateImageButton)
         deleteProductImageButton = findViewById(R.id.deleteImageButton)
-        addToOrderButton = findViewById(R.id.addToOrderButton)
+        addToCartButton = findViewById(R.id.addToCartButton)
     }
 
     override fun configLayout() {
@@ -71,6 +72,8 @@ class DetailProductActivity : BaseActivity() {
         imageBack.setOnClickListener { finish() }
         updateProductImageButton.setOnClickListener { updateProduct() }
         deleteProductImageButton.setOnClickListener { deleteProduct() }
+        addToCartButton.setOnClickListener { addToCart() }
+
         minusImageView.setOnClickListener {
             if (buyQuantity > 1) {
                 buyQuantity--
@@ -78,8 +81,46 @@ class DetailProductActivity : BaseActivity() {
             }
         }
         plusImageView.setOnClickListener {
-            buyQuantity++
-            buyQuantityTextView.text = buyQuantity.toString()
+            product?.let {
+                if (buyQuantity < it.quantity) {
+                    buyQuantity++
+                    buyQuantityTextView.text = buyQuantity.toString()
+                } else {
+                    showToast(getResourceText(R.string.quantityNotEnough))
+                }
+            }
+        }
+    }
+
+    private fun addToCart() {
+        product?.let {
+            val cart = Cart(it, buyQuantity)
+            progressBar.visibility = View.VISIBLE
+            detailProductUseCase.addProductToCartWith(cart, {
+                addToCartSuccess(it)
+            }, {
+                addToCartFailure()
+            })
+        }
+    }
+
+    private fun addToCartSuccess(isAdded: Boolean) {
+        progressBar.visibility = View.GONE
+        if (isAdded) {
+            showToast(getResourceText(R.string.addToCartSuccess))
+        } else {
+            showToast(getResourceText(R.string.updateToCartSuccess))
+        }
+    }
+
+    private fun addToCartFailure() {
+        progressBar.visibility = View.GONE
+        showAlertDialog(
+            getResourceText(R.string.notification),
+            getResourceText(R.string.addToCartFailure),
+            getResourceText(R.string.tryAgain)
+        ) {
+            addToCart()
         }
     }
 
@@ -87,7 +128,8 @@ class DetailProductActivity : BaseActivity() {
         showAlertDialog(
             getResourceText(R.string.notification),
             getResourceText(R.string.deleteProduct),
-            getResourceText(R.string.confirm)) {
+            getResourceText(R.string.confirm)
+        ) {
             idProduct?.let {
                 detailProductUseCase.deleteProductWith(it, {
                     showToast(getResourceText(R.string.deleteProductSuccess))
@@ -107,34 +149,49 @@ class DetailProductActivity : BaseActivity() {
         }
     }
 
-    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun readProductWith(idProduct: String) {
         progressBar.visibility = View.VISIBLE
         detailProductUseCase.readProductWith(idProduct, {
-            progressBar.visibility = View.GONE
-            product = it
-            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
-            nameTextView.text = it.name
-            entryDateTextView.text = "${getResourceText(R.string.expiredDate)}: ${simpleDateFormat.format(it.entryDate)}" +
-                    " - ${simpleDateFormat.format(it.expiredDate)}"
-            quantityTextView.text = "${getResourceText(R.string.remaining)}: ${it.quantity} ${it.type}"
-            originalPriceTextView.text = "${getResourceText(R.string.originalPrice)}: ${it.originalPrice.formatCurrency()}"
-            priceTextView.text = "${getResourceText(R.string.price)}: ${it.price.formatCurrency()}"
-            if (it.description == "") {
-                descriptionTextView.text = getResourceText(R.string.noDescription)
-            } else {
-                descriptionTextView.text = it.description
-            }
-            if (it.image != null) {
-                Picasso.get().load(it.image).into(productImageView)
-            }
+            readProductSuccess(it)
         }, {
-            showAlertDialog(
-                getResourceText(R.string.error),
-                getResourceText(R.string.readProductFailure),
-                getResourceText(R.string.tryAgain)) {
-                readProductWith((idProduct))
-            }
+            readProductFailure(idProduct)
         })
+    }
+
+    private fun readProductFailure(idProduct: String) {
+        progressBar.visibility = View.GONE
+        showAlertDialog(
+            getResourceText(R.string.error),
+            getResourceText(R.string.readProductFailure),
+            getResourceText(R.string.tryAgain)
+        ) {
+            readProductWith((idProduct))
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
+    private fun readProductSuccess(product: Product) {
+        progressBar.visibility = View.GONE
+        this.product = product
+
+        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+        nameTextView.text = product.name
+        entryDateTextView.text =
+            "${getResourceText(R.string.expiredDate)}: ${simpleDateFormat.format(product.entryDate)}" +
+                    " - ${simpleDateFormat.format(product.expiredDate)}"
+        quantityTextView.text =
+            "${getResourceText(R.string.remaining)}: ${product.quantity} ${product.type}"
+        originalPriceTextView.text =
+            "${getResourceText(R.string.originalPrice)}: ${product.originalPrice.formatCurrency()}"
+        priceTextView.text = "${getResourceText(R.string.price)}: ${product.price.formatCurrency()}"
+        if (product.description == "") {
+            descriptionTextView.text = getResourceText(R.string.noDescription)
+        } else {
+            descriptionTextView.text = product.description
+        }
+        if (product.image != null) {
+            Picasso.get().load(product.image).placeholder(R.drawable.ic_photo)
+                .into(productImageView)
+        }
     }
 }
