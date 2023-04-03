@@ -37,14 +37,14 @@ class LoginActivity : BaseActivity() {
     // MARK: - Function System
 
     override fun setContentView() {
+        setContentView(R.layout.activity_login)
+
         //
         if (BuildConfig.DEBUG) {
             FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(false)
         } else {
             FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(true)
         }
-
-        setContentView(R.layout.activity_login)
 
         // open main activity if user logged before
         if (FirebaseNetworkLayer.instance.authIsLogged()) {

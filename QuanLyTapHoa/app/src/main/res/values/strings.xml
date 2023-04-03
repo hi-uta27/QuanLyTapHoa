@@ -92,4 +92,5 @@
     <string name="emptyCart">Chưa có sản phẩm trong giỏ hàng</string>
     <string name="totalPrice">Tổng tiền</string>
     <string name="quantityNotEnough">Số lượng không đủ</string>
+    <string name="checkPrice">Giá bán phải lớn hơn giá nhập</string>
 </resources>

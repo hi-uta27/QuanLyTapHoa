@@ -148,6 +148,8 @@ class AddProductActivity : BaseActivity() {
             showErrorWithEditText(originalPriceEditText, getResourceText(R.string.noOriginalPrice))
         } else if (checkNullOrEmptyWithText(priceEditText)) {
             showErrorWithEditText(priceEditText, getResourceText(R.string.noPrice))
+        } else if(originalPriceEditText.text.toString().toFloat() < priceEditText.text.toString().toFloat()) {
+            showErrorWithEditText(originalPriceEditText, getResourceText(R.string.checkPrice))
         } else {
             val id = idTextView.text.trim().toString()
             val name = nameEditText.text.trim().toString()
