@@ -9,6 +9,7 @@ import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -62,7 +63,7 @@ class DetailProductUseCaseImpl: DetailProductUseCase {
         val data = database.child("Carts/${cart.product.id}").get().await()
         return@withContext data.getValue(Cart::class.java)
     }
-
+    
     private fun handelAddProductToCart(cart: Cart, complete: () -> Unit, failure: () -> Unit) {
         FirebaseNetworkLayer.instance.postRequest(cart, "Carts/${cart.product.id}", complete, failure)
     }
