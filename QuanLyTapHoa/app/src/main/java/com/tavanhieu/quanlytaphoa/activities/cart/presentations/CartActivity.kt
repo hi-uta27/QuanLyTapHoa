@@ -16,6 +16,7 @@ import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Order
+import com.tavanhieu.quanlytaphoa.commons.models.ProductOrder
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 import java.util.Calendar
 
@@ -54,7 +55,7 @@ class CartActivity : BaseActivity() {
 
     private fun plusQuantity(cart: Cart) {
         if (cart.quantity < cart.product.quantity) {
-            cartUseCase.updateQuantity(cart.product.id, cart.quantity + 1, {}, {})
+            cartUseCase.updateQuantity(cart.quantity + 1, cart.product.id, {}, {})
         } else {
             showToast(getResourceText(R.string.quantityNotEnough))
         }
@@ -62,7 +63,7 @@ class CartActivity : BaseActivity() {
 
     private fun minusQuantity(cart: Cart) {
         if (cart.quantity > 1) {
-            cartUseCase.updateQuantity(cart.product.id, cart.quantity - 1, {}, {})
+            cartUseCase.updateQuantity(cart.quantity - 1, cart.product.id, {}, {})
         }
     }
 
@@ -81,11 +82,11 @@ class CartActivity : BaseActivity() {
             val order = Order(
                 calendar.timeInMillis.toString(),
                 FirebaseNetworkLayer.instance.requestCurrentUserUID(),
-                carts,
+                carts.map { ProductOrder(it.product.id, it.quantity) } as ArrayList<ProductOrder>,
                 calendar.time
             )
 
-            cartUseCase.createOrderWith(order, {
+            cartUseCase.createOrderWith(order, carts, {
                 createOrderSuccess()
             }, {
                 createOrderFailure()
