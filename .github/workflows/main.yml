@@ -1,8 +1,6 @@
 name: Action on pull request
-on:
-  # Triggers the workflow on pull request events but only for default and protected branches
-  pull_request:
-    branches: main
+# Triggers the workflow on pull request events but only for default and protected branches
+on: pull_request
 jobs:
   analyze: 
     # The type of runner that the job will run on
