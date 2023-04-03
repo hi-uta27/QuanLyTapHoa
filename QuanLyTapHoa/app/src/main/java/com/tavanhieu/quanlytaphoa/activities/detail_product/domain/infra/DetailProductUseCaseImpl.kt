@@ -46,7 +46,7 @@ class DetailProductUseCaseImpl: DetailProductUseCase {
     }
 
     override fun addProductToCartWith(cart: Cart, complete: (Boolean) -> Unit, failure: () -> Unit) {
-        // TODO: Use kotlin coroutine to update this code
+        // TODO: Error to update -> Use kotlin coroutine to update this code
         runBlocking {
             val oldCart: Cart? = readCartFromDatabase(cart)
             if (oldCart == null) {
