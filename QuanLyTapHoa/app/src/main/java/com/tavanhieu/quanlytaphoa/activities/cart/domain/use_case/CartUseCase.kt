@@ -7,4 +7,5 @@ interface CartUseCase {
     fun refreshCart(complete: (ArrayList<Cart>) -> Unit, failure: () -> Unit)
     fun deleteCartWith(idProduct: String, complete: () -> Unit, failure: () -> Unit)
     fun createOrderWith(order: Order, complete: () -> Unit, failure: () -> Unit)
+    fun updateQuantity(idProduct: String, quantity: Int, complete: () -> Unit, failure: () -> Unit)
 }

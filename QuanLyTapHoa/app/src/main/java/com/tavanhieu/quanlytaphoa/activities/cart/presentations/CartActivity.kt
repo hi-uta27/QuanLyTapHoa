@@ -47,7 +47,23 @@ class CartActivity : BaseActivity() {
 
         imageBack.setOnClickListener { finish() }
         adapter.deleteCartWith = { deleteCartWith(it) }
+        adapter.minusQuantity = { minusQuantity(it) }
+        adapter.plusQuantity = { plusQuantity(it) }
         createOrderButton.setOnClickListener { createOrder() }
+    }
+
+    private fun plusQuantity(cart: Cart) {
+        if (cart.quantity < cart.product.quantity) {
+            cartUseCase.updateQuantity(cart.product.id, cart.quantity + 1, {}, {})
+        } else {
+            showToast(getResourceText(R.string.quantityNotEnough))
+        }
+    }
+
+    private fun minusQuantity(cart: Cart) {
+        if (cart.quantity > 1) {
+            cartUseCase.updateQuantity(cart.product.id, cart.quantity - 1, {}, {})
+        }
     }
 
     private fun createOrder() {
@@ -134,7 +150,7 @@ class CartActivity : BaseActivity() {
     private fun refreshCartSuccess(carts: ArrayList<Cart>) {
         progressBar.visibility = View.GONE
         createOrderButton.isEnabled = true
-        adapter.setData(carts)
+        adapter.setData(this, carts)
         recyclerView.adapter = adapter
         this.carts = carts
 

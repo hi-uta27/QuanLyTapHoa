@@ -16,25 +16,17 @@ class CartUseCaseImpl: CartUseCase {
                 }
             }
             complete(arr)
-        }, {
-            failure()
-        })
+        }, failure)
     }
 
     override fun deleteCartWith(idProduct: String, complete: () -> Unit, failure: () -> Unit) {
-        FirebaseNetworkLayer.instance.deleteRequest("Carts/${idProduct}", {
-            complete()
-        }, {
-            failure()
-        })
+        FirebaseNetworkLayer.instance.deleteRequest("Carts/${idProduct}", complete, failure)
     }
 
     override fun createOrderWith(order: Order, complete: () -> Unit, failure: () -> Unit) {
         FirebaseNetworkLayer.instance.postRequest(order, "Orders/${order.id}", {
             updateQuantity(order.carts, complete, failure)
-        }, {
-            failure()
-        })
+        }, failure)
     }
 
     private fun updateQuantity(carts: ArrayList<Cart>, complete: () -> Unit, failure: () -> Unit) {
@@ -43,17 +35,15 @@ class CartUseCaseImpl: CartUseCase {
                 (it.product.quantity - it.quantity),
                 "Products/${it.product.id}/quantity", {
                 deleteAllCart(complete, failure)
-            }, {
-                failure()
-            })
+            }, failure)
         }
     }
 
     private fun deleteAllCart(complete: () -> Unit, failure: () -> Unit) {
-        FirebaseNetworkLayer.instance.deleteRequest("Carts", {
-            complete()
-        }, {
-            failure()
-        })
+        FirebaseNetworkLayer.instance.deleteRequest("Carts", complete, failure)
+    }
+
+    override fun updateQuantity(idProduct: String, quantity: Int, complete: () -> Unit, failure: () -> Unit) {
+        FirebaseNetworkLayer.instance.postRequest(quantity, "Carts/${idProduct}/quantity", complete, failure)
     }
 }

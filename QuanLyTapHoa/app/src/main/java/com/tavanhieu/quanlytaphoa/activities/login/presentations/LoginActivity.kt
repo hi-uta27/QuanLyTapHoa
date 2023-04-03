@@ -10,6 +10,8 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.tavanhieu.quanlytaphoa.BuildConfig
 import com.tavanhieu.quanlytaphoa.activities.MainActivity
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
@@ -35,6 +37,13 @@ class LoginActivity : BaseActivity() {
     // MARK: - Function System
 
     override fun setContentView() {
+        //
+        if (BuildConfig.DEBUG) {
+            FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(false)
+        } else {
+            FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(true)
+        }
+
         setContentView(R.layout.activity_login)
 
         // open main activity if user logged before
