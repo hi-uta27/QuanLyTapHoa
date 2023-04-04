@@ -1,12 +1,20 @@
 package com.tavanhieu.quanlytaphoa.activities.detail_order.presentations
 
+import android.annotation.SuppressLint
+import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tavanhieu.quanlytaphoa.R
+import com.tavanhieu.quanlytaphoa.activities.detail_order.domain.infra.DetailOrderUseCaseImpl
+import com.tavanhieu.quanlytaphoa.activities.detail_order.domain.use_case.DetailOrderUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
+import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Order
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
+import java.text.SimpleDateFormat
 
 class DetailOrderActivity : BaseActivity() {
     private lateinit var imageBack: ImageView
@@ -16,6 +24,8 @@ class DetailOrderActivity : BaseActivity() {
     private lateinit var totalPriceTextView: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
+
+    private val detailOrderUseCase: DetailOrderUseCase by lazy { DetailOrderUseCaseImpl() }
 
     override fun setContentView() {
         setContentView(R.layout.activity_detail_order)
@@ -33,11 +43,35 @@ class DetailOrderActivity : BaseActivity() {
 
     override fun configLayout() {
         val idOrder = intent.getStringExtra("IdOrder")
-        idOrder?.let { loadDataWith(it) }
+        idOrder?.let { readDetailOrderWith(it) }
 
         imageBack.setOnClickListener { finish() }
     }
 
-    private fun loadDataWith(idOrder: String) {
+    private fun readDetailOrderWith(idOrder: String) {
+        progressBar.visibility = View.VISIBLE
+        detailOrderUseCase.readDetailOrderWith(idOrder, { order ->
+            handleReadDetailOrderSuccess(order)
+        }, {
+            handleReadDetailOrderFailure()
+        })
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun handleReadDetailOrderSuccess(order: Order) {
+        idTextView.text = order.id
+        creationDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(order.date)
+        detailOrderUseCase.readEmployeeWith(order, { employeeCreationTextView.text = it.name }, {})
+    }
+
+    private fun handleReadDetailOrderFailure() {
+        progressBar.visibility = View.GONE
+        showAlertDialog(
+            getResourceText(R.string.error),
+            getResourceText(R.string.readOrderFailure),
+            getResourceText(R.string.tryAgain)
+        ) {
+            readDetailOrderWith(idOrder = "")
+        }
     }
 }
