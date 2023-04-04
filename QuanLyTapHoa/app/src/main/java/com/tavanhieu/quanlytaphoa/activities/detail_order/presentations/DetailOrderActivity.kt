@@ -7,13 +7,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tavanhieu.quanlytaphoa.R
+import com.tavanhieu.quanlytaphoa.activities.detail_order.adapter.DetailOrderAdapter
 import com.tavanhieu.quanlytaphoa.activities.detail_order.domain.infra.DetailOrderUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.detail_order.domain.use_case.DetailOrderUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Order
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 
 class DetailOrderActivity : BaseActivity() {
@@ -26,6 +25,7 @@ class DetailOrderActivity : BaseActivity() {
     private lateinit var progressBar: ProgressBar
 
     private val detailOrderUseCase: DetailOrderUseCase by lazy { DetailOrderUseCaseImpl() }
+    private val adapter: DetailOrderAdapter by lazy { DetailOrderAdapter() }
 
     override fun setContentView() {
         setContentView(R.layout.activity_detail_order)
@@ -59,9 +59,14 @@ class DetailOrderActivity : BaseActivity() {
 
     @SuppressLint("SimpleDateFormat")
     private fun handleReadDetailOrderSuccess(order: Order) {
+        progressBar.visibility = View.GONE
         idTextView.text = order.id
         creationDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(order.date)
+        // TODO: Get total price
+
         detailOrderUseCase.readEmployeeWith(order, { employeeCreationTextView.text = it.name }, {})
+        adapter.setData(this, order.productOrders)
+        recyclerView.adapter = adapter
     }
 
     private fun handleReadDetailOrderFailure() {
