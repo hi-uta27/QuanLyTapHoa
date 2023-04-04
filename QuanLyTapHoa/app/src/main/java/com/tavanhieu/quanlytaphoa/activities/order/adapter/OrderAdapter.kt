@@ -1,6 +1,7 @@
 package com.tavanhieu.quanlytaphoa.activities.order.adapter
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.tavanhieu.quanlytaphoa.R
+import com.tavanhieu.quanlytaphoa.activities.detail_order.presentations.DetailOrderActivity
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
 import com.tavanhieu.quanlytaphoa.commons.models.Cart
@@ -60,6 +62,11 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.CartViewHolder>(){
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val order = arr[position]
         holder.binding(order)
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, DetailOrderActivity::class.java)
+            intent.putExtra("IdOrder", order.id)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -1,6 +1,6 @@
 package com.tavanhieu.quanlytaphoa.commons.models
 
-class ProductOrder {
+class ProductOrder: java.io.Serializable {
     var idProduct: String = ""
     var quantity: Int = 0
 

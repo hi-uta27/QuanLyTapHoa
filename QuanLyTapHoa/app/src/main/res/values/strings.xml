@@ -98,4 +98,6 @@
     <string name="buyProduct">Sản phẩm mua</string>
     <string name="creationDate">Ngày lập</string>
     <string name="employeeCreation">Người lập</string>
+    <string name="detailOrder">Chi tiết hóa đơn</string>
+    <string name="idOrder">Mã hóa đơn</string>
 </resources>

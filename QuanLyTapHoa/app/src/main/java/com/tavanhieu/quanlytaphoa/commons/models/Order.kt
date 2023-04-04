@@ -3,7 +3,7 @@ package com.tavanhieu.quanlytaphoa.commons.models
 import androidx.room.TypeConverters
 import java.util.Date
 
-class Order {
+class Order: java.io.Serializable {
     var id: String = ""
     var idEmployee: String = ""
     var productOrders: ArrayList<ProductOrder> = ArrayList()
