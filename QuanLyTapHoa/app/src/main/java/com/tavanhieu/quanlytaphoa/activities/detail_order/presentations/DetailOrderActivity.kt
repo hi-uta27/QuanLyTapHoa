@@ -14,7 +14,6 @@ import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
 import com.tavanhieu.quanlytaphoa.commons.models.Order
-import java.text.SimpleDateFormat
 
 class DetailOrderActivity : BaseActivity() {
     private lateinit var imageBack: ImageView
@@ -63,13 +62,8 @@ class DetailOrderActivity : BaseActivity() {
     private fun handleReadDetailOrderSuccess(order: Order) {
         progressBar.visibility = View.GONE
         idTextView.text = order.id
-        creationDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(order.date)
-
-        var totalPrice = 0F
-        order.carts.forEach {
-            totalPrice += it.product.price * it.quantity
-        }
-        totalPriceTextView.text = totalPrice.formatCurrency()
+        creationDateTextView.text = order.convertDateToString()
+        totalPriceTextView.text = order.totalPrice().formatCurrency()
 
         detailOrderUseCase.readEmployeeWith(order, { employeeCreationTextView.text = it.name }, {})
         adapter.setData(this, order.carts)
