@@ -3,7 +3,6 @@ package com.tavanhieu.quanlytaphoa.activities.cart.domain.infra
 import com.tavanhieu.quanlytaphoa.activities.cart.domain.use_case.CartUseCase
 import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Order
-import com.tavanhieu.quanlytaphoa.commons.models.ProductOrder
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class CartUseCaseImpl: CartUseCase {

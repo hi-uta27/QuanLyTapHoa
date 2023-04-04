@@ -6,16 +6,16 @@ import java.util.Date
 class Order: java.io.Serializable {
     var id: String = ""
     var idEmployee: String = ""
-    var productOrders: ArrayList<ProductOrder> = ArrayList()
+    var carts: ArrayList<Cart> = ArrayList()
 
     @TypeConverters(DateConverter::class)
     var date: Date = Date()
 
     constructor()
-    constructor(id: String, idEmployee: String, productOrders: ArrayList<ProductOrder>, date: Date) {
+    constructor(id: String, idEmployee: String, carts: ArrayList<Cart>, date: Date) {
         this.id = id
         this.idEmployee = idEmployee
-        this.productOrders = productOrders
+        this.carts = carts
         this.date = date
     }
 }

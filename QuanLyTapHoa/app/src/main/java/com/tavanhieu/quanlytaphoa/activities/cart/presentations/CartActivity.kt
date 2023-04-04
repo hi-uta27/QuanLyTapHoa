@@ -18,7 +18,6 @@ import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
 import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Order
-import com.tavanhieu.quanlytaphoa.commons.models.ProductOrder
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 import java.util.Calendar
 
@@ -86,7 +85,7 @@ class CartActivity : BaseActivity() {
             val order = Order(
                 calendar.timeInMillis.toString(),
                 FirebaseNetworkLayer.instance.requestCurrentUserUID(),
-                carts.map { ProductOrder(it.product.id, it.quantity) } as ArrayList<ProductOrder>,
+                carts,
                 calendar.time
             )
 

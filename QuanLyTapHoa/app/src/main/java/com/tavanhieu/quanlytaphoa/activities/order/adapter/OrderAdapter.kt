@@ -50,7 +50,7 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.CartViewHolder>(){
             }, {})
             idTextView.text = "ID: ${order.id}"
             remainingTextView.text = "${context.getResourceText(R.string.buyProduct)}: " +
-                    "x${order.productOrders.count()}"
+                    "x${order.carts.count()}"
         }
     }
 

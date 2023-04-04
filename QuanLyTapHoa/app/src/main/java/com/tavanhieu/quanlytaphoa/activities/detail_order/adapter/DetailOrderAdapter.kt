@@ -11,16 +11,16 @@ import com.squareup.picasso.Picasso
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
+import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Product
-import com.tavanhieu.quanlytaphoa.commons.models.ProductOrder
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class DetailOrderAdapter : RecyclerView.Adapter<DetailOrderAdapter.DetailOrderViewHolder>(){
-    private lateinit var arr: ArrayList<ProductOrder>
+    private lateinit var arr: ArrayList<Cart>
     private lateinit var context: BaseActivity
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(context: BaseActivity, arr: ArrayList<ProductOrder>) {
+    fun setData(context: BaseActivity, arr: ArrayList<Cart>) {
         this.arr = arr
         this.context = context
         notifyDataSetChanged()
@@ -33,18 +33,13 @@ class DetailOrderAdapter : RecyclerView.Adapter<DetailOrderAdapter.DetailOrderVi
         private var quantityTextView: TextView = itemView.findViewById(R.id.quantityTextView)
 
         @SuppressLint("SetTextI18n")
-        fun binding(productOrder: ProductOrder) {
-            FirebaseNetworkLayer.instance.getRequest("Products/${productOrder.idProduct}", { dataSnapshot ->
-                val product = dataSnapshot.getValue(Product::class.java)
-                if (product != null) {
-                    product.image?.let {
-                        Picasso.get().load(it).placeholder(R.drawable.ic_photo).resize(200, 200).into(imageView)
-                    }
-                    titleTextView.text = product.name
-                    priceTextView.text = "${context.getResourceText(R.string.price)}: " + product.price.formatCurrency()
-                    quantityTextView.text = "${context.getResourceText(R.string.quantity)}: x${productOrder.quantity} ${product.type}"
-                }
-            }, {})
+        fun binding(cart: Cart) {
+            cart.product.image?.let {
+                Picasso.get().load(it).placeholder(R.drawable.ic_photo).resize(200, 200).into(imageView)
+            }
+            titleTextView.text = cart.product.name
+            priceTextView.text = "${context.getResourceText(R.string.price)}: " + cart.product.price.formatCurrency()
+            quantityTextView.text = "${context.getResourceText(R.string.quantity)}: x${cart.quantity} ${cart.product.type}"
         }
     }
 

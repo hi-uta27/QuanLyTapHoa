@@ -12,6 +12,7 @@ import com.tavanhieu.quanlytaphoa.activities.detail_order.domain.infra.DetailOrd
 import com.tavanhieu.quanlytaphoa.activities.detail_order.domain.use_case.DetailOrderUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
+import com.tavanhieu.quanlytaphoa.commons.formatCurrency
 import com.tavanhieu.quanlytaphoa.commons.models.Order
 import java.text.SimpleDateFormat
 
@@ -26,6 +27,7 @@ class DetailOrderActivity : BaseActivity() {
 
     private val detailOrderUseCase: DetailOrderUseCase by lazy { DetailOrderUseCaseImpl() }
     private val adapter: DetailOrderAdapter by lazy { DetailOrderAdapter() }
+    private var idOrder: String? = null
 
     override fun setContentView() {
         setContentView(R.layout.activity_detail_order)
@@ -42,7 +44,7 @@ class DetailOrderActivity : BaseActivity() {
     }
 
     override fun configLayout() {
-        val idOrder = intent.getStringExtra("IdOrder")
+        idOrder = intent.getStringExtra("IdOrder")
         idOrder?.let { readDetailOrderWith(it) }
 
         imageBack.setOnClickListener { finish() }
@@ -62,10 +64,15 @@ class DetailOrderActivity : BaseActivity() {
         progressBar.visibility = View.GONE
         idTextView.text = order.id
         creationDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(order.date)
-        // TODO: Get total price
+
+        var totalPrice = 0F
+        order.carts.forEach {
+            totalPrice += it.product.price * it.quantity
+        }
+        totalPriceTextView.text = totalPrice.formatCurrency()
 
         detailOrderUseCase.readEmployeeWith(order, { employeeCreationTextView.text = it.name }, {})
-        adapter.setData(this, order.productOrders)
+        adapter.setData(this, order.carts)
         recyclerView.adapter = adapter
     }
 
@@ -76,7 +83,7 @@ class DetailOrderActivity : BaseActivity() {
             getResourceText(R.string.readOrderFailure),
             getResourceText(R.string.tryAgain)
         ) {
-            readDetailOrderWith(idOrder = "")
+            idOrder?.let { readDetailOrderWith(it) }
         }
     }
 }
