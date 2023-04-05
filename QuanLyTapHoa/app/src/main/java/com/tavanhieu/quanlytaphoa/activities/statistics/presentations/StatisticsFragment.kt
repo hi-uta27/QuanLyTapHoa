@@ -1,7 +1,67 @@
 package com.tavanhieu.quanlytaphoa.activities.statistics.presentations
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.github.mikephil.charting.charts.BarChart
 import com.tavanhieu.quanlytaphoa.R
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 
-class StatisticsFragment: Fragment(R.layout.fragment_statistics) {
+class StatisticsFragment: Fragment() {
+    private lateinit var timeLineDateTextView: TextView
+    private lateinit var calendarImageButton: ImageButton
+    private lateinit var timeUnitSpinner: Spinner
+    private lateinit var barChart: BarChart
+
+    private val timeLineDate: Calendar by lazy { Calendar.getInstance() }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_statistics, container, false)
+        mappingViewId(view)
+        handleClickOnView()
+        timeLineDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(timeLineDate.time)
+
+        return view
+    }
+
+    private fun mappingViewId(view: View) {
+        timeLineDateTextView = view.findViewById(R.id.timeLineDateTextView)
+        calendarImageButton = view.findViewById(R.id.calenderImageButton)
+        timeUnitSpinner = view.findViewById(R.id.timeUnitSpinner)
+        barChart = view.findViewById(R.id.barChart)
+    }
+
+    private fun handleClickOnView() {
+        calendarImageButton.setOnClickListener { openDatePicker()  }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun openDatePicker() {
+        DatePickerDialog(
+            requireContext(),
+            { _, i, i2, i3 ->
+                timeLineDate.set(Calendar.YEAR, i)
+                timeLineDate.set(Calendar.MONTH, i2)
+                timeLineDate.set(Calendar.DAY_OF_MONTH, i3)
+                timeLineDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(timeLineDate.time)
+            },
+            timeLineDate.get(Calendar.YEAR),
+            timeLineDate.get(Calendar.MONTH),
+            timeLineDate.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
 }

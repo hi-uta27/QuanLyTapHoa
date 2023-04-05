@@ -101,4 +101,5 @@
     <string name="detailOrder">Chi tiết hóa đơn</string>
     <string name="idOrder">Mã hóa đơn</string>
     <string name="readOrderFailure">Đọc đơn hàng thất bại</string>
+    <string name="revenueStatistics">Thống kê doanh thu</string>
 </resources>
