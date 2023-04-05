@@ -5,7 +5,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.home.presentations.HomeFragment
 import com.tavanhieu.quanlytaphoa.activities.setting.SettingsFragment
-import com.tavanhieu.quanlytaphoa.activities.statistics.StatisticsFragment
+import com.tavanhieu.quanlytaphoa.activities.statistics.presentations.StatisticsFragment
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 
 class MainActivity : BaseActivity() {
