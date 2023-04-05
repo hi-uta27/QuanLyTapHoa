@@ -92,7 +92,7 @@ class DetailProductActivity : BaseActivity() {
         }
     }
 
-    private fun isAddedisAddedisAdded() {
+    private fun addToCart() {
         product?.let {
             val cart = Cart(it, buyQuantity)
             progressBar.visibility = View.VISIBLE
