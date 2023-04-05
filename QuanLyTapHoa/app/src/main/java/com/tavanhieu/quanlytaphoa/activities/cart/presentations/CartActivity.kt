@@ -1,5 +1,6 @@
 package com.tavanhieu.quanlytaphoa.activities.cart.presentations
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.View
 import android.widget.Button
@@ -14,9 +15,9 @@ import com.tavanhieu.quanlytaphoa.activities.cart.domain.use_case.CartUseCase
 import com.tavanhieu.quanlytaphoa.activities.depot.presentations.DepotActivity
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
+import com.tavanhieu.quanlytaphoa.commons.formatCurrency
 import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Order
-import com.tavanhieu.quanlytaphoa.commons.models.ProductOrder
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 import java.util.Calendar
 
@@ -26,6 +27,7 @@ class CartActivity : BaseActivity() {
     private lateinit var createOrderButton: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyCartTextView: TextView
+    private lateinit var totalPriceTextView: TextView
 
     private val cartUseCase: CartUseCase by lazy { CartUseCaseImpl() }
     private val adapter: CartAdapter by lazy { CartAdapter() }
@@ -41,6 +43,7 @@ class CartActivity : BaseActivity() {
         createOrderButton = findViewById(R.id.createOrderButton)
         progressBar = findViewById(R.id.progressBar)
         emptyCartTextView = findViewById(R.id.emptyCartTextView)
+        totalPriceTextView = findViewById(R.id.totalPriceTextView)
     }
 
     override fun configLayout() {
@@ -82,7 +85,7 @@ class CartActivity : BaseActivity() {
             val order = Order(
                 calendar.timeInMillis.toString(),
                 FirebaseNetworkLayer.instance.requestCurrentUserUID(),
-                carts.map { ProductOrder(it.product.id, it.quantity) } as ArrayList<ProductOrder>,
+                carts,
                 calendar.time
             )
 
@@ -148,6 +151,7 @@ class CartActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun refreshCartSuccess(carts: ArrayList<Cart>) {
         progressBar.visibility = View.GONE
         createOrderButton.isEnabled = true
@@ -155,10 +159,15 @@ class CartActivity : BaseActivity() {
         recyclerView.adapter = adapter
         this.carts = carts
 
+        var totalPrice = 0F
         if (carts.isEmpty()) {
             emptyCartTextView.visibility = View.VISIBLE
         } else {
+            carts.forEach {
+                totalPrice += it.product.price * it.quantity
+            }
             emptyCartTextView.visibility = View.GONE
         }
+        totalPriceTextView.text = "${getResourceText(R.string.totalPrice)}: ${totalPrice.formatCurrency()}"
     }
 }

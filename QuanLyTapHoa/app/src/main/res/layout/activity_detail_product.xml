@@ -22,10 +22,11 @@
             android:layout_height="48dp"
             android:layout_marginStart="12dp"
             android:background="@drawable/corner_radius_10"
+            android:backgroundTint="@color/blue"
             android:contentDescription="@string/back"
             android:paddingStart="7dp"
             android:src="@drawable/ic_back"
-            app:tint="@color/blue"
+            app:tint="@color/white"
             tools:ignore="RtlSymmetry" />
 
         <ImageButton
@@ -35,9 +36,10 @@
             android:layout_marginEnd="12dp"
             android:layout_toStartOf="@id/deleteImageButton"
             android:background="@drawable/corner_radius_10"
+            android:backgroundTint="@color/blue"
             android:contentDescription="@string/image"
             android:src="@drawable/ic_edit"
-            app:tint="@color/blue"
+            app:tint="@color/white"
             tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
 
         <ImageButton
@@ -47,9 +49,10 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="12dp"
             android:background="@drawable/corner_radius_10"
+            android:backgroundTint="@color/blue"
             android:contentDescription="@string/image"
             android:src="@drawable/ic_delete"
-            app:tint="@color/blue"
+            app:tint="@color/white"
             tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
     </RelativeLayout>
 

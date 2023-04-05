@@ -16,6 +16,13 @@
         android:theme="@style/Theme.QuanLyTapHoa"
         tools:targetApi="31">
         <activity
+            android:name=".activities.detail_order.presentations.DetailOrderActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activities.order.presentations.OrderActivity"
             android:exported="false">
             <meta-data

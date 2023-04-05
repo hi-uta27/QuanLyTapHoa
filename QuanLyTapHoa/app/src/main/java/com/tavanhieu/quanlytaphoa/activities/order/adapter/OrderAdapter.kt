@@ -1,20 +1,19 @@
 package com.tavanhieu.quanlytaphoa.activities.order.adapter
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import com.tavanhieu.quanlytaphoa.R
+import com.tavanhieu.quanlytaphoa.activities.detail_order.presentations.DetailOrderActivity
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
-import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Employee
 import com.tavanhieu.quanlytaphoa.commons.models.Order
-import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 import java.text.SimpleDateFormat
 
@@ -38,8 +37,7 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.CartViewHolder>(){
 
         @SuppressLint("SetTextI18n", "SimpleDateFormat")
         fun binding(order: Order) {
-            entryDateTextView.text = "${context.getResourceText(R.string.creationDate)}: " +
-                    SimpleDateFormat("dd/MM/yyyy").format(order.date)
+            entryDateTextView.text = "${context.getResourceText(R.string.creationDate)}: " + order.convertDateToString()
             FirebaseNetworkLayer.instance.getRequest("Employee", {
                 val employee = it.getValue(Employee::class.java)
                 if (employee != null) {
@@ -47,8 +45,7 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.CartViewHolder>(){
                 }
             }, {})
             idTextView.text = "ID: ${order.id}"
-            remainingTextView.text = "${context.getResourceText(R.string.buyProduct)}: " +
-                    "x${order.productOrders.count()}"
+            remainingTextView.text = "${context.getResourceText(R.string.totalPrice)}: " + order.totalPrice().formatCurrency()
         }
     }
 
@@ -60,6 +57,11 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.CartViewHolder>(){
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val order = arr[position]
         holder.binding(order)
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, DetailOrderActivity::class.java)
+            intent.putExtra("IdOrder", order.id)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

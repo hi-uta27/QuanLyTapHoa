@@ -96,8 +96,8 @@ class DetailProductActivity : BaseActivity() {
         product?.let {
             val cart = Cart(it, buyQuantity)
             progressBar.visibility = View.VISIBLE
-            detailProductUseCase.addProductToCartWith(cart, {
-                addToCartSuccess(it)
+            detailProductUseCase.addProductToCartWith(cart, { isAdded ->
+                addToCartSuccess(isAdded)
             }, {
                 addToCartFailure()
             })
