@@ -6,16 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.BarChart
 import com.tavanhieu.quanlytaphoa.R
-import java.text.SimpleDateFormat
+import com.tavanhieu.quanlytaphoa.commons.formatDate
 import java.util.Calendar
-import java.util.Date
 
 class StatisticsFragment: Fragment() {
     private lateinit var timeLineDateTextView: TextView
@@ -24,6 +23,7 @@ class StatisticsFragment: Fragment() {
     private lateinit var barChart: BarChart
 
     private val timeLineDate: Calendar by lazy { Calendar.getInstance() }
+    private val timeUnits = listOf<String>("Ngày", "Tuần", "Tháng", "Năm")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +33,11 @@ class StatisticsFragment: Fragment() {
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_statistics, container, false)
         mappingViewId(view)
         handleClickOnView()
-        timeLineDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(timeLineDate.time)
+        timeLineDateTextView.text = timeLineDate.time.formatDate()
+        timeUnitSpinner.adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_list_item_1,
+            timeUnits
+        )
 
         return view
     }
@@ -57,7 +61,7 @@ class StatisticsFragment: Fragment() {
                 timeLineDate.set(Calendar.YEAR, i)
                 timeLineDate.set(Calendar.MONTH, i2)
                 timeLineDate.set(Calendar.DAY_OF_MONTH, i3)
-                timeLineDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(timeLineDate.time)
+                timeLineDateTextView.text = timeLineDate.time.formatDate()
             },
             timeLineDate.get(Calendar.YEAR),
             timeLineDate.get(Calendar.MONTH),
