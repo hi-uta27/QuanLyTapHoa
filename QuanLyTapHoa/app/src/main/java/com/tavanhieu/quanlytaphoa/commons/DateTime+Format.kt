@@ -8,3 +8,7 @@ import java.util.Date
 fun Date.formatDate(): String {
     return SimpleDateFormat("dd/MM/yyyy").format(this)
 }
+
+fun Date.compareDate(date: Date): Boolean {
+    return this.formatDate() == date.formatDate()
+}
