@@ -60,10 +60,11 @@ class StatisticUseCaseImpl: StatisticUseCase {
                              complete: (ArrayList<Order>) -> Unit) {
         // filter by weak: Mon - Sun
         // get list order in a day -> totalPrice all order in day
+        val entitiesInMonth = entities.filter { it.date.compareMonth(timeLine) && it.date.compareYear(timeLine) } as ArrayList<Order>
         val results: ArrayList<Order> = ArrayList()
         val daysOfWeek = timeLine.getDaysOfWeek()
         daysOfWeek.forEach {
-            val carts = getCartInDay(entities, it.getDayOfDate().toInt())
+            val carts = getCartInDay(entitiesInMonth, it.getDayOfDate().toInt())
             if (carts.size != 0) {
                 results.add(Order("", "", carts, it))
             }
