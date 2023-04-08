@@ -2,6 +2,7 @@ package com.tavanhieu.quanlytaphoa.activities.statistics.presentations
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +11,11 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.statistics.domain.enum.TimeUnit
 import com.tavanhieu.quanlytaphoa.activities.statistics.domain.infra.StatisticUseCaseImpl
@@ -28,9 +29,10 @@ import java.util.Calendar
 class StatisticsFragment(val context: BaseActivity): Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var timeLineDateTextView: TextView
+    private lateinit var emptyOrderTextView: TextView
     private lateinit var calendarImageButton: ImageButton
     private lateinit var timeUnitSpinner: Spinner
-    private lateinit var barChart: BarChart
+    private lateinit var lineChart: LineChart
 
     private val timeLineDate: Calendar by lazy { Calendar.getInstance() }
     private val statisticUseCase: StatisticUseCase by lazy { StatisticUseCaseImpl() }
@@ -52,9 +54,10 @@ class StatisticsFragment(val context: BaseActivity): Fragment() {
     private fun mappingViewId(view: View) {
         progressBar = view.findViewById(R.id.progressBar)
         timeLineDateTextView = view.findViewById(R.id.timeLineDateTextView)
+        emptyOrderTextView = view.findViewById(R.id.emptyOrderTextView)
         calendarImageButton = view.findViewById(R.id.calenderImageButton)
         timeUnitSpinner = view.findViewById(R.id.timeUnitSpinner)
-        barChart = view.findViewById(R.id.barChart)
+        lineChart = view.findViewById(R.id.lineChart)
     }
 
     private fun configLayout() {
@@ -84,31 +87,50 @@ class StatisticsFragment(val context: BaseActivity): Fragment() {
     }
 
     private fun handleFilterOrderListSuccess(orders: ArrayList<Order>, timeUnit: TimeUnit) {
-        context.showToast(timeUnit.toString())
-        val barEntriesList: ArrayList<BarEntry> = ArrayList()
-        val labels: ArrayList<String> = ArrayList()
-        var i = 0f
-        orders.forEach {
-            barEntriesList.add(BarEntry(i++, it.totalPrice()))
-            when (timeUnit) {
-                TimeUnit.day -> labels.add(it.date.formatTime())
-                TimeUnit.weak -> labels.add(it.date.getNameOfDayInWeek())
-                TimeUnit.month -> labels.add(it.date.getNameOfDayAndMonth())
-                TimeUnit.year -> labels.add(it.date.getNameOfMonth())
-                else -> labels.add(it.date.formatTime())
-            }
-        }
-
         progressBar.visibility = View.GONE
-        val barDataSet = BarDataSet(barEntriesList, context.getResourceText(R.string.revenueStatistics))
-        val barData = BarData(barDataSet)
-        barChart.data = barData
-        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-        barChart.xAxis.setCenterAxisLabels(true)
-        barChart.xAxis.enableGridDashedLine(0f, 5f, 0f)
-        barChart.description.isEnabled = false
-        barChart.animateY(1500)
-        barChart.setFitBars(true)
+        if (orders.isEmpty()) {
+            lineChart.visibility = View.GONE
+            emptyOrderTextView.visibility = View.VISIBLE
+        } else {
+            lineChart.visibility = View.VISIBLE
+            emptyOrderTextView.visibility = View.GONE
+
+            val entries: ArrayList<Entry> = ArrayList()
+            val labels: ArrayList<String> = ArrayList()
+
+            var i = 0f
+            orders.forEach {
+                entries.add(Entry(i++, it.totalPrice(), ""))
+                when (timeUnit) {
+                    TimeUnit.day -> labels.add(it.date.formatTime())
+                    TimeUnit.weak -> labels.add(it.date.getNameOfDayInWeek())
+                    TimeUnit.month -> labels.add(it.date.getNameOfDayAndMonth())
+                    TimeUnit.year -> labels.add(it.date.getNameOfMonth())
+                    else -> labels.add(it.date.formatTime())
+                }
+            }
+
+            val set1 = LineDataSet(entries, context.getResourceText(R.string.revenueStatistics))
+            set1.color = Color.BLUE
+            set1.setCircleColor(Color.BLUE)
+            set1.lineWidth = 1f
+            set1.circleRadius = 3f
+            set1.setDrawCircleHole(false)
+            set1.valueTextSize = 0f
+            set1.setDrawFilled(false)
+            val dataSets = ArrayList<ILineDataSet>()
+            dataSets.add(set1)
+            val data = LineData(dataSets)
+
+            lineChart.data = data
+            lineChart.description.isEnabled = false
+            lineChart.xAxis.enableGridDashedLine(5f, 5f, 0f)
+            lineChart.axisRight.enableGridDashedLine(5f, 5f, 0f)
+            lineChart.axisLeft.enableGridDashedLine(5f, 5f, 0f)
+            lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+            lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+            lineChart.animateY(1500)
+        }
     }
 
     private fun handleFilterOrderListFailure() {
