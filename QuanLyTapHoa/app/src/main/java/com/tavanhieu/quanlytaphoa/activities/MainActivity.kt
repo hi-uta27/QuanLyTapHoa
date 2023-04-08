@@ -5,7 +5,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.home.presentations.HomeFragment
 import com.tavanhieu.quanlytaphoa.activities.setting.SettingsFragment
-import com.tavanhieu.quanlytaphoa.activities.statistics.StatisticsFragment
+import com.tavanhieu.quanlytaphoa.activities.statistics.presentations.StatisticsFragment
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 
 class MainActivity : BaseActivity() {
@@ -25,7 +25,7 @@ class MainActivity : BaseActivity() {
             when(it.itemId) {
                 R.id.menu_home -> setCurrentFragment(HomeFragment())
 //                R.id.menu_qr -> TODO: I'll update it after done orther menu
-                R.id.menu_statistics -> setCurrentFragment(StatisticsFragment())
+                R.id.menu_statistics -> setCurrentFragment(StatisticsFragment(this))
                 R.id.menu_setting -> setCurrentFragment(SettingsFragment())
             }
             true
