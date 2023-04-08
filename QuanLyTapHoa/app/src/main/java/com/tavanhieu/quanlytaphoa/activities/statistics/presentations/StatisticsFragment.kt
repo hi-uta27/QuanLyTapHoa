@@ -88,7 +88,7 @@ class StatisticsFragment(val context: BaseActivity): Fragment() {
 
     private fun handleFilterOrderListSuccess(orders: ArrayList<Order>, timeUnit: TimeUnit) {
         progressBar.visibility = View.GONE
-        if (orders.isEmpty()) {
+        if (orders.size == 0) {
             lineChart.visibility = View.GONE
             emptyOrderTextView.visibility = View.VISIBLE
         } else {

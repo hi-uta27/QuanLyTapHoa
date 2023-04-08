@@ -63,8 +63,10 @@ class StatisticUseCaseImpl: StatisticUseCase {
         val results: ArrayList<Order> = ArrayList()
         val daysOfWeek = timeLine.getDaysOfWeek()
         daysOfWeek.forEach {
-                val carts = getCartInDay(entities, it.getDayOfDate().toInt())
+            val carts = getCartInDay(entities, it.getDayOfDate().toInt())
+            if (carts.size != 0) {
                 results.add(Order("", "", carts, it))
+            }
         }
 
         complete(results)
@@ -82,13 +84,15 @@ class StatisticUseCaseImpl: StatisticUseCase {
         (1..31).forEach { day ->
             val carts = getCartInDay(entitiesInMonth, day)
 
-            val calendar = Calendar.getInstance()
-            calendar.set(
-                timeLine.getYearOfDate().toInt(),
-                timeLine.getMonthOfDate().toInt() - 1,
-                day
-            )
-            results.add(Order("", "", carts, calendar.time))
+            if (carts.size != 0) {
+                val calendar = Calendar.getInstance()
+                calendar.set(
+                    timeLine.getYearOfDate().toInt(),
+                    timeLine.getMonthOfDate().toInt() - 1,
+                    day
+                )
+                results.add(Order("", "", carts, calendar.time))
+            }
         }
 
         complete(results)
