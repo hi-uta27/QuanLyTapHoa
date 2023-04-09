@@ -12,12 +12,14 @@ import com.tavanhieu.quanlytaphoa.activities.add_product.presentations.AddProduc
 import com.tavanhieu.quanlytaphoa.activities.depot.adapter.DepotAdapter
 import com.tavanhieu.quanlytaphoa.activities.depot.domain.infra.ReadDepotUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.depot.domain.use_cases.ReadDepotUseCase
+import com.tavanhieu.quanlytaphoa.activities.search.presentations.SearchActivity
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 
 class DepotActivity : BaseActivity() {
     private lateinit var imageBack: ImageView
+    private lateinit var searchImageView: ImageView
     private lateinit var emptyTextView: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -32,6 +34,7 @@ class DepotActivity : BaseActivity() {
 
     override fun mappingViewId() {
         imageBack = findViewById(R.id.imageBack)
+        searchImageView = findViewById(R.id.searchImageView)
         emptyTextView = findViewById(R.id.emptyTextView)
         recyclerView = findViewById(R.id.recycleView)
         progressBar = findViewById(R.id.progressBar)
@@ -46,6 +49,7 @@ class DepotActivity : BaseActivity() {
             startActivity(intent)
         }
         imageBack.setOnClickListener { finish() }
+        searchImageView.setOnClickListener { startActivity(Intent(this, SearchActivity::class.java)) }
     }
 
     private fun refreshDepot() {
