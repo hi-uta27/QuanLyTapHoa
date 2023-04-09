@@ -104,4 +104,5 @@
     <string name="revenueStatistics">Thống kê doanh thu</string>
     <string name="emptyOrder">Không có đơn hàng</string>
     <string name="search">Tìm kiếm...</string>
+    <string name="searchFailure">Tìm kiếm xảy ra lỗi</string>
 </resources>
