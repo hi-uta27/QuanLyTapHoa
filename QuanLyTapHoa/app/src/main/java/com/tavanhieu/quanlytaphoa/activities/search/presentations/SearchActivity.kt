@@ -41,8 +41,10 @@ class SearchActivity : BaseActivity() {
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                p0?.let {
-                    searchWithName(it.trim())
+                if (p0 != null && p0 != "") {
+                    searchWithName(p0.trim())
+                } else {
+                    productAdapter.setData(this@SearchActivity, ArrayList())
                 }
                 return false
             }
