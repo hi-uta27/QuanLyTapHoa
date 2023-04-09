@@ -6,7 +6,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 interface SearchUseCase {
-    fun searchProductById(id: String, complete: (Product) -> Unit, failure: () -> Unit)
+    fun searchProductById(id: String, complete: (Product?) -> Unit, failure: () -> Unit)
     fun searchProductByName(name: String, complete: (ArrayList<Product>) -> Unit, failure: () -> Unit)
     fun searchOrderByDate(date: Date, complete: (ArrayList<Order>) -> Unit, failure: () -> Unit)
 }

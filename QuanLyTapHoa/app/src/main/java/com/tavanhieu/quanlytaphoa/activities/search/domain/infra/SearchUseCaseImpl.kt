@@ -9,12 +9,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class SearchUseCaseImpl: SearchUseCase {
-    override fun searchProductById(id: String, complete: (Product) -> Unit, failure: () -> Unit) {
+    override fun searchProductById(id: String, complete: (Product?) -> Unit, failure: () -> Unit) {
         FirebaseNetworkLayer.instance.getRequest("Products/${id}", {
              val entity = it.getValue(Product::class.java)
-            if (entity != null) {
-                complete(entity)
-            }
+            complete(entity)
         }, failure)
     }
 
