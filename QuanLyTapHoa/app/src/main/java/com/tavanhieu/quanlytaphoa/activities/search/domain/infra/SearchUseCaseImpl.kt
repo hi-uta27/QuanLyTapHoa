@@ -23,7 +23,7 @@ class SearchUseCaseImpl: SearchUseCase {
             val entities = ArrayList<Product>()
             it.children.forEach {  item ->
                 val entity = item.getValue(Product::class.java)
-                if (entity != null && entity.name.contains(name)) {
+                if (entity != null && entity.name.uppercase().contains(name.uppercase())) {
                     entities.add(entity)
                 }
             }
