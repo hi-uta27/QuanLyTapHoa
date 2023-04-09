@@ -8,21 +8,30 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.cart.adapter.CartAdapter
 import com.tavanhieu.quanlytaphoa.activities.cart.domain.infra.CartUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.cart.domain.use_case.CartUseCase
 import com.tavanhieu.quanlytaphoa.activities.depot.presentations.DepotActivity
+import com.tavanhieu.quanlytaphoa.activities.detail_product.domain.infra.DetailProductUseCaseImpl
+import com.tavanhieu.quanlytaphoa.activities.detail_product.domain.use_cases.DetailProductUseCase
+import com.tavanhieu.quanlytaphoa.activities.search.domain.infra.SearchUseCaseImpl
+import com.tavanhieu.quanlytaphoa.activities.search.domain.use_cases.SearchUseCase
+import com.tavanhieu.quanlytaphoa.commons.CaptureAct
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
 import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Order
+import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 import java.util.Calendar
 
 class CartActivity : BaseActivity() {
     private lateinit var imageBack: ImageView
+    private lateinit var qrCodeImageView: ImageView
     private lateinit var recyclerView: RecyclerView
     private lateinit var createOrderButton: Button
     private lateinit var progressBar: ProgressBar
@@ -30,6 +39,8 @@ class CartActivity : BaseActivity() {
     private lateinit var totalPriceTextView: TextView
 
     private val cartUseCase: CartUseCase by lazy { CartUseCaseImpl() }
+    private val searchUseCase: SearchUseCase by lazy { SearchUseCaseImpl() }
+    private val detailProductUseCase: DetailProductUseCase by lazy { DetailProductUseCaseImpl() }
     private val adapter: CartAdapter by lazy { CartAdapter() }
     private var carts: ArrayList<Cart> = ArrayList()
 
@@ -39,6 +50,7 @@ class CartActivity : BaseActivity() {
 
     override fun mappingViewId() {
         imageBack = findViewById(R.id.imageBack)
+        qrCodeImageView = findViewById(R.id.qrCodeImageView)
         recyclerView = findViewById(R.id.recycleView)
         createOrderButton = findViewById(R.id.createOrderButton)
         progressBar = findViewById(R.id.progressBar)
@@ -50,11 +62,71 @@ class CartActivity : BaseActivity() {
         refreshCart()
 
         imageBack.setOnClickListener { finish() }
+        qrCodeImageView.setOnClickListener { openScanBarCode() }
         adapter.deleteCartWith = { deleteCartWith(it) }
         adapter.minusQuantity = { minusQuantity(it) }
         adapter.plusQuantity = { plusQuantity(it) }
         createOrderButton.setOnClickListener { createOrder() }
     }
+
+    // --------------------------------------------------------------------------------------
+
+    private var activityResult = registerForActivityResult(ScanContract()) {
+        if (it.contents != null) {
+            searchProductById(it.contents)
+        }
+    }
+
+    private fun openScanBarCode() {
+        val scanOptions = ScanOptions()
+        scanOptions.setPrompt(getResourceText(R.string.idProduct))
+        scanOptions.setBeepEnabled(true) //mở chuông khi quét được barCode
+        scanOptions.setCameraId(0) //camera sau
+        //Yêu cầu quyền đọc camera
+        scanOptions.captureActivity = CaptureAct::class.java
+        //Lắng nghe dữ liệu trả về
+        activityResult.launch(scanOptions)
+    }
+
+    private fun searchProductById(id: String) {
+        progressBar.visibility = View.VISIBLE
+        searchUseCase.searchProductById(id, {
+            searchProductByIdSuccess(it)
+        }, {
+            searchProductByIdFailure()
+        })
+    }
+
+    private fun searchProductByIdSuccess(product: Product?) {
+        progressBar.visibility = View.GONE
+        if (product == null) {
+            showToast(getResourceText(R.string.noProduct))
+        } else {
+            showAlertDialog(
+                getResourceText(R.string.notification),
+                getResourceText(R.string.addToCart),
+                getResourceText(R.string.add)
+            ) {
+                val cart = Cart(product, 1)
+                detailProductUseCase.addProductToCartWith(cart, {
+                    showToast(getResourceText(R.string.addToCartSuccess))
+                }, {
+                    showToast(getResourceText(R.string.addToCartFailure))
+                })
+            }
+        }
+    }
+
+    private fun searchProductByIdFailure() {
+        progressBar.visibility = View.GONE
+        showAlertDialog(
+            getResourceText(R.string.error),
+            getResourceText(R.string.searchFailure),
+            getResourceText(R.string.cancel)
+        ) {}
+    }
+
+    // --------------------------------------------------------------------------------------
 
     private fun plusQuantity(cart: Cart) {
         if (cart.quantity < cart.product.quantity) {
@@ -69,6 +141,8 @@ class CartActivity : BaseActivity() {
             cartUseCase.updateQuantity(cart.quantity - 1, cart.product.id, {}, {})
         }
     }
+
+    // --------------------------------------------------------------------------------------
 
     private fun createOrder() {
         if (carts.isEmpty()) {
@@ -114,6 +188,8 @@ class CartActivity : BaseActivity() {
         emptyCartTextView.visibility = View.VISIBLE
     }
 
+    // --------------------------------------------------------------------------------------
+
     private fun deleteCartWith(idProduct: String) {
         showAlertDialog(
             getResourceText(R.string.notification),
@@ -130,6 +206,8 @@ class CartActivity : BaseActivity() {
             })
         }
     }
+
+    // --------------------------------------------------------------------------------------
 
     private fun refreshCart() {
         progressBar.visibility = View.VISIBLE
