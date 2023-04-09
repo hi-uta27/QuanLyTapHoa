@@ -15,7 +15,6 @@ import com.tavanhieu.quanlytaphoa.commons.models.Product
 
 class SearchActivity : BaseActivity() {
     private lateinit var imageBack: ImageView
-    private lateinit var scanBarCodeImageView: ImageView
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -32,7 +31,6 @@ class SearchActivity : BaseActivity() {
         searchView = findViewById(R.id.searchView)
         progressBar = findViewById(R.id.progressBar)
         recyclerView = findViewById(R.id.recyclerView)
-        scanBarCodeImageView = findViewById(R.id.scanBarCodeImageView)
     }
 
     override fun configLayout() {
