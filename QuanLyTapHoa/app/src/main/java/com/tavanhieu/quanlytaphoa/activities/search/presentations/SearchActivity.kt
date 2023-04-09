@@ -3,8 +3,7 @@ package com.tavanhieu.quanlytaphoa.activities.search.presentations
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.SearchView
-import android.widget.SearchView.OnQueryTextListener
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.depot.adapter.DepotAdapter
@@ -38,19 +37,18 @@ class SearchActivity : BaseActivity() {
 
     override fun configLayout() {
         imageBack.setOnClickListener { finish() }
-        searchView.setOnQueryTextListener(object: OnQueryTextListener {
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                return true
+                return false
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                if (p0 != null) {
-                    searchWithName(p0)
+                p0?.let {
+                    searchWithName(it.trim())
                 }
-                return true
+                return false
             }
         })
-
     }
 
     private fun searchWithName(name: String) {
