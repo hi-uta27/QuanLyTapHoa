@@ -1,24 +1,20 @@
 package com.tavanhieu.quanlytaphoa.activities.notifications.presentations
 
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.depot.presentations.DepotActivity
-import com.tavanhieu.quanlytaphoa.activities.notifications.domain.infra.NotificationUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.notifications.domain.use_cases.NotificationsUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 
-abstract class NotificationActivity: BaseActivity() {
-    private val notificationsUseCase: NotificationsUseCase by lazy { NotificationUseCaseImpl() }
+interface NotificationActivity {
+    val notificationsUseCase: NotificationsUseCase
+    val context: BaseActivity
 //    private lateinit var notificationManager: NotificationManager
 //    private lateinit var notificationChannel: NotificationChannel
 //    private lateinit var builder: NotificationCompat.Builder
@@ -27,8 +23,8 @@ abstract class NotificationActivity: BaseActivity() {
 
     @SuppressLint("UnspecifiedImmutableFlag")
     private fun displayNotification(message: String) {
-        val intent = Intent(this, DepotActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val intent = Intent(context, DepotActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         // checking if android version is greater than oreo(API 26) or not
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -39,14 +35,14 @@ abstract class NotificationActivity: BaseActivity() {
 //        }
 
         val chanelId = "NOTIFICATIONS_QUAN_LY_BAN_HANG"
-        val builder = NotificationCompat.Builder(this, chanelId)
+        val builder = NotificationCompat.Builder(context, chanelId)
             .setSmallIcon(R.drawable.ic_logo)
-            .setContentTitle(getResourceText(R.string.title_app))
+            .setContentTitle(context.getResourceText(R.string.title_app))
             .setContentText(message)
-            .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_logo))
+            .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo))
             .setContentIntent(pendingIntent)
 
-        NotificationManagerCompat.from(this).notify(1234, builder.build())
+        NotificationManagerCompat.from(context).notify(1234, builder.build())
     }
 
     // ---------------------------------------------------------------------
@@ -59,7 +55,7 @@ abstract class NotificationActivity: BaseActivity() {
 
     private fun checkExpiredDateOfProductSuccess(products: ArrayList<Product>) {
         if (products.size != 0) {
-            displayNotification(getResourceText(R.string.productExpiredDate))
+            displayNotification(context.getResourceText(R.string.productExpiredDate))
         }
     }
 }
