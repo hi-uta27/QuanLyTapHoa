@@ -2,8 +2,13 @@ package com.tavanhieu.quanlytaphoa.commons.models
 
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.tavanhieu.quanlytaphoa.commons.compareDate
+import com.tavanhieu.quanlytaphoa.commons.compareMonth
+import com.tavanhieu.quanlytaphoa.commons.compareYear
+import com.tavanhieu.quanlytaphoa.commons.getDayOfDate
 import java.util.Date
 import java.io.Serializable
+import java.util.Calendar
 
 class Product : Serializable {
     @PrimaryKey
@@ -67,5 +72,13 @@ class Product : Serializable {
         this.quantity = quantity
         this.originalPrice = originalPrice
         this.price = price
+    }
+
+    fun checkExpiredDate(): Boolean {
+        val currentDate = Calendar.getInstance().time
+        if (expiredDate.compareMonth(currentDate) && expiredDate.compareYear(currentDate)) {
+            return expiredDate.getDayOfDate().toInt() - currentDate.getDayOfDate().toInt() <= 10
+        }
+        return false
     }
 }
