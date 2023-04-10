@@ -8,6 +8,7 @@ import com.tavanhieu.quanlytaphoa.activities.detail_product.domain.use_cases.Det
 import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
+import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayerAwait
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -47,21 +48,15 @@ class DetailProductUseCaseImpl: DetailProductUseCase {
     }
 
     override fun addProductToCartWith(cart: Cart, complete: (Boolean) -> Unit, failure: () -> Unit) {
-        // TODO: Error to update -> Use kotlin coroutine to update this code
         runBlocking {
-            val oldCart: Cart? = readCartFromDatabase(cart)
+            val oldCart: Cart? = FirebaseNetworkLayerAwait.instance
+                .getRequest("Carts/${cart.product.id}")?.getValue(Cart::class.java)
             if (oldCart == null) {
                 handelAddProductToCart(cart, { complete(true) }, failure)
             } else {
                 handelUpdateQuantityToCart(cart, oldCart, { complete(false) }, failure)
             }
         }
-    }
-
-    private suspend fun readCartFromDatabase(cart: Cart): Cart? = withContext(Dispatchers.IO) {
-        val database: DatabaseReference = Firebase.database.reference
-        val data = database.child("Carts/${cart.product.id}").get().await()
-        return@withContext data.getValue(Cart::class.java)
     }
     
     private fun handelAddProductToCart(cart: Cart, complete: () -> Unit, failure: () -> Unit) {

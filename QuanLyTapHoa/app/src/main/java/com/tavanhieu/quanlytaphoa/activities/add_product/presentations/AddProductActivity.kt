@@ -15,15 +15,22 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
+import com.squareup.picasso.Picasso
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.add_product.domain.infra.AddProductUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.add_product.domain.use_case.AddProductUseCase
+import com.tavanhieu.quanlytaphoa.activities.search.domain.infra.SearchUseCaseImpl
+import com.tavanhieu.quanlytaphoa.activities.search.domain.use_cases.SearchUseCase
 import com.tavanhieu.quanlytaphoa.commons.CaptureAct
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
+import com.tavanhieu.quanlytaphoa.commons.formatDate
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import java.text.SimpleDateFormat
 import java.util.Calendar
+
+// TODO: Choose Image: Camera, Gallery
+// TODO: Spinner can add more type for product
 
 class AddProductActivity : BaseActivity() {
     private lateinit var productImageView: ImageView
@@ -43,6 +50,7 @@ class AddProductActivity : BaseActivity() {
 
     private val expiredCalendar: Calendar by lazy { Calendar.getInstance() }
     private val addProductUseCase: AddProductUseCase by lazy { AddProductUseCaseImpl() }
+    private val searchUseCase: SearchUseCase by lazy { SearchUseCaseImpl() }
     private var uriImageGallery: Uri? = null
     private var arrSpinner = ArrayList<String>()
 
@@ -83,6 +91,8 @@ class AddProductActivity : BaseActivity() {
         typeSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, arrSpinner)
     }
 
+    // -----------------------------------------------------------------------------------
+
     private var activityResultCamera = registerForActivityResult(ActivityResultContracts.GetContent()) {
             if (it != null) {
                 uriImageGallery = it
@@ -92,7 +102,7 @@ class AddProductActivity : BaseActivity() {
 
     private var activityResult = registerForActivityResult(ScanContract()) {
         if (it.contents != null) {
-            idTextView.text = it.contents
+            searchProductById(it.contents)
         }
     }
 
@@ -106,6 +116,45 @@ class AddProductActivity : BaseActivity() {
         //Lắng nghe dữ liệu trả về
         activityResult.launch(scanOptions)
     }
+
+    private fun searchProductById(id: String) {
+        progressBar.visibility = View.VISIBLE
+        searchUseCase.searchProductById(id, {
+            searchProductByIdSuccess(id, it)
+        }, {
+            searchProductByIdFailure()
+        })
+    }
+
+    private fun searchProductByIdSuccess(id: String, product: Product?) {
+        progressBar.visibility = View.GONE
+        if (product == null) {
+            deleteInput()
+            idTextView.text = id
+        } else {
+            idTextView.text = product.id
+            Picasso.get().load(product.image).placeholder(R.drawable.ic_photo).into(productImageView)
+            expiredDateTextView.text = product.expiredDate.formatDate()
+            nameEditText.setText(product.name)
+            quantityEditText.setText("${product.quantity}")
+            originalPriceEditText.setText(product.originalPrice.toLong().toString())
+            priceEditText.setText(product.price.toLong().toString())
+            descriptionEditText.setText(product.description)
+            expiredCalendar.time = product.expiredDate
+        }
+    }
+
+    private fun searchProductByIdFailure() {
+        progressBar.visibility = View.GONE
+        showAlertDialog(
+            getResourceText(R.string.error),
+            getResourceText(R.string.searchFailure),
+            getResourceText(R.string.cancel)
+        ) {}
+    }
+
+
+    // ------------------------------------------------------------------------------------
 
     @SuppressLint("SimpleDateFormat")
     private fun openDatePicker() {
@@ -122,6 +171,8 @@ class AddProductActivity : BaseActivity() {
             Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         ).show()
     }
+
+    // ------------------------------------------------------------------------------------
 
     private fun addProduct() {
         if (uriImageGallery == null) {

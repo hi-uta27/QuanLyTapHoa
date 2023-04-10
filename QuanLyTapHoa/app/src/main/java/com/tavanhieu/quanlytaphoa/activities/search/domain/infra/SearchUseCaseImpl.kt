@@ -5,15 +5,22 @@ import com.tavanhieu.quanlytaphoa.commons.compareDate
 import com.tavanhieu.quanlytaphoa.commons.models.Order
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
+import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayerAwait
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
 
 class SearchUseCaseImpl: SearchUseCase {
     override fun searchProductById(id: String, complete: (Product?) -> Unit, failure: () -> Unit) {
-        FirebaseNetworkLayer.instance.getRequest("Products/${id}", {
-             val entity = it.getValue(Product::class.java)
-            complete(entity)
-        }, failure)
+        runBlocking {
+            val entity: Product? = FirebaseNetworkLayerAwait.instance
+                .getRequest("Products/${id}")?.getValue(Product::class.java)
+            if (entity != null) {
+                complete(entity)
+            } else {
+                failure()
+            }
+        }
     }
 
     override fun searchProductByName(name: String, complete: (ArrayList<Product>) -> Unit, failure: () -> Unit) {
