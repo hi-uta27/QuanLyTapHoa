@@ -5,7 +5,7 @@ import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class NotificationUseCaseImpl: NotificationsUseCase {
-    override fun checkExpiredDateOfProduct(complete: (ArrayList<Product>) -> Unit, failure: () -> Unit) {
+    override fun checkExpiredDateOfProduct(complete: (ArrayList<Product>) -> Unit) {
         FirebaseNetworkLayer.instance.getRequest("Products", { dataSnapShot ->
             val entities: ArrayList<Product> = ArrayList()
             dataSnapShot.children.forEach {
@@ -15,10 +15,10 @@ class NotificationUseCaseImpl: NotificationsUseCase {
                 }
             }
             complete(entities)
-        }, failure)
+        }, {})
     }
 
-    override fun checkQuantityOfProduct(complete: (ArrayList<Product>) -> Unit, failure: () -> Unit) {
+    override fun checkQuantityOfProduct(complete: (ArrayList<Product>) -> Unit) {
         FirebaseNetworkLayer.instance.getRequest("Products", { dataSnapShot ->
             val entities: ArrayList<Product> = ArrayList()
             dataSnapShot.children.forEach {
@@ -28,14 +28,14 @@ class NotificationUseCaseImpl: NotificationsUseCase {
                 }
             }
             complete(entities)
-        }, failure)
+        }, {})
     }
 
-    override fun checkProductsBestSales(complete: (ArrayList<Product>) -> Unit, failure: () -> Unit) {
+    override fun checkProductsBestSales(complete: (ArrayList<Product>) -> Unit) {
         TODO("Not yet implemented")
     }
 
-    override fun checkProductsLeastSales(complete: (ArrayList<Product>) -> Unit, failure: () -> Unit) {
+    override fun checkProductsLeastSales(complete: (ArrayList<Product>) -> Unit) {
         TODO("Not yet implemented")
     }
 }
