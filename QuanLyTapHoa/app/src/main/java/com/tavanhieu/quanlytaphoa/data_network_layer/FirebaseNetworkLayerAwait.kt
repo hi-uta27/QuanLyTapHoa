@@ -12,7 +12,7 @@ class FirebaseNetworkLayerAwait: FirebaseNetworkLayer() {
         val instance = FirebaseNetworkLayerAwait()
     }
 
-    suspend fun postRequest(path: String): DataSnapshot? = withContext(Dispatchers.IO) {
+    suspend fun getRequest(path: String): DataSnapshot? = withContext(Dispatchers.IO) {
         val child = "${requestCurrentUserUID()}/$path"
         return@withContext Firebase.database.reference.child(child).get().await()
     }

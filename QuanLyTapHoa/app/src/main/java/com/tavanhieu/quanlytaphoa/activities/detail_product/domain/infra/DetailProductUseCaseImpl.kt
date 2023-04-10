@@ -50,7 +50,7 @@ class DetailProductUseCaseImpl: DetailProductUseCase {
     override fun addProductToCartWith(cart: Cart, complete: (Boolean) -> Unit, failure: () -> Unit) {
         runBlocking {
             val oldCart: Cart? = FirebaseNetworkLayerAwait.instance
-                .postRequest("Carts/${cart.product.id}")?.getValue(Cart::class.java)
+                .getRequest("Carts/${cart.product.id}")?.getValue(Cart::class.java)
             if (oldCart == null) {
                 handelAddProductToCart(cart, { complete(true) }, failure)
             } else {
