@@ -145,6 +145,7 @@ class CartActivity : BaseActivity() {
     // --------------------------------------------------------------------------------------
 
     private fun createOrder() {
+        createOrderButton.isEnabled = false
         if (carts.isEmpty()) {
             showAlertDialog(
                 getResourceText(R.string.notification),
@@ -173,6 +174,7 @@ class CartActivity : BaseActivity() {
 
     private fun createOrderFailure() {
         progressBar.visibility = View.GONE
+        createOrderButton.isEnabled = true
         showAlertDialog(
             getResourceText(R.string.error),
             getResourceText(R.string.createOrderFailure),
@@ -184,8 +186,9 @@ class CartActivity : BaseActivity() {
 
     private fun createOrderSuccess() {
         progressBar.visibility = View.GONE
-        showToast(getResourceText(R.string.createOrderSuccess))
+        createOrderButton.isEnabled = true
         emptyCartTextView.visibility = View.VISIBLE
+        showToast(getResourceText(R.string.createOrderSuccess))
     }
 
     // --------------------------------------------------------------------------------------
