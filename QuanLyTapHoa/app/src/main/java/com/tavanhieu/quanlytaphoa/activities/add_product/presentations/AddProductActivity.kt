@@ -29,6 +29,9 @@ import com.tavanhieu.quanlytaphoa.commons.models.Product
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
+// TODO: Choose Image: Camera, Gallery
+// TODO: Spinner can add more type for product
+
 class AddProductActivity : BaseActivity() {
     private lateinit var productImageView: ImageView
     private lateinit var progressBar: ProgressBar
