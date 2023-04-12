@@ -5,12 +5,25 @@ import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class NotificationUseCaseImpl: NotificationsUseCase {
-    override fun checkExpiredDateOfProduct(complete: (ArrayList<Product>) -> Unit) {
+    override fun checkComingExpiredDateOfProduct(complete: (ArrayList<Product>) -> Unit) {
         FirebaseNetworkLayer.instance.getRequest("Products", { dataSnapShot ->
             val entities: ArrayList<Product> = ArrayList()
             dataSnapShot.children.forEach {
                 val entity = it.getValue(Product::class.java)
-                if (entity != null && entity.checkExpiredDate()) {
+                if (entity != null && entity.checkComingExpiredDate()) {
+                    entities.add(entity)
+                }
+            }
+            complete(entities)
+        }, {})
+    }
+
+    override fun checkOutExpiredDateOfProduct(complete: (ArrayList<Product>) -> Unit) {
+        FirebaseNetworkLayer.instance.getRequest("Products", { dataSnapShot ->
+            val entities: ArrayList<Product> = ArrayList()
+            dataSnapShot.children.forEach {
+                val entity = it.getValue(Product::class.java)
+                if (entity != null && entity.checkOutExpiredDate()) {
                     entities.add(entity)
                 }
             }
