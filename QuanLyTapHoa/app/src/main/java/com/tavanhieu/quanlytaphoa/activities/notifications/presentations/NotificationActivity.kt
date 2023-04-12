@@ -56,17 +56,31 @@ interface NotificationActivity {
 
     // ---------------------------------------------------------------------
 
-    fun checkExpiredDateOfProduct() {
-        notificationsUseCase.checkExpiredDateOfProduct {
-            checkExpiredDateOfProductSuccess(it)
+    fun checkComingExpiredDateOfProduct() {
+        notificationsUseCase.checkComingExpiredDateOfProduct {
+            checkComingExpiredDateOfProductSuccess(it)
         }
     }
 
-    private fun checkExpiredDateOfProductSuccess(products: ArrayList<Product>) {
+    private fun checkComingExpiredDateOfProductSuccess(products: ArrayList<Product>) {
         products.forEach {
             displayNotification(context.getResourceText(R.string.productExpiredDate), it)
+            // add notifies to database
         }
     }
 
     // ---------------------------------------------------------------------
+
+    fun checkOutExpiredDateOfProduct() {
+        notificationsUseCase.checkOutExpiredDateOfProduct {
+            checkOutExpiredDateOfProductSuccess(it)
+        }
+    }
+
+    private fun checkOutExpiredDateOfProductSuccess(products: ArrayList<Product>) {
+        products.forEach {
+            displayNotification(context.getResourceText(R.string.productOutExpiredDate), it)
+            // add notifies to database
+        }
+    }
 }
