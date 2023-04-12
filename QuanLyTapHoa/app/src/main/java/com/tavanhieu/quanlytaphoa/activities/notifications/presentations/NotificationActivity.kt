@@ -85,6 +85,7 @@ interface NotificationActivity {
             val notification = Notification(calendar.timeInMillis.toString(), it.name, message, it.id, calendar.time)
             displayNotification(notification)
             // add notifies to database
+            notificationsUseCase.addNotification(notification)
         }
     }
 }
