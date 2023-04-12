@@ -24,7 +24,6 @@
             android:background="@drawable/corner_radius_10"
             android:backgroundTint="@color/blue"
             android:contentDescription="@string/back"
-            android:paddingStart="7dp"
             android:src="@drawable/ic_back"
             app:tint="@color/white"
             tools:ignore="RtlSymmetry" />
