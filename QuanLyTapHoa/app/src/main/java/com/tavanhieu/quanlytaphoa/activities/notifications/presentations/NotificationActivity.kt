@@ -1,7 +1,6 @@
 package com.tavanhieu.quanlytaphoa.activities.notifications.presentations
 
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -13,17 +12,15 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.tavanhieu.quanlytaphoa.R
-import com.tavanhieu.quanlytaphoa.activities.depot.presentations.DepotActivity
 import com.tavanhieu.quanlytaphoa.activities.detail_product.presentations.DetailProductActivity
 import com.tavanhieu.quanlytaphoa.activities.notifications.domain.use_cases.NotificationsUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.models.Product
+import java.util.Calendar
 
 interface NotificationActivity {
     val notificationsUseCase: NotificationsUseCase
     val context: BaseActivity
-
-    // ---------------------------------------------------------------------
 
     @SuppressLint("UnspecifiedImmutableFlag")
     private fun displayNotification(message: String, product: Product) {
@@ -51,35 +48,39 @@ interface NotificationActivity {
             .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo))
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
-        NotificationManagerCompat.from(context).notify(1234, builder.build())
+        NotificationManagerCompat.from(context).notify(product.id.toLong().toInt(), builder.build())
     }
 
-    // ---------------------------------------------------------------------
+    // Coming Expired date ---------------------------------------------------------------------
 
     fun checkComingExpiredDateOfProduct() {
         notificationsUseCase.checkComingExpiredDateOfProduct {
-            checkComingExpiredDateOfProductSuccess(it)
+            checkNotificationUseCaseSuccess(context.getResourceText(R.string.productExpiredDate), it)
         }
     }
 
-    private fun checkComingExpiredDateOfProductSuccess(products: ArrayList<Product>) {
-        products.forEach {
-            displayNotification(context.getResourceText(R.string.productExpiredDate), it)
-            // add notifies to database
+    // Out Expired date ---------------------------------------------------------------------
+
+    fun checkOutExpiredDateOfProduct() {
+        notificationsUseCase.checkOutExpiredDateOfProduct {
+            checkNotificationUseCaseSuccess(context.getResourceText(R.string.productOutExpiredDate), it)
+        }
+    }
+
+    // Quantity of product ---------------------------------------------------------------------
+    fun checkQuantityOfProduct() {
+        notificationsUseCase.checkQuantityOfProduct {
+            checkNotificationUseCaseSuccess(context.getResourceText(R.string.expiredQuantity), it)
         }
     }
 
     // ---------------------------------------------------------------------
 
-    fun checkOutExpiredDateOfProduct() {
-        notificationsUseCase.checkOutExpiredDateOfProduct {
-            checkOutExpiredDateOfProductSuccess(it)
-        }
-    }
+    // ---------------------------------------------------------------------
 
-    private fun checkOutExpiredDateOfProductSuccess(products: ArrayList<Product>) {
+    private fun checkNotificationUseCaseSuccess(message: String, products: ArrayList<Product>) {
         products.forEach {
-            displayNotification(context.getResourceText(R.string.productOutExpiredDate), it)
+            displayNotification(message, it)
             // add notifies to database
         }
     }

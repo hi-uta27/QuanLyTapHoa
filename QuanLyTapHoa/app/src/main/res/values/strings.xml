@@ -108,4 +108,5 @@
     <string name="addToCart">Bạn có muốn thêm sản phẩm vào giỏ hàng</string>
     <string name="productExpiredDate">Sản phẩm sắp hết hạn sử dụng</string>
     <string name="productOutExpiredDate">Sản phẩm đã quá hạn sử dụng</string>
+    <string name="expiredQuantity">Số lượng trong kho sắp hết</string>
 </resources>

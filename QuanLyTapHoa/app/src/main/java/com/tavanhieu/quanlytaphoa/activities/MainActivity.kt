@@ -40,6 +40,7 @@ class MainActivity : BaseActivity(), NotificationActivity {
         // TODO: I'll update it run in background
         checkComingExpiredDateOfProduct()
         checkOutExpiredDateOfProduct()
+        checkQuantityOfProduct()
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
