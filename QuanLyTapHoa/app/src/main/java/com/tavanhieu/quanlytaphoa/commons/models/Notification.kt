@@ -11,4 +11,13 @@ class Notification {
 
     @TypeConverters(DateConverter::class)
     var date: Date = Date()
+
+    constructor()
+    constructor(id: String, title: String, message: String, idProduct: String, date: Date) {
+        this.id = id
+        this.title = title
+        this.message = message
+        this.idProduct = idProduct
+        this.date = date
+    }
 }

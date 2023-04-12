@@ -15,6 +15,7 @@ import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.detail_product.presentations.DetailProductActivity
 import com.tavanhieu.quanlytaphoa.activities.notifications.domain.use_cases.NotificationsUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
+import com.tavanhieu.quanlytaphoa.commons.models.Notification
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import java.util.Calendar
 
@@ -23,14 +24,14 @@ interface NotificationActivity {
     val context: BaseActivity
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private fun displayNotification(message: String, product: Product) {
+    private fun displayNotification(notification: Notification) {
         val notificationChannel: NotificationChannel
         val builder: NotificationCompat.Builder
         val notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channelId = "NOTIFICATIONS_QUAN_LY_BAN_HANG"
 
         val intent = Intent(context, DetailProductActivity::class.java)
-        intent.putExtra("IdProduct", product.id)
+        intent.putExtra("IdProduct", notification.idProduct)
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // checking if android version is greater than oreo(API 26) or not
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -43,12 +44,12 @@ interface NotificationActivity {
 
         builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_logo)
-            .setContentTitle(product.name)
-            .setContentText(message)
+            .setContentTitle(notification.title)
+            .setContentText(notification.message)
             .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo))
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
-        NotificationManagerCompat.from(context).notify(product.id.toLong().toInt(), builder.build())
+        NotificationManagerCompat.from(context).notify(notification.id.toLong().toInt(), builder.build())
     }
 
     // Coming Expired date ---------------------------------------------------------------------
@@ -79,8 +80,10 @@ interface NotificationActivity {
     // ---------------------------------------------------------------------
 
     private fun checkNotificationUseCaseSuccess(message: String, products: ArrayList<Product>) {
+        val calendar = Calendar.getInstance()
         products.forEach {
-            displayNotification(message, it)
+            val notification = Notification(calendar.timeInMillis.toString(), it.name, message, it.id, calendar.time)
+            displayNotification(notification)
             // add notifies to database
         }
     }
