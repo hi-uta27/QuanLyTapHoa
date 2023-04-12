@@ -51,3 +51,13 @@ fun BaseActivity.showAlertDialog(
         .setNegativeButton(getResourceText(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
         .show()
 }
+
+fun BaseActivity.showAlertDialog(
+    title: String,
+    message: String,
+    failure: () -> Unit
+) {
+    AlertDialog.Builder(this, R.style.AlertDialog).setTitle(title).setMessage(message)
+        .setNegativeButton(getResourceText(R.string.close)) { _, _ -> failure() }
+        .show()
+}

@@ -23,6 +23,8 @@ class DetailProductUseCaseImpl: DetailProductUseCase {
             val product = it.getValue(Product::class.java)
             if (product != null) {
                 complete(product)
+            } else {
+                failure()
             }
         }, failure)
     }
