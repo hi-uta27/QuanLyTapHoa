@@ -154,18 +154,18 @@ class DetailProductActivity : BaseActivity() {
         detailProductUseCase.readProductWith(idProduct, {
             readProductSuccess(it)
         }, {
-            readProductFailure(idProduct)
+            readProductFailure()
         })
     }
 
-    private fun readProductFailure(idProduct: String) {
+    private fun readProductFailure() {
         progressBar.visibility = View.GONE
         showAlertDialog(
             getResourceText(R.string.error),
             getResourceText(R.string.readProductFailure),
-            getResourceText(R.string.tryAgain)
+            getResourceText(R.string.confirm)
         ) {
-            readProductWith((idProduct))
+            finish()
         }
     }
 
