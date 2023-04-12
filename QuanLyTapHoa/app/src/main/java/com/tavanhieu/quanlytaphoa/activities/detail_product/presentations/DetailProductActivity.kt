@@ -162,8 +162,7 @@ class DetailProductActivity : BaseActivity() {
         progressBar.visibility = View.GONE
         showAlertDialog(
             getResourceText(R.string.error),
-            getResourceText(R.string.readProductFailure),
-            getResourceText(R.string.confirm)
+            getResourceText(R.string.readProductFailure)
         ) {
             finish()
         }
