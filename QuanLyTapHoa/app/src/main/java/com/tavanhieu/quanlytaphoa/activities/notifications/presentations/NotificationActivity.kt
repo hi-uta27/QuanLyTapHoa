@@ -80,8 +80,8 @@ interface NotificationActivity {
     // ---------------------------------------------------------------------
 
     private fun checkNotificationUseCaseSuccess(message: String, products: ArrayList<Product>) {
-        val calendar = Calendar.getInstance()
         products.forEach {
+            val calendar = Calendar.getInstance()
             val notification = Notification(calendar.timeInMillis.toString(), it.name, message, it.id, calendar.time)
             displayNotification(notification)
             // add notifies to database

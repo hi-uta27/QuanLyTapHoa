@@ -1,6 +1,7 @@
 package com.tavanhieu.quanlytaphoa.activities.notifications.domain.infra
 
 import com.tavanhieu.quanlytaphoa.activities.notifications.domain.use_cases.NotificationsUseCase
+import com.tavanhieu.quanlytaphoa.commons.models.Notification
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
@@ -50,5 +51,17 @@ class NotificationUseCaseImpl: NotificationsUseCase {
 
     override fun checkProductsLeastSales(complete: (ArrayList<Product>) -> Unit) {
         TODO("Not yet implemented")
+    }
+
+    override fun addNotification(notification: Notification) {
+        FirebaseNetworkLayer.instance.getRequest("Notifications", { dataSnapShot ->
+            dataSnapShot.children.forEach {
+                val oldNotification = it.getValue(Notification::class.java)
+                if (oldNotification == null || oldNotification.compare(notification)) {
+                    return@getRequest
+                }
+            }
+            FirebaseNetworkLayer.instance.postRequest(notification, "Notifications/${notification.id}", {}, {})
+        }, {})
     }
 }
