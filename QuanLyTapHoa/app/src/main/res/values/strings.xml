@@ -109,4 +109,5 @@
     <string name="productExpiredDate">Sản phẩm sắp hết hạn sử dụng</string>
     <string name="productOutExpiredDate">Sản phẩm đã quá hạn sử dụng</string>
     <string name="expiredQuantity">Số lượng trong kho sắp hết</string>
+    <string name="close">Đóng</string>
 </resources>
