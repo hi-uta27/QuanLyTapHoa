@@ -20,4 +20,8 @@ class Notification {
         this.idProduct = idProduct
         this.date = date
     }
+
+    fun compare(notification: Notification): Boolean {
+        return title == notification.title && message == notification.message && idProduct == notification.idProduct
+    }
 }
