@@ -5,7 +5,7 @@ import com.tavanhieu.quanlytaphoa.commons.models.Employee
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class UserInfoUseCaseImpl : UserInfoUseCase {
-    override fun requestUseInfo(complete: (Employee?) -> Unit, failure: () -> Void) {
+    override fun requestUseInfo(complete: (Employee?) -> Unit, failure: () -> Unit) {
         FirebaseNetworkLayer.instance.getRequest("Employee", {
             val employee = it.getValue(Employee::class.java)
             complete(employee)

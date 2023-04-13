@@ -33,7 +33,7 @@ class MainActivity : BaseActivity(), NotificationActivity {
                 R.id.menu_home -> setCurrentFragment(HomeFragment(this))
                 R.id.menu_statistics -> setCurrentFragment(StatisticsFragment(this))
                 R.id.menu_notifications -> setCurrentFragment(NotificationFragment(this))
-                R.id.menu_setting -> setCurrentFragment(SettingsFragment())
+                R.id.menu_setting -> setCurrentFragment(SettingsFragment(this))
             }
             true
         }

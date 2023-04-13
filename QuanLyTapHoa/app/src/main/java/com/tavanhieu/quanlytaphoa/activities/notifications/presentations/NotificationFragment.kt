@@ -64,7 +64,7 @@ class NotificationFragment(val context: BaseActivity) : Fragment() {
 
     private fun readNotificationFailure() {
         progressBar.visibility = View.GONE
-        (requireActivity() as BaseActivity).showAlertDialog(context.getResourceText(R.string.error),
+        context.showAlertDialog(context.getResourceText(R.string.error),
             context.getResourceText(R.string.readDepotFailure),
             context.getResourceText(R.string.tryAgain)
         ) {
