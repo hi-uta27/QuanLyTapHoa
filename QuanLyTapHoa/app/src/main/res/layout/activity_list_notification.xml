@@ -8,22 +8,23 @@
     tools:context=".activities.notifications.presentations.ListNotificationActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/blue"
             android:gravity="center"
             android:text="@string/notification"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"/>
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <View
             android:layout_width="wrap_content"
