@@ -27,12 +27,12 @@ class MainActivity : BaseActivity(), NotificationActivity {
     }
 
     override fun configLayout() {
-        setCurrentFragment(HomeFragment())
+        setCurrentFragment(HomeFragment(this))
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.menu_home -> setCurrentFragment(HomeFragment())
+                R.id.menu_home -> setCurrentFragment(HomeFragment(this))
                 R.id.menu_statistics -> setCurrentFragment(StatisticsFragment(this))
-                R.id.menu_qr -> setCurrentFragment(NotificationFragment(this))
+                R.id.menu_notifications -> setCurrentFragment(NotificationFragment(this))
                 R.id.menu_setting -> setCurrentFragment(SettingsFragment())
             }
             true
@@ -49,5 +49,9 @@ class MainActivity : BaseActivity(), NotificationActivity {
             replace(R.id.frameLayoutFragment, fragment)
             commit()
         }
+    }
+
+    fun setBottomNavigationItemIdSelected(id: Int) {
+        bottomNavigationView.selectedItemId = id
     }
 }
