@@ -7,14 +7,14 @@
         android:title="@string/home" />
 
     <item
-        android:id="@+id/menu_qr"
-        android:icon="@drawable/ic_qr_code"
-        android:title="@string/Qr" />
-
-    <item
         android:id="@+id/menu_statistics"
         android:icon="@drawable/ic_bar_chart"
         android:title="@string/Statistics" />
+
+    <item
+        android:id="@+id/menu_notifications"
+        android:icon="@drawable/ic_notifications"
+        android:title="@string/notification" />
 
     <item
         android:id="@+id/menu_setting"

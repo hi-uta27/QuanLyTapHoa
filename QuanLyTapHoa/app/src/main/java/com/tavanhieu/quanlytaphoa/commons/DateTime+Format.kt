@@ -21,6 +21,11 @@ fun Date.formatTime(): String {
     return SimpleDateFormat("HH: mm").format(this)
 }
 
+@SuppressLint("SimpleDateFormat")
+fun Date.formatDateAndTime(): String {
+    return SimpleDateFormat("HH: mm a - dd EEE yyyy").format(this)
+}
+
 // ----------------------------------------------------------------
 
 @SuppressLint("SimpleDateFormat")
