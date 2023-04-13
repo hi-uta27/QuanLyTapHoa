@@ -10,11 +10,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.tavanhieu.quanlytaphoa.R
+import com.tavanhieu.quanlytaphoa.activities.MainActivity
 import com.tavanhieu.quanlytaphoa.activities.home.adapters.FunctionItemAdapter
 import com.tavanhieu.quanlytaphoa.activities.home.models.FunctionItem
 import com.tavanhieu.quanlytaphoa.activities.search.presentations.SearchActivity
+import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 
-class HomeFragment: Fragment() {
+class HomeFragment(val context: MainActivity): Fragment() {
     private lateinit var nameEmployeeTextView: TextView
     private lateinit var searchImageView: ImageView
     private lateinit var recyclerViewFunction: RecyclerView
@@ -28,7 +30,7 @@ class HomeFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_home, container, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.fragment_home, container, false)
         mappingViewId(view)
         handleClickOnView()
         displayFunctionRecyclerView()
@@ -51,7 +53,7 @@ class HomeFragment: Fragment() {
 
     private fun displayFunctionRecyclerView() {
         getArr()
-        adapter.setData(arr)
+        adapter.setData(context, arr)
         recyclerViewFunction.adapter = adapter
     }
 
