@@ -7,6 +7,7 @@ import com.tavanhieu.quanlytaphoa.activities.home.presentations.HomeFragment
 import com.tavanhieu.quanlytaphoa.activities.notifications.domain.infra.NotificationUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.notifications.domain.use_cases.NotificationsUseCase
 import com.tavanhieu.quanlytaphoa.activities.notifications.presentations.NotificationActivity
+import com.tavanhieu.quanlytaphoa.activities.notifications.presentations.NotificationFragment
 import com.tavanhieu.quanlytaphoa.activities.setting.SettingsFragment
 import com.tavanhieu.quanlytaphoa.activities.statistics.presentations.StatisticsFragment
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
@@ -30,8 +31,8 @@ class MainActivity : BaseActivity(), NotificationActivity {
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.menu_home -> setCurrentFragment(HomeFragment())
-//                R.id.menu_qr -> TODO: I'll update it after done orther menu
                 R.id.menu_statistics -> setCurrentFragment(StatisticsFragment(this))
+                R.id.menu_qr -> setCurrentFragment(NotificationFragment(this))
                 R.id.menu_setting -> setCurrentFragment(SettingsFragment())
             }
             true

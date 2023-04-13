@@ -14,6 +14,8 @@ import com.tavanhieu.quanlytaphoa.activities.detail_product.presentations.Detail
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.formatCurrency
 import com.tavanhieu.quanlytaphoa.commons.formatDate
+import com.tavanhieu.quanlytaphoa.commons.formatDateAndTime
+import com.tavanhieu.quanlytaphoa.commons.formatTime
 import com.tavanhieu.quanlytaphoa.commons.models.Employee
 import com.tavanhieu.quanlytaphoa.commons.models.Notification
 import com.tavanhieu.quanlytaphoa.commons.models.Order
@@ -40,7 +42,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
         fun binding(notification: Notification) {
             titleTextView.text = notification.title
             messageTextView.text = notification.message
-            dateTextView.text = notification.date.formatDate()
+            dateTextView.text = notification.date.formatDateAndTime()
         }
     }
 

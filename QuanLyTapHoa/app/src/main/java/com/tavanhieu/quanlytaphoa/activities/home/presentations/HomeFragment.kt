@@ -60,6 +60,6 @@ class HomeFragment: Fragment() {
         arr.add(FunctionItem(R.drawable.don_hang, resources.getString(R.string.Orders)))
         arr.add(FunctionItem(R.drawable.ic_cart, resources.getString(R.string.createOrder)))
         arr.add(FunctionItem(R.drawable.thong_ke, resources.getString(R.string.Statistics)))
-        arr.add(FunctionItem(R.drawable.ic_qr_code, resources.getString(R.string.Qr)))
+        arr.add(FunctionItem(R.drawable.ic_notifications, resources.getString(R.string.notification)))
     }
 }
