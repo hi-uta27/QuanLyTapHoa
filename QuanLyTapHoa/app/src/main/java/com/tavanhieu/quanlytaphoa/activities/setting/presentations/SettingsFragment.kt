@@ -57,9 +57,14 @@ class SettingsFragment(val context: BaseActivity) : Fragment() {
         }
 
         logoutLinearLayout.setOnClickListener {
-            logoutUseCase.logoutCurrentUser()
-            context.startActivity(Intent(context, LoginActivity::class.java))
-            context.finish()
+            context.showAlertDialog(context.getResourceText(R.string.notification),
+                context.getResourceText(R.string.doYouWantLogout),
+                context.getResourceText(R.string.confirm)
+            ) {
+                logoutUseCase.logoutCurrentUser()
+                context.startActivity(Intent(context, LoginActivity::class.java))
+                context.finish()
+            }
         }
     }
 
