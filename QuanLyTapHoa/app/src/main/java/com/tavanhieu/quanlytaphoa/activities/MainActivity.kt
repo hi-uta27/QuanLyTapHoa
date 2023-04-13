@@ -8,7 +8,7 @@ import com.tavanhieu.quanlytaphoa.activities.notifications.domain.infra.Notifica
 import com.tavanhieu.quanlytaphoa.activities.notifications.domain.use_cases.NotificationsUseCase
 import com.tavanhieu.quanlytaphoa.activities.notifications.presentations.NotificationActivity
 import com.tavanhieu.quanlytaphoa.activities.notifications.presentations.NotificationFragment
-import com.tavanhieu.quanlytaphoa.activities.setting.SettingsFragment
+import com.tavanhieu.quanlytaphoa.activities.setting.presentations.SettingsFragment
 import com.tavanhieu.quanlytaphoa.activities.statistics.presentations.StatisticsFragment
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 
