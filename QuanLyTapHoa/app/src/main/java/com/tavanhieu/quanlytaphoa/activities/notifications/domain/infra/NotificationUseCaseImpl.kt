@@ -64,4 +64,17 @@ class NotificationUseCaseImpl: NotificationsUseCase {
             FirebaseNetworkLayer.instance.postRequest(notification, "Notifications/${notification.id}", {}, {})
         }, {})
     }
+
+    override fun readNotification(complete: (ArrayList<Notification>) -> Unit, failure: () -> Unit) {
+        FirebaseNetworkLayer.instance.getRequest("Notifications", { dataSnapShot ->
+            val entities = ArrayList<Notification>()
+            dataSnapShot.children.forEach {
+                val notification = it.getValue(Notification::class.java)
+                if (notification != null) {
+                    entities.add(notification)
+                }
+            }
+            complete(entities)
+        }, failure)
+    }
 }

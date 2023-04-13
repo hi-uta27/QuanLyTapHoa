@@ -14,6 +14,7 @@ import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.cart.presentations.CartActivity
 import com.tavanhieu.quanlytaphoa.activities.depot.presentations.DepotActivity
 import com.tavanhieu.quanlytaphoa.activities.home.models.FunctionItem
+import com.tavanhieu.quanlytaphoa.activities.notifications.presentations.ListNotificationActivity
 import com.tavanhieu.quanlytaphoa.activities.order.presentations.OrderActivity
 
 class FunctionItemAdapter: RecyclerView.Adapter<FunctionItemAdapter.FunctionItemViewHolder>() {
@@ -62,6 +63,7 @@ class FunctionItemAdapter: RecyclerView.Adapter<FunctionItemAdapter.FunctionItem
                 Toast.makeText(context, "Thống Kê", Toast.LENGTH_SHORT).show()
             }
             4 -> {
+                context.startActivity(Intent(context, ListNotificationActivity::class.java))
                 Toast.makeText(context, "QR Code", Toast.LENGTH_SHORT).show()
             }
         }
