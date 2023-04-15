@@ -29,6 +29,7 @@ import java.util.Calendar
 class StatisticsFragment(val context: BaseActivity): Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var timeLineDateTextView: TextView
+    private lateinit var totalPriceTextView: TextView
     private lateinit var emptyOrderTextView: TextView
     private lateinit var calendarImageButton: ImageButton
     private lateinit var timeUnitSpinner: Spinner
@@ -54,6 +55,7 @@ class StatisticsFragment(val context: BaseActivity): Fragment() {
     private fun mappingViewId(view: View) {
         progressBar = view.findViewById(R.id.progressBar)
         timeLineDateTextView = view.findViewById(R.id.timeLineDateTextView)
+        totalPriceTextView = view.findViewById(R.id.totalPriceTextView)
         emptyOrderTextView = view.findViewById(R.id.emptyOrderTextView)
         calendarImageButton = view.findViewById(R.id.calenderImageButton)
         timeUnitSpinner = view.findViewById(R.id.timeUnitSpinner)
@@ -86,13 +88,17 @@ class StatisticsFragment(val context: BaseActivity): Fragment() {
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun handleFilterOrderListSuccess(orders: ArrayList<Order>, timeUnit: TimeUnit) {
         progressBar.visibility = View.GONE
+        var totalPrice = 0f
         if (orders.size == 0) {
             lineChart.visibility = View.GONE
+            totalPriceTextView.visibility = View.GONE
             emptyOrderTextView.visibility = View.VISIBLE
         } else {
             lineChart.visibility = View.VISIBLE
+            totalPriceTextView.visibility = View.VISIBLE
             emptyOrderTextView.visibility = View.GONE
 
             val entries: ArrayList<Entry> = ArrayList()
@@ -101,6 +107,7 @@ class StatisticsFragment(val context: BaseActivity): Fragment() {
             var i = 0f
             orders.forEach {
                 entries.add(Entry(i++, it.totalPrice(), ""))
+                totalPrice += it.totalPrice()
                 when (timeUnit) {
                     TimeUnit.day -> labels.add(it.date.formatTime())
                     TimeUnit.weak -> labels.add(it.date.getNameOfDayInWeek())
@@ -110,6 +117,10 @@ class StatisticsFragment(val context: BaseActivity): Fragment() {
                 }
             }
 
+            // set total price with a type selection:
+            totalPriceTextView.text = "${context.getResourceText(R.string.totalPrice)}: ${totalPrice.formatCurrency()}"
+
+            // set line chart
             val set1 = LineDataSet(entries, context.getResourceText(R.string.revenueStatistics))
             set1.color = Color.BLUE
             set1.setCircleColor(Color.BLUE)
