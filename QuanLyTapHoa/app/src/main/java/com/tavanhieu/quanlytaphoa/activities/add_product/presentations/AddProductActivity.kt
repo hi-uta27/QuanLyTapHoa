@@ -121,9 +121,7 @@ class AddProductActivity : BaseActivity() {
         progressBar.visibility = View.VISIBLE
         searchUseCase.searchProductById(id, {
             searchProductByIdSuccess(id, it)
-        }, {
-            searchProductByIdFailure()
-        })
+        }, {})
     }
 
     private fun searchProductByIdSuccess(id: String, product: Product?) {
@@ -143,16 +141,6 @@ class AddProductActivity : BaseActivity() {
             expiredCalendar.time = product.expiredDate
         }
     }
-
-    private fun searchProductByIdFailure() {
-        progressBar.visibility = View.GONE
-        showAlertDialog(
-            getResourceText(R.string.error),
-            getResourceText(R.string.searchFailure),
-            getResourceText(R.string.cancel)
-        ) {}
-    }
-
 
     // ------------------------------------------------------------------------------------
 
