@@ -111,4 +111,7 @@
     <string name="expiredQuantity">Số lượng trong kho sắp hết</string>
     <string name="close">Đóng</string>
     <string name="emptyNotification">Chưa có thông báo</string>
+    <string name="account">Tài khoản</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="doYouWantLogout">Bạn có muốn đăng xuất</string>
 </resources>

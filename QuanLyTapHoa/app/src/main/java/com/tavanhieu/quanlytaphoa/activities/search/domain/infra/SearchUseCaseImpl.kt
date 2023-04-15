@@ -15,11 +15,7 @@ class SearchUseCaseImpl: SearchUseCase {
         runBlocking {
             val entity: Product? = FirebaseNetworkLayerAwait.instance
                 .getRequest("Products/${id}")?.getValue(Product::class.java)
-            if (entity != null) {
-                complete(entity)
-            } else {
-                failure()
-            }
+            complete(entity)
         }
     }
 

@@ -128,6 +128,7 @@ class LoginActivity : BaseActivity() {
 
     private fun loginSuccess() {
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun loginFailure() {
