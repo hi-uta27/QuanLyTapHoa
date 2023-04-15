@@ -52,6 +52,7 @@ class AddProductActivity : BaseActivity() {
     private val addProductUseCase: AddProductUseCase by lazy { AddProductUseCaseImpl() }
     private val searchUseCase: SearchUseCase by lazy { SearchUseCaseImpl() }
     private var uriImageGallery: Uri? = null
+    private var product: Product? = null
     private var arrSpinner = ArrayList<String>()
 
     override fun setContentView() {
@@ -119,6 +120,7 @@ class AddProductActivity : BaseActivity() {
 
     private fun searchProductById(id: String) {
         progressBar.visibility = View.VISIBLE
+        enableView(false)
         searchUseCase.searchProductById(id, {
             searchProductByIdSuccess(id, it)
         }, {})
@@ -126,12 +128,16 @@ class AddProductActivity : BaseActivity() {
 
     private fun searchProductByIdSuccess(id: String, product: Product?) {
         progressBar.visibility = View.GONE
+        enableView(true)
         if (product == null) {
             deleteInput()
             idTextView.text = id
         } else {
+            product.image?.let {
+                productImageView.tag = "ImageView"
+                Picasso.get().load(it).placeholder(R.drawable.ic_photo).into(productImageView)
+            }
             idTextView.text = product.id
-            Picasso.get().load(product.image).placeholder(R.drawable.ic_photo).into(productImageView)
             expiredDateTextView.text = product.expiredDate.formatDate()
             nameEditText.setText(product.name)
             quantityEditText.setText("${product.quantity}")
@@ -139,6 +145,7 @@ class AddProductActivity : BaseActivity() {
             priceEditText.setText(product.price.toLong().toString())
             descriptionEditText.setText(product.description)
             expiredCalendar.time = product.expiredDate
+            this.product = product
         }
     }
 
@@ -163,7 +170,7 @@ class AddProductActivity : BaseActivity() {
     // ------------------------------------------------------------------------------------
 
     private fun addProduct() {
-        if (uriImageGallery == null) {
+        if (uriImageGallery == null  && product == null) {
             showAlertDialog(
                 getResourceText(R.string.notification),
                 getResourceText(R.string.noImage),
@@ -200,20 +207,23 @@ class AddProductActivity : BaseActivity() {
             val expiredDate = expiredCalendar.time
             val type = typeSpinner.selectedItem.toString()
 
-            val product = Product(id, name, description, type, entryDate, expiredDate, quantity, originalPrice, price)
+            val product = Product(id, name, this.product?.image, description, type, entryDate, expiredDate, quantity, originalPrice, price)
             progressBar.visibility = View.VISIBLE
             enableView(false)
-            addProductUseCase.addProduct(product, uriImageGallery!!,
+            addProductUseCase.addProduct(product,
                 {
-                    addProductSuccess()
+                    addProductSuccess(product)
                 }, {
                     addProductFailure()
                 })
         }
     }
 
-    private fun addProductSuccess() {
+    private fun addProductSuccess(product: Product) {
         progressBar.visibility = View.GONE
+        uriImageGallery?.let {
+            addProductUseCase.addImageProduct(product, it, {}, {})
+        }
         enableView(true)
         deleteInput()
         showToast(getResourceText(R.string.addProductSuccess))
@@ -242,6 +252,7 @@ class AddProductActivity : BaseActivity() {
         typeSpinner.setSelection(0)
         expiredDateTextView.text = SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().time)
         uriImageGallery = null
+        product = null
         nameEditText.requestFocus()
     }
 
