@@ -73,8 +73,7 @@ class RegisterActivity : BaseActivity() {
                 showErrorWithEditText(confirmPasswordEditText, getResourceText(R.string.passwordDontMatch))
             } else {
                 progressBar.visibility = View.VISIBLE
-                registerUseCase.registerWith(email, password,
-                    {
+                registerUseCase.registerWith(email, password, {
                         val employee = Employee(
                             FirebaseNetworkLayer.instance.requestCurrentUserUID(),
                             email,
@@ -83,7 +82,6 @@ class RegisterActivity : BaseActivity() {
                         )
                         registerSuccess(employee)
                     }, {
-                        progressBar.visibility = View.GONE
                         registerFailure()
                     })
             }
@@ -91,17 +89,26 @@ class RegisterActivity : BaseActivity() {
     }
 
     private fun registerSuccess(employee: Employee) {
-        registerUseCase.addToDatabase(
-            employee,
-            { // add user to firebase success
-                progressBar.visibility = View.GONE
-                showToast(getResourceText(R.string.registerSuccess))
-                logoutUseCase.logoutCurrentUser()
-                finish()
-            }, {})
+        progressBar.visibility = View.GONE
+        registerUseCase.sendVerifiedEmail({
+            showAlertDialog(
+                getResourceText(R.string.notification),
+                getResourceText(R.string.weJustSendVerifiedToYourEmail),
+                getResourceText(R.string.confirm)
+            ) {
+                registerUseCase.addToDatabase(
+                employee, { // add user to firebase success
+                    logoutUseCase.logoutCurrentUser()
+                    finish()
+                }, {})
+            }
+        }, {
+            registerFailure()
+        })
     }
 
     private fun registerFailure() {
+        progressBar.visibility = View.GONE
         showAlertDialog(getResourceText(R.string.error), getResourceText(R.string.registerFailed), getResourceText(R.string.tryAgain)) {
             handleRegister()
         }
