@@ -28,12 +28,7 @@ open class FirebaseNetworkLayer {
         firebaseAuth.signOut()
     }
 
-    fun authenticationWith(
-        email: String,
-        password: String,
-        complete: () -> Unit,
-        failure: () -> Unit
-    ) {
+    fun authenticationWith(email: String, password: String, complete: () -> Unit, failure: () -> Unit) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -57,7 +52,29 @@ open class FirebaseNetworkLayer {
             }
     }
 
-    // MARK: - Firebase Database
+    // verified email ------------------------------------------------------------------
+    fun sendVerifiedEmail(complete: () -> Unit, failure: () -> Unit) {
+        firebaseAuth.currentUser?.sendEmailVerification()
+            ?.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    complete()
+                }
+            }
+            ?.addOnFailureListener {
+                failure()
+            }
+    }
+
+    fun checkVerifiedEmail(complete: () -> Unit, failure: () -> Unit) {
+        if (firebaseAuth.currentUser!!.isEmailVerified) {
+            complete()
+        } else {
+            FirebaseAuth.getInstance().signOut()
+            failure()
+        }
+    }
+
+    // MARK: - Firebase Database -------------------------------------------------------------
     private val firebaseDatabase: FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
 
     fun <T> postRequest(model: T, child: String, complete: () -> Unit, failure: () -> Unit) {
@@ -98,7 +115,7 @@ open class FirebaseNetworkLayer {
             }
     }
 
-    // MARK: - Firebase Storage
+    // MARK: - Firebase Storage --------------------------------------------------------------
     private val firebaseStorage: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
 
     fun uploadImage(uriImage: Uri, childStorage: String, childDatabase: String,  complete: () -> Unit, failure: () -> Unit) {
