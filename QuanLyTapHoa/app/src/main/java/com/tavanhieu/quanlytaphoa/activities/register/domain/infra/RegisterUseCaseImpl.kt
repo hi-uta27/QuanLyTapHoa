@@ -21,4 +21,8 @@ class RegisterUseCaseImpl: RegisterUseCase {
     ) {
         FirebaseNetworkLayer.instance.postRequest(model, "Employee", complete, failure)
     }
+
+    override fun sendVerifiedEmail(complete: () -> Unit, failure: () -> Unit) {
+        FirebaseNetworkLayer.instance.sendVerifiedEmail(complete, failure)
+    }
 }
