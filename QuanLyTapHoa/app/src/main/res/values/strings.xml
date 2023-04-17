@@ -114,5 +114,7 @@
     <string name="account">Tài khoản</string>
     <string name="logout">Đăng xuất</string>
     <string name="doYouWantLogout">Bạn có muốn đăng xuất</string>
-    <string name="weJustSendVerifiedToYourEmail">Kiểm tra email để xác thực tài khoản</string>
+    <string name="weJustSendVerifiedToYourEmail">Chúng tôi đã gửi xác thực đến email của bạn. Kiểm tra email để xác thực tài khoản</string>
+    <string name="emailNotVerified">Tài khoản chưa được xác thực</string>
+    <string name="sendAgain">Gửi lại</string>
 </resources>

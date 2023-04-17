@@ -48,8 +48,10 @@ class LoginActivity : BaseActivity() {
 
         // open main activity if user logged before
         if (FirebaseNetworkLayer.instance.authIsLogged()) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            FirebaseNetworkLayer.instance.checkVerifiedEmail({
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }, {})
         }
     }
 
@@ -115,11 +117,21 @@ class LoginActivity : BaseActivity() {
                 showErrorWithEditText(emailEditText, getResourceText(R.string.IncorectEmailFormat))
             } else {
                 progressBar.visibility = View.VISIBLE
+                // TODO: I'll update it with domain after
                 authenticationUseCase.loginWith(email, password, {
-                    progressBar.visibility = View.GONE
-                    loginSuccess()
+                    FirebaseNetworkLayer.instance.checkVerifiedEmail({
+                        loginSuccess()
+                    }, {
+                        progressBar.visibility = View.GONE
+                        showAlertDialog(
+                            getResourceText(R.string.notification),
+                            getResourceText(R.string.weJustSendVerifiedToYourEmail),
+                            getResourceText(R.string.sendAgain)
+                        ) {
+                            FirebaseNetworkLayer.instance.sendVerifiedEmail({}, {})
+                        }
+                    })
                 }, {
-                    progressBar.visibility = View.GONE
                     loginFailure()
                 })
             }
@@ -127,11 +139,13 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun loginSuccess() {
+        progressBar.visibility = View.GONE
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 
     private fun loginFailure() {
+        progressBar.visibility = View.GONE
         showAlertDialog(getResourceText(R.string.notification), getResourceText(R.string.loginFailed), getResourceText(R.string.tryAgain)) {
             handleLogin()
         }

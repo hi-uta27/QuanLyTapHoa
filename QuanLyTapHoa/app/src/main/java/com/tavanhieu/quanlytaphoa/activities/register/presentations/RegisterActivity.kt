@@ -1,5 +1,7 @@
 package com.tavanhieu.quanlytaphoa.activities.register.presentations
 
+import android.annotation.SuppressLint
+import android.os.CountDownTimer
 import android.util.Patterns
 import android.view.View
 import android.widget.*
@@ -12,6 +14,7 @@ import com.tavanhieu.quanlytaphoa.activities.register.domain.use_cases.RegisterU
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
+import java.text.SimpleDateFormat
 import java.util.Calendar
 
 class RegisterActivity : BaseActivity() {
@@ -22,9 +25,24 @@ class RegisterActivity : BaseActivity() {
     private lateinit var confirmPasswordEditText: EditText
     private lateinit var registerButton: Button
     private lateinit var progressBar: ProgressBar
+    private lateinit var sendAgainButton: Button
+    private lateinit var countTimerTextView: TextView
+    private lateinit var backgroundSendAgainLinearLayout: LinearLayout
 
     private val registerUseCase: RegisterUseCase by lazy { RegisterUseCaseImpl() }
     private val logoutUseCase: LogoutUseCase by lazy { LogoutUseCaseImpl() }
+    private val timer: CountDownTimer by lazy { object: CountDownTimer(60000, 1000) {
+        @SuppressLint("SimpleDateFormat")
+        override fun onTick(p0: Long) {
+            countTimerTextView.text = SimpleDateFormat("mm:ss").format(p0)
+        }
+
+        @SuppressLint("SetTextI18n")
+        override fun onFinish() {
+            countTimerTextView.text = "00:00"
+            sendAgainButton.isEnabled = true
+        }
+    }}
 
     // MARK: - Function in base
     override fun setContentView() {
@@ -39,6 +57,9 @@ class RegisterActivity : BaseActivity() {
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText)
         registerButton = findViewById(R.id.registerButton)
         progressBar = findViewById(R.id.progressBar)
+        sendAgainButton = findViewById(R.id.sendAgainButton)
+        countTimerTextView = findViewById(R.id.countTimerTextView)
+        backgroundSendAgainLinearLayout = findViewById(R.id.backgroundSendAgainLinearLayout)
     }
 
     override fun configLayout() {
@@ -50,6 +71,7 @@ class RegisterActivity : BaseActivity() {
     private fun handleClickOnView() {
         backImage.setOnClickListener { finish() }
         registerButton.setOnClickListener { handleRegister() }
+        sendAgainButton.setOnClickListener { sendVerifiedEmail() }
     }
 
     private fun handleRegister() {
@@ -90,20 +112,22 @@ class RegisterActivity : BaseActivity() {
 
     private fun registerSuccess(employee: Employee) {
         progressBar.visibility = View.GONE
+        deleteInput()
+        sendVerifiedEmail()
+        registerUseCase.addToDatabase(employee, {}, { registerFailure() })
+    }
+
+    private fun sendVerifiedEmail() {
+        progressBar.visibility = View.VISIBLE
         registerUseCase.sendVerifiedEmail({
-            showAlertDialog(
-                getResourceText(R.string.notification),
-                getResourceText(R.string.weJustSendVerifiedToYourEmail),
-                getResourceText(R.string.confirm)
-            ) {
-                registerUseCase.addToDatabase(
-                employee, { // add user to firebase success
-                    logoutUseCase.logoutCurrentUser()
-                    finish()
-                }, {})
+            progressBar.visibility = View.GONE
+            showAlertDialog(getResourceText(R.string.notification), getResourceText(R.string.weJustSendVerifiedToYourEmail)) {
+                backgroundSendAgainLinearLayout.visibility = View.VISIBLE
+                sendAgainButton.isEnabled = false
+                timer.start()
             }
         }, {
-            registerFailure()
+            progressBar.visibility = View.GONE
         })
     }
 
@@ -112,5 +136,13 @@ class RegisterActivity : BaseActivity() {
         showAlertDialog(getResourceText(R.string.error), getResourceText(R.string.registerFailed), getResourceText(R.string.tryAgain)) {
             handleRegister()
         }
+    }
+
+    private fun deleteInput() {
+        emailEditText.setText("")
+        userNameEditText.setText("")
+        passwordEditText.setText("")
+        confirmPasswordEditText.setText("")
+        emailEditText.requestFocus()
     }
 }
