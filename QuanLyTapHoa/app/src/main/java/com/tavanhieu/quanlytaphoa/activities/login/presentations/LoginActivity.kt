@@ -117,24 +117,28 @@ class LoginActivity : BaseActivity() {
                 showErrorWithEditText(emailEditText, getResourceText(R.string.IncorectEmailFormat))
             } else {
                 progressBar.visibility = View.VISIBLE
-                // TODO: I'll update it with domain after
                 authenticationUseCase.loginWith(email, password, {
                     FirebaseNetworkLayer.instance.checkVerifiedEmail({
                         loginSuccess()
                     }, {
-                        progressBar.visibility = View.GONE
-                        showAlertDialog(
-                            getResourceText(R.string.notification),
-                            getResourceText(R.string.weJustSendVerifiedToYourEmail),
-                            getResourceText(R.string.sendAgain)
-                        ) {
-                            FirebaseNetworkLayer.instance.sendVerifiedEmail({}, {})
-                        }
+                        verifiedEmail()
                     })
                 }, {
                     loginFailure()
                 })
             }
+        }
+    }
+
+    private fun verifiedEmail() {
+        // TODO: I'll update it with domain after'
+        progressBar.visibility = View.GONE
+        showAlertDialog(
+            getResourceText(R.string.notification),
+            getResourceText(R.string.weJustSendVerifiedToYourEmail),
+            getResourceText(R.string.sendAgain)
+        ) {
+            FirebaseNetworkLayer.instance.sendVerifiedEmail({}, {})
         }
     }
 
