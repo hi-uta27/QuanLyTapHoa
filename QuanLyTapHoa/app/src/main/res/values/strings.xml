@@ -117,4 +117,8 @@
     <string name="weJustSendVerifiedToYourEmail">Chúng tôi đã gửi xác thực đến email của bạn. Kiểm tra email để xác thực tài khoản</string>
     <string name="emailNotVerified">Tài khoản chưa được xác thực</string>
     <string name="sendAgain">Gửi lại</string>
+    <string name="readNotificationFailure">Đọc thông báo thất bại</string>
+    <string name="deleteNotificationSuccess">Xóa thông báo thành công</string>
+    <string name="deleteNotificationFailure">Xóa thông báo thất bại</string>
+    <string name="deleteNotification">Bạn có muốn xóa thông báo này</string>
 </resources>
