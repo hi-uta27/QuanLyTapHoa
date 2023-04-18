@@ -11,4 +11,5 @@ interface NotificationsUseCase {
     fun checkProductsLeastSales(complete: (ArrayList<Product>) -> Unit)
     fun addNotification(notification: Notification)
     fun readNotification(complete: (ArrayList<Notification>) -> Unit, failure: () -> Unit)
+    fun deleteNotification(notification: Notification, complete: () -> Unit, failure: () -> Unit)
 }
