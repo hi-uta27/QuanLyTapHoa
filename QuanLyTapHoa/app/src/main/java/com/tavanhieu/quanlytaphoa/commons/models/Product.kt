@@ -91,6 +91,6 @@ class Product : Serializable {
     }
 
     fun isLeastSales(): Boolean {
-        return soldQuantity / (quantity + soldQuantity).toFloat() <= 0.2
+        return soldQuantity / (quantity + soldQuantity).toFloat() in 0.0..0.2
     }
 }

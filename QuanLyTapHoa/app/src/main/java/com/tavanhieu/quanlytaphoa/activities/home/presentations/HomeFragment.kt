@@ -14,25 +14,30 @@ import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.MainActivity
 import com.tavanhieu.quanlytaphoa.activities.depot.adapter.DepotAdapter
 import com.tavanhieu.quanlytaphoa.activities.home.adapters.FunctionItemAdapter
+import com.tavanhieu.quanlytaphoa.activities.home.adapters.SalesProductAdapter
 import com.tavanhieu.quanlytaphoa.activities.home.domain.infra.HomeUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.home.domain.use_cases.HomeUseCase
 import com.tavanhieu.quanlytaphoa.activities.home.models.FunctionItem
 import com.tavanhieu.quanlytaphoa.activities.search.presentations.SearchActivity
-import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 
 class HomeFragment(val context: MainActivity): Fragment() {
     private lateinit var nameEmployeeTextView: TextView
-    private lateinit var progressBar: ProgressBar
     private lateinit var searchImageView: ImageView
     private lateinit var recyclerViewFunction: RecyclerView
-    private lateinit var recyclerViewProduct: RecyclerView
+    private lateinit var recyclerViewBestSalesProduct: RecyclerView
+    private lateinit var recyclerViewLeastSalesProduct: RecyclerView
+    private lateinit var emptyLeastSalesTextView: TextView
+    private lateinit var emptyBestSalesTextView: TextView
+    private lateinit var loading1: TextView
+    private lateinit var loading2: TextView
 
     private val arr: ArrayList<FunctionItem> by lazy { ArrayList() }
     private val functionItemAdapter: FunctionItemAdapter by lazy { FunctionItemAdapter() }
     private val homeUseCase: HomeUseCase by lazy { HomeUseCaseImpl() }
-    private val productAdapter: DepotAdapter by lazy { DepotAdapter() }
+    private val bestSalesProductAdapter: SalesProductAdapter by lazy { SalesProductAdapter() }
+    private val leastSalesProductAdapter: SalesProductAdapter by lazy { SalesProductAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,12 +49,65 @@ class HomeFragment(val context: MainActivity): Fragment() {
         handleClickOnView()
         displayFunctionRecyclerView()
         requestBestSalesProduct()
+        requestLeastSalesProduct()
 
         return view
     }
 
+    private fun mappingViewId(view: View) {
+        nameEmployeeTextView = view.findViewById(R.id.nameEmployeeTextView)
+        recyclerViewFunction = view.findViewById(R.id.recycleViewFunction)
+        recyclerViewBestSalesProduct = view.findViewById(R.id.recycleViewBestSalesProduct)
+        recyclerViewLeastSalesProduct = view.findViewById(R.id.recycleViewLeastSalesProduct)
+        searchImageView = view.findViewById(R.id.searchImageView)
+        emptyLeastSalesTextView = view.findViewById(R.id.emptyLeastSalesTextView)
+        emptyBestSalesTextView = view.findViewById(R.id.emptyBestSalesTextView)
+        loading1 = view.findViewById(R.id.loading1)
+        loading2 = view.findViewById(R.id.loading2)
+    }
+
+    private fun handleClickOnView() {
+        searchImageView.setOnClickListener {
+            requireActivity().startActivity(Intent(requireActivity(), SearchActivity::class.java))
+        }
+    }
+
+    // MARK: - Least sales ----------------------------------------------------------------
+
+    private fun requestLeastSalesProduct() {
+        loading2.visibility = View.VISIBLE
+        homeUseCase.requestProductsLeastSales({
+            handleRequestLeastSalesProductSuccess(it)
+        }, {
+            handleRequestLeastSalesProductFailure()
+        })
+    }
+
+    private fun handleRequestLeastSalesProductSuccess(products: ArrayList<Product>) {
+        loading2.visibility = View.GONE
+        if (products.size == 0) {
+            emptyLeastSalesTextView.visibility = View.VISIBLE
+        } else {
+            emptyLeastSalesTextView.visibility = View.GONE
+            leastSalesProductAdapter.setData(context, products)
+            recyclerViewLeastSalesProduct.adapter = leastSalesProductAdapter
+        }
+    }
+
+    private fun handleRequestLeastSalesProductFailure() {
+        loading2.visibility = View.GONE
+        context.showAlertDialog(
+            context.getResourceText(R.string.notification),
+            context.getResourceText(R.string.loginFailed),
+            context.getResourceText(R.string.tryAgain)) {
+            requestLeastSalesProduct()
+        }
+    }
+
+    // MARK: - Best sales ----------------------------------------------------------------
+
     private fun requestBestSalesProduct() {
-        progressBar.visibility = View.VISIBLE
+        loading1.visibility = View.VISIBLE
         homeUseCase.requestProductsBestSales({
             handleRequestBestSalesProductSuccess(it)
         }, {
@@ -58,17 +116,18 @@ class HomeFragment(val context: MainActivity): Fragment() {
     }
 
     private fun handleRequestBestSalesProductSuccess(products: ArrayList<Product>) {
-        progressBar.visibility = View.GONE
+        loading1.visibility = View.GONE
         if (products.size == 0) {
-            context.showToast("Best sales product empty")
+            emptyBestSalesTextView.visibility = View.VISIBLE
         } else {
-            productAdapter.setData(context, products)
-            recyclerViewProduct.adapter = productAdapter
+            emptyBestSalesTextView.visibility = View.GONE
+            bestSalesProductAdapter.setData(context, products)
+            recyclerViewBestSalesProduct.adapter = bestSalesProductAdapter
         }
     }
 
     private fun handleRequestBestSalesProductFailure() {
-        progressBar.visibility = View.GONE
+        loading1.visibility = View.GONE
         context.showAlertDialog(
             context.getResourceText(R.string.notification),
             context.getResourceText(R.string.loginFailed),
@@ -77,19 +136,7 @@ class HomeFragment(val context: MainActivity): Fragment() {
         }
     }
 
-    private fun mappingViewId(view: View) {
-        nameEmployeeTextView = view.findViewById(R.id.nameEmployeeTextView)
-        recyclerViewFunction = view.findViewById(R.id.recycleViewFunction)
-        recyclerViewProduct = view.findViewById(R.id.recycleViewProduct)
-        searchImageView = view.findViewById(R.id.searchImageView)
-        progressBar = view.findViewById(R.id.progressBar)
-    }
-
-    private fun handleClickOnView() {
-        searchImageView.setOnClickListener {
-            requireActivity().startActivity(Intent(requireActivity(), SearchActivity::class.java))
-        }
-    }
+    // Function item ----------------------------------------------------------------------------
 
     private fun displayFunctionRecyclerView() {
         getArr()

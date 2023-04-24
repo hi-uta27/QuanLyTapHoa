@@ -123,4 +123,8 @@
     <string name="deleteNotification">Bạn có muốn xóa thông báo này</string>
     <string name="doYouWantCreateOrder">Bạn có muốn tạo đơn hàng này</string>
     <string name="BestSalesProduct">Sản phẩm bán chạy</string>
+    <string name="LeastSalesProduct">Sản phẩm bán kém</string>
+    <string name="emptyBestSalesProduct">Chưa có sản phẩm bán chạy</string>
+    <string name="emptyLeastSalesProduct">Chưa có sản phẩm bán kém</string>
+    <string name="loading">Đang tải...</string>
 </resources>
