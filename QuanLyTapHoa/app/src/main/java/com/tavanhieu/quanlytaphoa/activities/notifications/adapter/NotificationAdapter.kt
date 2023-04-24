@@ -1,6 +1,7 @@
 package com.tavanhieu.quanlytaphoa.activities.notifications.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,16 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
             titleTextView.text = notification.title
             messageTextView.text = notification.message
             dateTextView.text = notification.date.formatDateAndTime()
+
+            if (notification.isRead) {
+                titleTextView.typeface = Typeface.DEFAULT
+                messageTextView.typeface = Typeface.DEFAULT
+                dateTextView.typeface = Typeface.DEFAULT
+            } else {
+                titleTextView.typeface = Typeface.DEFAULT_BOLD
+                messageTextView.typeface = Typeface.DEFAULT_BOLD
+                dateTextView.typeface = Typeface.DEFAULT_BOLD
+            }
         }
 
         fun handleClickOnView(notification: Notification) {

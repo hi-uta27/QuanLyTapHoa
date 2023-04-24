@@ -39,14 +39,13 @@
             tools:ignore="UseCompoundDrawables">
 
             <TextView
+                android:textColor="@color/black"
                 android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:maxLines="1"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/deleteImageView"
@@ -63,13 +62,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:textSize="14sp" />
+            android:textColor="@color/black"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/dateTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="textEnd"
+            android:textColor="@color/black"
             android:textSize="12sp" />
     </LinearLayout>
 
