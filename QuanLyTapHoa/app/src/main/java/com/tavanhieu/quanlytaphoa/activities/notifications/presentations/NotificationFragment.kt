@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.ktx.Firebase
 import com.tavanhieu.quanlytaphoa.R
 import com.tavanhieu.quanlytaphoa.activities.detail_product.presentations.DetailProductActivity
 import com.tavanhieu.quanlytaphoa.activities.notifications.adapter.NotificationAdapter
@@ -17,6 +18,7 @@ import com.tavanhieu.quanlytaphoa.activities.notifications.domain.use_cases.Noti
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Notification
+import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
 
 class NotificationFragment(val context: BaseActivity) : Fragment() {
     private lateinit var recycleView: RecyclerView
@@ -50,6 +52,11 @@ class NotificationFragment(val context: BaseActivity) : Fragment() {
             val intent = Intent(context, DetailProductActivity::class.java)
             intent.putExtra("IdProduct", notification.idProduct)
             context.startActivity(intent)
+
+            //
+            FirebaseNetworkLayer.instance.postRequest(true,
+                "Notifications/${notification.id}/read",
+                {}, {})
         }
 
         adapter.touchUpInsideDeleteImageView = { notification ->
