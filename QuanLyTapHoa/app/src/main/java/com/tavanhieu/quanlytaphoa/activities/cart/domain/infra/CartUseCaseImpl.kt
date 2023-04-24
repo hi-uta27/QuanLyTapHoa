@@ -27,6 +27,7 @@ class CartUseCaseImpl: CartUseCase {
         FirebaseNetworkLayer.instance.postRequest(order, "Orders/${order.id}", {
             carts.forEach {
                 updateProductQuantity(it.product.quantity - it.quantity, it.product.id, {}, {})
+                updateProductSoldQuantity(it.product.soldQuantity + it.quantity, it.product.id, {}, {})
             }
             deleteAllCart()
             complete()
@@ -41,7 +42,11 @@ class CartUseCaseImpl: CartUseCase {
         FirebaseNetworkLayer.instance.postRequest(quantity, "Products/${idProduct}/quantity", complete, failure)
     }
 
-    override fun updateQuantity(quantity: Int, idProduct: String, complete: () -> Unit, failure: () -> Unit) {
+    private fun updateProductSoldQuantity(quantity: Int, idProduct: String, complete: () -> Unit, failure: () -> Unit) {
+        FirebaseNetworkLayer.instance.postRequest(quantity, "Products/${idProduct}/soldQuantity", complete, failure)
+    }
+
+    override fun updateCartQuantity(quantity: Int, idProduct: String, complete: () -> Unit, failure: () -> Unit) {
         FirebaseNetworkLayer.instance.postRequest(quantity, "Carts/${idProduct}/quantity", complete, failure)
     }
 }

@@ -121,4 +121,6 @@
     <string name="deleteNotificationSuccess">Xóa thông báo thành công</string>
     <string name="deleteNotificationFailure">Xóa thông báo thất bại</string>
     <string name="deleteNotification">Bạn có muốn xóa thông báo này</string>
+    <string name="doYouWantCreateOrder">Bạn có muốn tạo đơn hàng này</string>
+    <string name="BestSalesProduct">Sản phẩm bán chạy</string>
 </resources>

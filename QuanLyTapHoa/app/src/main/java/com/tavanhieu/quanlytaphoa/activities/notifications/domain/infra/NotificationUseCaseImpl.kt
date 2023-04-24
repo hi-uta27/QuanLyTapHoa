@@ -47,14 +47,6 @@ class NotificationUseCaseImpl: NotificationsUseCase {
         }, {})
     }
 
-    override fun checkProductsBestSales(complete: (ArrayList<Product>) -> Unit) {
-        TODO("Not yet implemented")
-    }
-
-    override fun checkProductsLeastSales(complete: (ArrayList<Product>) -> Unit) {
-        TODO("Not yet implemented")
-    }
-
     override fun addNotification(notification: Notification) {
         runBlocking {
             val dataSnapShot = FirebaseNetworkLayerAwait.instance.getRequest("Notifications")
