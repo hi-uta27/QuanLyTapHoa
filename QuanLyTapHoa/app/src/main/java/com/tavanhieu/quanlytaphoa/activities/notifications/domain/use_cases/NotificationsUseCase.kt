@@ -10,4 +10,5 @@ interface NotificationsUseCase {
     fun addNotification(notification: Notification)
     fun readNotification(complete: (ArrayList<Notification>) -> Unit, failure: () -> Unit)
     fun deleteNotification(notification: Notification, complete: () -> Unit, failure: () -> Unit)
+    fun markNotificationIsRead(notification: Notification)
 }

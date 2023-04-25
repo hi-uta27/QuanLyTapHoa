@@ -40,11 +40,9 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
             dateTextView.text = notification.date.formatDateAndTime()
 
             if (notification.isRead) {
-                titleTextView.typeface = Typeface.DEFAULT
                 messageTextView.typeface = Typeface.DEFAULT
                 dateTextView.typeface = Typeface.DEFAULT
             } else {
-                titleTextView.typeface = Typeface.DEFAULT_BOLD
                 messageTextView.typeface = Typeface.DEFAULT_BOLD
                 dateTextView.typeface = Typeface.DEFAULT_BOLD
             }

@@ -78,4 +78,8 @@ class NotificationUseCaseImpl: NotificationsUseCase {
     override fun deleteNotification(notification: Notification, complete: () -> Unit, failure: () -> Unit) {
         FirebaseNetworkLayer.instance.deleteRequest("Notifications/${notification.id}", complete, failure)
     }
+
+    override fun markNotificationIsRead(notification: Notification) {
+        FirebaseNetworkLayer.instance.postRequest(true, "Notifications/${notification.id}/read", {}, {})
+    }
 }

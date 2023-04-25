@@ -52,11 +52,7 @@ class NotificationFragment(val context: BaseActivity) : Fragment() {
             val intent = Intent(context, DetailProductActivity::class.java)
             intent.putExtra("IdProduct", notification.idProduct)
             context.startActivity(intent)
-
-            //
-            FirebaseNetworkLayer.instance.postRequest(true,
-                "Notifications/${notification.id}/read",
-                {}, {})
+            notificationsUseCase.markNotificationIsRead(notification)
         }
 
         adapter.touchUpInsideDeleteImageView = { notification ->
