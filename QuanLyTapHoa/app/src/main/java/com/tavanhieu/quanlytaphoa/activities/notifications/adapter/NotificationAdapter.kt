@@ -1,6 +1,7 @@
 package com.tavanhieu.quanlytaphoa.activities.notifications.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
@@ -42,9 +43,13 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
             if (notification.isRead) {
                 messageTextView.typeface = Typeface.DEFAULT
                 dateTextView.typeface = Typeface.DEFAULT
+                messageTextView.setTextColor(Color.parseColor("#FF555555"))
+                dateTextView.setTextColor(Color.parseColor("#FF555555"))
             } else {
                 messageTextView.typeface = Typeface.DEFAULT_BOLD
                 dateTextView.typeface = Typeface.DEFAULT_BOLD
+                messageTextView.setTextColor(Color.parseColor("#FF000000"))
+                dateTextView.setTextColor(Color.parseColor("#FF000000"))
             }
         }
 
