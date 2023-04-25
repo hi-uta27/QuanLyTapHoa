@@ -27,6 +27,7 @@ import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Order
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
+import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 
 class CartActivity : BaseActivity() {
@@ -160,6 +161,7 @@ class CartActivity : BaseActivity() {
                 getResourceText(R.string.confirm)
             ) {
                 progressBar.visibility = View.VISIBLE
+                createOrderButton.isEnabled = false
                 val calendar = Calendar.getInstance()
                 val order = Order(
                     calendar.timeInMillis.toString(),
@@ -179,6 +181,7 @@ class CartActivity : BaseActivity() {
 
     private fun createOrderFailure() {
         progressBar.visibility = View.GONE
+        createOrderButton.isEnabled = true
         showAlertDialog(
             getResourceText(R.string.error),
             getResourceText(R.string.createOrderFailure),
@@ -189,9 +192,14 @@ class CartActivity : BaseActivity() {
     }
 
     private fun createOrderSuccess() {
-        progressBar.visibility = View.GONE
-        emptyCartTextView.visibility = View.VISIBLE
-        showToast(getResourceText(R.string.createOrderSuccess))
+        runBlocking {
+            runOnUiThread {
+                progressBar.visibility = View.GONE
+                createOrderButton.isEnabled = true
+                emptyCartTextView.visibility = View.VISIBLE
+                showToast(getResourceText(R.string.createOrderSuccess))
+            }
+        }
     }
 
     // --------------------------------------------------------------------------------------
