@@ -4,6 +4,8 @@ import com.tavanhieu.quanlytaphoa.activities.notifications.domain.use_cases.Noti
 import com.tavanhieu.quanlytaphoa.commons.models.Notification
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
+import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayerAwait
+import kotlinx.coroutines.runBlocking
 
 class NotificationUseCaseImpl: NotificationsUseCase {
     override fun checkComingExpiredDateOfProduct(complete: (ArrayList<Product>) -> Unit) {
@@ -37,7 +39,7 @@ class NotificationUseCaseImpl: NotificationsUseCase {
             val entities: ArrayList<Product> = ArrayList()
             dataSnapShot.children.forEach {
                 val entity = it.getValue(Product::class.java)
-                if (entity != null && entity.quantity <= 10) {
+                if (entity != null && entity.quantity in 1..10) {
                     entities.add(entity)
                 }
             }
@@ -45,24 +47,19 @@ class NotificationUseCaseImpl: NotificationsUseCase {
         }, {})
     }
 
-    override fun checkProductsBestSales(complete: (ArrayList<Product>) -> Unit) {
-        TODO("Not yet implemented")
-    }
-
-    override fun checkProductsLeastSales(complete: (ArrayList<Product>) -> Unit) {
-        TODO("Not yet implemented")
-    }
-
     override fun addNotification(notification: Notification) {
-        FirebaseNetworkLayer.instance.getRequest("Notifications", { dataSnapShot ->
-            dataSnapShot.children.forEach {
-                val oldNotification = it.getValue(Notification::class.java)
-                if (oldNotification == null || oldNotification.compare(notification)) {
-                    return@getRequest
+        runBlocking {
+            val dataSnapShot = FirebaseNetworkLayerAwait.instance.getRequest("Notifications")
+            dataSnapShot?.let { snapShot ->
+                snapShot.children.forEach {
+                    val oldNotification = it.getValue(Notification::class.java)
+                    if (oldNotification == null || oldNotification.compare(notification)) {
+                        return@runBlocking
+                    }
                 }
             }
             FirebaseNetworkLayer.instance.postRequest(notification, "Notifications/${notification.id}", {}, {})
-        }, {})
+        }
     }
 
     override fun readNotification(complete: (ArrayList<Notification>) -> Unit, failure: () -> Unit) {
@@ -76,5 +73,13 @@ class NotificationUseCaseImpl: NotificationsUseCase {
             }
             complete(entities)
         }, failure)
+    }
+
+    override fun deleteNotification(notification: Notification, complete: () -> Unit, failure: () -> Unit) {
+        FirebaseNetworkLayer.instance.deleteRequest("Notifications/${notification.id}", complete, failure)
+    }
+
+    override fun markNotificationIsRead(notification: Notification) {
+        FirebaseNetworkLayer.instance.postRequest(true, "Notifications/${notification.id}/read", {}, {})
     }
 }

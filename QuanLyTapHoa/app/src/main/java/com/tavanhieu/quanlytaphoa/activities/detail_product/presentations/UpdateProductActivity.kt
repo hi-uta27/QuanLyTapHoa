@@ -127,7 +127,8 @@ class UpdateProductActivity : BaseActivity() {
             val expiredDate = expiredCalendar.time
             val type = typeSpinner.selectedItem.toString()
 
-            val result = Product(product.id, name, product.image, description, type, product.entryDate, expiredDate, quantity, originalPrice, price)
+            val result = Product(product.id, name, product.image, description, type, product.entryDate,
+                expiredDate, quantity, product.soldQuantity, originalPrice, price)
             progressBar.visibility = View.VISIBLE
             enableView(false)
             detailProductUseCase.updateProduct(result, uriImageGallery, {

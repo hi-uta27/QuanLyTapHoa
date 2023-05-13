@@ -8,6 +8,7 @@ class Notification {
     var title: String = ""
     var message: String = ""
     var idProduct: String = ""
+    var isRead: Boolean = false
 
     @TypeConverters(DateConverter::class)
     var date: Date = Date()
@@ -19,6 +20,7 @@ class Notification {
         this.message = message
         this.idProduct = idProduct
         this.date = date
+        isRead = false
     }
 
     fun compare(notification: Notification): Boolean {

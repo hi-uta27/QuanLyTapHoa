@@ -132,7 +132,6 @@ class DetailProductActivity : BaseActivity() {
         ) {
             idProduct?.let {
                 detailProductUseCase.deleteProductWith(it, {
-                    showToast(getResourceText(R.string.deleteProductSuccess))
                     finish()
                 }, {
                     showToast(getResourceText(R.string.deleteProductFailure))
@@ -160,12 +159,7 @@ class DetailProductActivity : BaseActivity() {
 
     private fun readProductFailure() {
         progressBar.visibility = View.GONE
-        showAlertDialog(
-            getResourceText(R.string.error),
-            getResourceText(R.string.readProductFailure)
-        ) {
-            finish()
-        }
+        finish()
     }
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")

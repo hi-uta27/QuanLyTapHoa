@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/light_gray">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -120,8 +121,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/NewProduct"
+            android:layout_marginTop="12dp"
+            android:text="@string/BestSalesProduct"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -129,14 +130,94 @@
             app:layout_constraintTop_toBottomOf="@+id/underlineFunction" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleViewProduct"
+            android:id="@+id/recycleViewBestSalesProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:minHeight="64dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <View
+            android:id="@+id/underlineFunction2"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycleViewBestSalesProduct" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/LeastSalesProduct"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/underlineFunction2" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewLeastSalesProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:minHeight="64dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/emptyBestSalesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/emptyBestSalesProduct"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/recycleViewBestSalesProduct"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recycleViewBestSalesProduct" />
+
+        <TextView
+            android:id="@+id/emptyLeastSalesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/emptyLeastSalesProduct"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/recycleViewLeastSalesProduct"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recycleViewLeastSalesProduct" />
+
+        <TextView
+            android:id="@+id/loading1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/recycleViewBestSalesProduct"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recycleViewBestSalesProduct" />
+
+        <TextView
+            android:id="@+id/loading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/recycleViewLeastSalesProduct"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recycleViewLeastSalesProduct" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

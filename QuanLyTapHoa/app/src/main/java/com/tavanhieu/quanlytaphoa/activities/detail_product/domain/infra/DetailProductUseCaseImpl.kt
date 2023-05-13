@@ -47,6 +47,7 @@ class DetailProductUseCaseImpl: DetailProductUseCase {
 
     override fun deleteProductWith(id: String, complete: () -> Unit, failure: () -> Unit) {
         FirebaseNetworkLayer.instance.deleteRequest("Products/${id}", complete, failure)
+        FirebaseNetworkLayer.instance.deleteRequest("Carts/${id}", {}, {})
     }
 
     override fun addProductToCartWith(cart: Cart, complete: (Boolean) -> Unit, failure: () -> Unit) {

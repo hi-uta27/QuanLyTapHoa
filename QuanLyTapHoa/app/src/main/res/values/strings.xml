@@ -117,4 +117,15 @@
     <string name="weJustSendVerifiedToYourEmail">Chúng tôi đã gửi xác thực đến email của bạn. Kiểm tra email để xác thực tài khoản</string>
     <string name="emailNotVerified">Tài khoản chưa được xác thực</string>
     <string name="sendAgain">Gửi lại</string>
+    <string name="readNotificationFailure">Đọc thông báo thất bại</string>
+    <string name="deleteNotificationSuccess">Xóa thông báo thành công</string>
+    <string name="deleteNotificationFailure">Xóa thông báo thất bại</string>
+    <string name="deleteNotification">Bạn có muốn xóa thông báo này</string>
+    <string name="doYouWantCreateOrder">Bạn có muốn tạo đơn hàng này</string>
+    <string name="BestSalesProduct">Sản phẩm bán chạy</string>
+    <string name="LeastSalesProduct">Sản phẩm bán kém</string>
+    <string name="emptyBestSalesProduct">Chưa có sản phẩm bán chạy</string>
+    <string name="emptyLeastSalesProduct">Chưa có sản phẩm bán kém</string>
+    <string name="loading">Đang tải...</string>
+    <string name="productIsDelete">Sản phẩm không còn trên hệ thống</string>
 </resources>

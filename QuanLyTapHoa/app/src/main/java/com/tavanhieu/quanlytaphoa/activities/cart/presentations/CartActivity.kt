@@ -27,6 +27,7 @@ import com.tavanhieu.quanlytaphoa.commons.models.Cart
 import com.tavanhieu.quanlytaphoa.commons.models.Order
 import com.tavanhieu.quanlytaphoa.commons.models.Product
 import com.tavanhieu.quanlytaphoa.data_network_layer.FirebaseNetworkLayer
+import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 
 class CartActivity : BaseActivity() {
@@ -130,7 +131,7 @@ class CartActivity : BaseActivity() {
 
     private fun plusQuantity(cart: Cart) {
         if (cart.quantity < cart.product.quantity) {
-            cartUseCase.updateQuantity(cart.quantity + 1, cart.product.id, {}, {})
+            cartUseCase.updateCartQuantity(cart.quantity + 1, cart.product.id, {}, {})
         } else {
             showToast(getResourceText(R.string.quantityNotEnough))
         }
@@ -138,7 +139,7 @@ class CartActivity : BaseActivity() {
 
     private fun minusQuantity(cart: Cart) {
         if (cart.quantity > 1) {
-            cartUseCase.updateQuantity(cart.quantity - 1, cart.product.id, {}, {})
+            cartUseCase.updateCartQuantity(cart.quantity - 1, cart.product.id, {}, {})
         }
     }
 
@@ -154,25 +155,33 @@ class CartActivity : BaseActivity() {
                 startActivity(Intent(this, DepotActivity::class.java))
             }
         } else {
-            progressBar.visibility = View.VISIBLE
-            val calendar = Calendar.getInstance()
-            val order = Order(
-                calendar.timeInMillis.toString(),
-                FirebaseNetworkLayer.instance.requestCurrentUserUID(),
-                carts,
-                calendar.time
-            )
+            showAlertDialog(
+                getResourceText(R.string.notification),
+                getResourceText(R.string.doYouWantCreateOrder),
+                getResourceText(R.string.confirm)
+            ) {
+                progressBar.visibility = View.VISIBLE
+                createOrderButton.isEnabled = false
+                val calendar = Calendar.getInstance()
+                val order = Order(
+                    calendar.timeInMillis.toString(),
+                    FirebaseNetworkLayer.instance.requestCurrentUserUID(),
+                    carts,
+                    calendar.time
+                )
 
-            cartUseCase.createOrderWith(order, carts, {
-                createOrderSuccess()
-            }, {
-                createOrderFailure()
-            })
+                cartUseCase.createOrderWith(order, carts, {
+                    createOrderSuccess()
+                }, {
+                    createOrderFailure()
+                })
+            }
         }
     }
 
     private fun createOrderFailure() {
         progressBar.visibility = View.GONE
+        createOrderButton.isEnabled = true
         showAlertDialog(
             getResourceText(R.string.error),
             getResourceText(R.string.createOrderFailure),
@@ -183,9 +192,14 @@ class CartActivity : BaseActivity() {
     }
 
     private fun createOrderSuccess() {
-        progressBar.visibility = View.GONE
-        emptyCartTextView.visibility = View.VISIBLE
-        showToast(getResourceText(R.string.createOrderSuccess))
+        runBlocking {
+            runOnUiThread {
+                progressBar.visibility = View.GONE
+                createOrderButton.isEnabled = true
+                emptyCartTextView.visibility = View.VISIBLE
+                showToast(getResourceText(R.string.createOrderSuccess))
+            }
+        }
     }
 
     // --------------------------------------------------------------------------------------
