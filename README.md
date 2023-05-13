@@ -46,4 +46,3 @@ An application that helps grocery store owners manage products, orders, statisti
 <img src="https://github.com/hi-uta27/QuanLyTapHoa/assets/71754731/d2870887-e661-4bff-81be-2b894c241221" width="200" />
 <img src="https://github.com/hi-uta27/QuanLyTapHoa/assets/71754731/8d08b89b-ede7-4eb7-8819-1127678d5881" width="200" />
 <img src="https://github.com/hi-uta27/QuanLyTapHoa/assets/71754731/1d6b7171-fb95-418d-84ba-91ccea8a6fa2" width="200" />
-<img src="" width="200" />
