@@ -127,4 +127,5 @@
     <string name="emptyBestSalesProduct">Chưa có sản phẩm bán chạy</string>
     <string name="emptyLeastSalesProduct">Chưa có sản phẩm bán kém</string>
     <string name="loading">Đang tải...</string>
+    <string name="productIsDelete">Sản phẩm không còn trên hệ thống</string>
 </resources>

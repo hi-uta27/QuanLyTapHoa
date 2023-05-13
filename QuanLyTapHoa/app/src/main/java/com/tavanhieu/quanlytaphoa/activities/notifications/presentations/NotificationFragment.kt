@@ -15,6 +15,8 @@ import com.tavanhieu.quanlytaphoa.activities.detail_product.presentations.Detail
 import com.tavanhieu.quanlytaphoa.activities.notifications.adapter.NotificationAdapter
 import com.tavanhieu.quanlytaphoa.activities.notifications.domain.infra.NotificationUseCaseImpl
 import com.tavanhieu.quanlytaphoa.activities.notifications.domain.use_cases.NotificationsUseCase
+import com.tavanhieu.quanlytaphoa.activities.search.domain.infra.SearchUseCaseImpl
+import com.tavanhieu.quanlytaphoa.activities.search.domain.use_cases.SearchUseCase
 import com.tavanhieu.quanlytaphoa.commons.base.BaseActivity
 import com.tavanhieu.quanlytaphoa.commons.base.showAlertDialog
 import com.tavanhieu.quanlytaphoa.commons.models.Notification
@@ -26,6 +28,7 @@ class NotificationFragment(val context: BaseActivity) : Fragment() {
     private lateinit var emptyTextView: TextView
 
     private val notificationsUseCase: NotificationsUseCase by lazy { NotificationUseCaseImpl() }
+    private val searchProductUseCase: SearchUseCase by lazy { SearchUseCaseImpl() }
     private val adapter: NotificationAdapter by lazy { NotificationAdapter() }
 
     override fun onCreateView(
@@ -49,9 +52,18 @@ class NotificationFragment(val context: BaseActivity) : Fragment() {
 
     private fun handleClickOnView() {
         adapter.touchUpInsideItemView = { notification ->
-            val intent = Intent(context, DetailProductActivity::class.java)
-            intent.putExtra("IdProduct", notification.idProduct)
-            context.startActivity(intent)
+            searchProductUseCase.searchProductById(notification.idProduct, {
+                if (it != null){
+                    val intent = Intent(context, DetailProductActivity::class.java)
+                    intent.putExtra("IdProduct", notification.idProduct)
+                    context.startActivity(intent)
+                } else {
+                    context.showAlertDialog(
+                        context.getResourceText(R.string.notification),
+                        context.getResourceText(R.string.productIsDelete)
+                    ) {}
+                }
+            }, {})
             notificationsUseCase.markNotificationIsRead(notification)
         }
 
